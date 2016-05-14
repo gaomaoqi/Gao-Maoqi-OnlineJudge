@@ -80,7 +80,7 @@ for (;$row=mysqli_fetch_object($result);){
                 }
                 if(isset($_SESSION['administrator'])||isset($_SESSION["p".$row->problem_id])){
                         echo "<td><a href=problem_edit.php?id=$row->problem_id&getkey=".$_SESSION['getkey'].">Edit</a>";
-                        echo "<td><a href=quixplorer/index.php?action=list&dir=$row->problem_id&order=name&srt=yes>TestData</a>";
+                        echo "<td><a href='phpfm.php?frame=3&pid=$row->problem_id'>TestData</a>";
                 }
         }
         echo "</tr>";

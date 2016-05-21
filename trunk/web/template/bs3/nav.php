@@ -24,6 +24,9 @@
               <li <?php if ($url=="status.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>status.php"><?php echo $MSG_STATUS?></a></li>
               <li <?php if ($url=="ranklist.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>ranklist.php"><?php echo $MSG_RANKLIST?></a></li>
               <li <?php if ($url=="contest.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>contest.php"><?php echo $MSG_CONTEST?></a></li>
+	      <?php if(isset($_SESSION['user_id'])){?>
+              	<li <?php if ($url=="contest.php?my") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>contest.php?my"><?php echo $MSG_MYCONTEST?></a></li>
+	      <?php }?>
 <?php if(isset($_GET['cid'])){
 	$cid=intval($_GET['cid']);
 ?>

@@ -11,7 +11,7 @@ require_once("../include/set_get_key.php");
 $sql="SELECT max(`contest_id`) as upid, min(`contest_id`) as btid  FROM `contest`";
 $page_cnt=50;
 $result=mysqli_query($mysqli,$sql);
-echo mysqli_error();
+echo mysqli_error($mysqli);
 $row=mysqli_fetch_object($result);
 $base=intval($row->btid);
 $cnt=intval($row->upid)-$base;
@@ -27,7 +27,10 @@ for ($i=1;$i<=$cnt;$i++){
         else echo "<a href='contest_list.php?page=".$i."'>".$i."</a>";
 }
 $sql="select `contest_id`,`title`,`start_time`,`end_time`,`private`,`defunct` FROM `contest` where contest_id>=$pstart and contest_id <=$pend order by `contest_id` desc";
-$keyword=$_GET['keyword'];
+if(isset($_GET['keyword'])) 
+	$keyword=$_GET['keyword'];
+else
+	$keyword="";
 $keyword=mysqli_real_escape_string($mysqli,$keyword);
 if($keyword) $sql="select `contest_id`,`title`,`start_time`,`end_time`,`private`,`defunct` FROM `contest` where title like '%$keyword%' ";
 $result=mysqli_query($mysqli,$sql) or die(mysqli_error());

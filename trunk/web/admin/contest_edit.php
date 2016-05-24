@@ -1,5 +1,6 @@
 <?php require("admin-header.php");
 include_once("kindeditor.php") ;
+include_once("../lang/en.php");
 include_once("../include/const.inc.php");
 if (isset($_POST['syear']))
 {

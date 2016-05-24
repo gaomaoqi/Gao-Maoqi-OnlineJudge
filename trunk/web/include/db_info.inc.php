@@ -1,5 +1,5 @@
 <?php @session_start();
-	ini_set("display_errors","Off");
+	ini_set("display_errors","On");
 static 	$DB_HOST="localhost";
 static 	$DB_NAME="jol";
 static 	$DB_USER="root";
@@ -25,7 +25,7 @@ static  $OJ_MEMCACHE=false;
 static  $OJ_MEMSERVER="127.0.0.1";
 static  $OJ_MEMPORT=11211;
 static  $SAE_STORAGE_ROOT="http://hustoj-web.stor.sinaapp.com/";
-static  $OJ_TEMPLATE="bs3";
+static  $OJ_TEMPLATE="bs";
 if(isset($_GET['tp'])) $OJ_TEMPLATE=$_GET['tp'];
 static  $OJ_LOGIN_MOD="hustoj";
 static  $OJ_RANK_LOCK_PERCENT=0;

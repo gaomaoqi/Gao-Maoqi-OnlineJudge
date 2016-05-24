@@ -46,7 +46,7 @@ if (isset($_GET['id'])){
 	}
 	
  }
-$problem_id=$id;
+if(isset($id))$problem_id=$id;
 $view_sample_input="1 2";
 $view_sample_output="3";
  if(isset($sample_sql)){

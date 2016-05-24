@@ -1,5 +1,5 @@
 <?php function checkcontest($MSG_CONTEST){
-		require_once("./include/db_info.inc.php");
+	global $mysqli,$MSG_CONTEST;
       $now=strftime("%Y-%m-%d %H:%M",time());
 		$sql="SELECT count(*) FROM `contest` WHERE `end_time`>'$now' AND `defunct`='N'";
 		$result=mysqli_query($mysqli,$sql);

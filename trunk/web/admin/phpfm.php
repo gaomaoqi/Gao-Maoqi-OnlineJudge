@@ -2292,26 +2292,6 @@ function download(){
         } else alert(et('ReadDenied').": ".$file);
     } else alert(et('FileNotFound').": ".$file);
 }
-function execute_cmd(){
-    global $cmd;
-    header("Content-type: text/plain");
-    if (strlen($cmd)){
-        echo "# ".$cmd."\n";
-        exec($cmd,$mat);
-        if (count($mat)) echo trim(implode("\n",$mat));
-        else echo "exec(\"$cmd\") ".et('NoReturn')."...";
-    } else echo et('NoCmd');
-}
-function execute_file(){
-    global $current_dir,$filename;
-    header("Content-type: text/plain");
-    $file = $current_dir.$filename;
-    if(file_exists($file)){
-        echo "# ".$file."\n";
-        exec($file,$mat);
-        if (count($mat)) echo trim(implode("\n",$mat));
-    } else alert(et('FileNotFound').": ".$file);
-}
 function save_upload($temp_file,$filename,$dir_dest) {
     global $upload_ext_filter;
     $filename = remove_special_chars($filename);
@@ -3360,13 +3340,9 @@ function dir_list_form() {
         $out .= "
             <tr>
             <td bgcolor=\"#DDDDDD\" colspan=50><nobr>
-            <input type=button onclick=\"config()\" value=\"".et('Config')."\">
-            <input type=button onclick=\"server_info()\" value=\"".et('ServerInfo')."\">
             <input type=button onclick=\"test_prompt(1)\" value=\"".et('CreateDir')."\">
             <input type=button onclick=\"test_prompt(2)\" value=\"".et('CreateArq')."\">
-            <input type=button onclick=\"execute_cmd()\" value=\"".et('ExecCmd')."\">
             <input type=button onclick=\"upload()\" value=\"".et('Upload')."\">
-            <input type=button onclick=\"shell()\" value=\"".et('Shell')."\">
             <b>$ip</b>
             </nobr>";
         $uplink = "";
@@ -4182,67 +4158,6 @@ function config_form(){
     </script>
     ";
     echo "</body>\n</html>";
-}
-function shell_form(){
-    global $current_dir,$shell_form,$cmd_arg,$path_info;
-    $data_out = "";
-    if (strlen($cmd_arg)){
-        exec($cmd_arg,$mat);
-        if (count($mat)) $data_out = trim(implode("\n",$mat));
-    }
-    switch ($shell_form){
-        case 1:
-            html_header();
-            echo "
-            <body marginwidth=\"0\" marginheight=\"0\">
-            <table border=0 cellspacing=0 cellpadding=0 align=center>
-            <form name=\"data_form\">
-            <tr><td><textarea name=data_out rows=36 cols=105 READONLY=\"1\"></textarea></td></tr>
-            </form>
-            </table>
-            </body></html>";
-        break;
-        case 2:
-            html_header();
-            echo "
-            <body marginwidth=\"0\" marginheight=\"0\">
-            <table border=0 cellspacing=0 cellpadding=0 align=center>
-            <form name=\"shell_form\" action=\"".$path_info["basename"]."\" method=\"post\">
-            <input type=hidden name=current_dir value=\"$current_dir\">
-            <input type=hidden name=action value=\"9\">
-            <input type=hidden name=shell_form value=\"2\">
-            <tr><td align=center><input type=text size=90 name=cmd_arg></td></tr>
-            </form>";
-            echo "
-            <script language=\"Javascript\" type=\"text/javascript\">
-            <!--";
-            if (strlen($data_out)) echo "
-                var val = '# ".html_encode($cmd_arg)."\\n".html_encode(str_replace("<","[",str_replace(">","]",str_replace("\n","\\n",str_replace("'","\'",str_replace("\\","\\\\",$data_out))))))."\\n';
-                parent.frame1.document.data_form.data_out.value += val;
-				parent.frame1.document.data_form.data_out.scrollTop = parent.frame1.document.data_form.data_out.scrollHeight;";
-            echo "
-                document.shell_form.cmd_arg.focus();
-            //-->
-            </script>
-            ";
-            echo "
-            </table>
-            </body></html>";
-        break;
-        default:
-            html_header("
-            <script language=\"Javascript\" type=\"text/javascript\">
-            <!--
-                window.moveTo((window.screen.width-800)/2,((window.screen.height-600)/2)-20);
-            //-->
-            </script>");
-            echo "
-            <frameset rows=\"570,*\" framespacing=\"0\" frameborder=no>
-                <frame src=\"".$path_info["basename"]."?action=9&shell_form=1\" name=frame1 border=\"0\" marginwidth=\"0\" marginheight=\"0\">
-                <frame src=\"".$path_info["basename"]."?action=9&shell_form=2\" name=frame2 border=\"0\" marginwidth=\"0\" marginheight=\"0\">
-            </frameset>
-            </html>";
-    }
 }
 function server_info(){
     if (!@phpinfo()) echo et('NoPhpinfo')."...";

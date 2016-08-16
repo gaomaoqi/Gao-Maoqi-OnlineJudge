@@ -501,8 +501,16 @@ int daemon_init(void)
 	close(0); /* close stdin */
 
 	close(1); /* close stdout */
-
+	
 	close(2); /* close stderr */
+	
+	int fd = open( "/dev/null", O_RDWR );
+	dup2( fd, 0 );
+	dup2( fd, 1 );
+	dup2( fd, 2 );
+	if ( fd > 2 ){
+		close( fd );
+	}
 
 	return (0);
 }

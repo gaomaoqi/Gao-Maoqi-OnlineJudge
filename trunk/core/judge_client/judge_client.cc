@@ -316,6 +316,7 @@ void init_mysql_conf() {
 		}
 		//fclose(fp);
 	}
+//	fclose(fp);
 }
 
 int isInFile(const char fname[]) {
@@ -565,12 +566,12 @@ void _update_solution_mysql(int solution_id, int result, int time, int memory,
 	char sql[BUFFER_SIZE];
 	if (oi_mode) {
 		sprintf(sql,
-				"UPDATE solution SET result=%d,time=%d,memory=%d,pass_rate=%f WHERE solution_id=%d LIMIT 1%c",
-				result, time, memory, pass_rate, solution_id, 0);
+				"UPDATE solution SET result=%d,time=%d,memory=%d,pass_rate=%f,judger='%s' WHERE solution_id=%d LIMIT 1%c",
+				result, time, memory, pass_rate,http_username, solution_id, 0);
 	} else {
 		sprintf(sql,
-				"UPDATE solution SET result=%d,time=%d,memory=%d WHERE solution_id=%d LIMIT 1%c",
-				result, time, memory, solution_id, 0);
+				"UPDATE solution SET result=%d,time=%d,memory=%d,judger='%s' WHERE solution_id=%d LIMIT 1%c",
+				result, time, memory,http_username, solution_id, 0);
 	}
 	//      printf("sql= %s\n",sql);
 	if (mysql_real_query(conn, sql, strlen(sql))) {
@@ -853,7 +854,7 @@ int compile(int lang,char * work_dir) {
 	const char * CP_X[] = { "g++", "Main.cc", "-o", "Main", "-fno-asm", "-Wall",
 			"-lm", "--static", "-std=c++0x", "-DONLINE_JUDGE", NULL };
 	const char * CP_P[] =
-			{ "fpc", "Main.pas", "-O2", "-Co", "-Ct", "-Ci", NULL };
+			{ "fpc", "Main.pas","-Sh", "-O2", "-Co", "-Ct", "-Ci", NULL };
 //      const char * CP_J[] = { "javac", "-J-Xms32m", "-J-Xmx256m","-encoding","UTF-8", "Main.java",NULL };
 
 	const char * CP_R[] = { "ruby", "-c", "Main.rb", NULL };
@@ -875,7 +876,7 @@ int compile(int lang,char * work_dir) {
 	const char * CP_LUA[] = { "luac","-o","Main", "Main.lua", NULL };
 	const char * CP_JS[] = { "js24","-c", "Main.js", NULL };
 
-	char javac_buf[7][16];
+	char javac_buf[7][32];
 	char *CP_J[7];
 
 	for (int i = 0; i < 7; i++)
@@ -896,16 +897,16 @@ int compile(int lang,char * work_dir) {
 		LIM.rlim_cur = 60;
 		setrlimit(RLIMIT_CPU, &LIM);
 		alarm(60);
-		LIM.rlim_max = 100 * STD_MB;
-		LIM.rlim_cur = 100 * STD_MB;
+		LIM.rlim_max = 10 * STD_MB;
+		LIM.rlim_cur = 10 * STD_MB;
 		setrlimit(RLIMIT_FSIZE, &LIM);
 
 		if(lang==3){
-		   LIM.rlim_max = STD_MB << 11;
-		   LIM.rlim_cur = STD_MB << 11;	
+		   LIM.rlim_max = STD_MB *1024;
+		   LIM.rlim_cur = STD_MB *1024;	
                 }else{
-		   LIM.rlim_max = STD_MB << 10;
-		   LIM.rlim_cur = STD_MB << 10;
+		   LIM.rlim_max = STD_MB *256 ;
+		   LIM.rlim_cur = STD_MB *256 ;
 		}
 		setrlimit(RLIMIT_AS, &LIM);
 		if (lang != 2 && lang != 11) {
@@ -915,7 +916,7 @@ int compile(int lang,char * work_dir) {
 			freopen("ce.txt", "w", stdout);
 		}
 		execute_cmd("chown judge *");
-		execute_cmd("mkdir -p bin usr lib lib64 etc/alternatives proc");
+		execute_cmd("mkdir -p bin usr lib lib64 etc/alternatives proc tmp ");
                 execute_cmd("mount -o bind /bin bin");
                 execute_cmd("mount -o bind /usr usr");
                 execute_cmd("mount -o bind /lib lib");
@@ -1595,8 +1596,8 @@ void run_solution(int & lang, char * work_dir, int & time_lmt, int & usedtime,
 		execl("./Main", "./Main", (char *) NULL);
 		break;
 	case 3:
-//              sprintf(java_p1, "-Xms%dM", mem_lmt / 2);
-//              sprintf(java_p2, "-Xmx%dM", mem_lmt);
+              sprintf(java_xms, "-Xmx%dM", mem_lmt);
+              sprintf(java_xmx, "-XX:MaxPermSize=%dM", mem_lmt);
 
 		execl("/usr/bin/java", "/usr/bin/java", java_xms, java_xmx,
 				"-Djava.security.manager",
@@ -1633,6 +1634,7 @@ void run_solution(int & lang, char * work_dir, int & time_lmt, int & usedtime,
 
 	}
 	//sleep(1);
+	fflush(stderr);
 	exit(0);
 }
 int fix_python_mis_judge(char *work_dir, int & ACflg, int & topmemory,
@@ -1654,6 +1656,7 @@ int fix_python_mis_judge(char *work_dir, int & ACflg, int & topmemory,
 int fix_java_mis_judge(char *work_dir, int & ACflg, int & topmemory,
 		int mem_lmt) {
 	int comp_res = OJ_AC;
+	execute_cmd("chmod 700 %s/error.out", work_dir);
 	if (DEBUG)
 		execute_cmd("cat %s/error.out", work_dir);
 	comp_res = execute_cmd("/bin/grep 'Exception'  %s/error.out", work_dir);
@@ -1661,6 +1664,7 @@ int fix_java_mis_judge(char *work_dir, int & ACflg, int & topmemory,
 		printf("Exception reported\n");
 		ACflg = OJ_RE;
 	}
+	execute_cmd("cat %s/error.out", work_dir);
 
 	comp_res = execute_cmd(
 			"/bin/grep 'java.lang.OutOfMemoryError'  %s/error.out", work_dir);
@@ -1670,8 +1674,6 @@ int fix_java_mis_judge(char *work_dir, int & ACflg, int & topmemory,
 		ACflg = OJ_ML;
 		topmemory = mem_lmt * STD_MB;
 	}
-	comp_res = execute_cmd(
-			"/bin/grep 'java.lang.OutOfMemoryError'  %s/user.out", work_dir);
 
 	if (!comp_res) {
 		printf("JVM need more Memory or Threads!");
@@ -1826,7 +1828,7 @@ void watch_solution(pid_t pidApp, char * infile, int & ACflg, int isspj,
 		wait4(pidApp, &status, 0, &ruse);
 
 //jvm gc ask VM before need,so used kernel page fault times and page size
-		if (lang == 3) {
+		if (lang == 3 || lang == 7) {
 			tempmemory = get_page_fault_mem(ruse, pidApp);
 		} else {        //other use VmPeak
 			tempmemory = get_proc_status(pidApp, "VmPeak:") << 10;

@@ -341,10 +341,17 @@ void find_next_nonspace(int & c1, int & c2, FILE *& f1, FILE *& f2, int & ret) {
 					c2 = fgetc(f2);
 				} while (isspace(c2));
 				continue;
+#ifdef IGNORE_ESOL
+			} else if (isspace(c1) && isspace(c2)) {
+                                  while(c2=='\n'&&isspace(c1)&&c1!='\n') c1 = fgetc(f1);
+                                  while(c1=='\n'&&isspace(c2)&&c2!='\n') c2 = fgetc(f2);
+	
+#else
 			} else if ((c1 == '\r' && c2 == '\n')) {
 				c1 = fgetc(f1);
 			} else if ((c2 == '\r' && c1 == '\n')) {
-				c2 = fgetc(f2);
+				c2 = fgetc(f2);			
+#endif
 			} else {
 				if (DEBUG)
 					printf("%d=%c\t%d=%c", c1, c1, c2, c2);
@@ -798,7 +805,7 @@ void _update_user_mysql(char * user_id) {
 	if (mysql_real_query(conn, sql, strlen(sql)))
 		write_log(mysql_error(conn));
 	sprintf(sql,
-			"UPDATE `users` SET `submit`=(SELECT count(*) FROM `solution` WHERE `user_id`=\'%s\') WHERE `user_id`=\'%s\'",
+			"UPDATE `users` SET `submit`=(SELECT count(*) FROM `solution` WHERE `user_id`=\'%s\' and problem_id>0) WHERE `user_id`=\'%s\'",
 			user_id, user_id);
 	if (mysql_real_query(conn, sql, strlen(sql)))
 		write_log(mysql_error(conn));
@@ -902,8 +909,8 @@ int compile(int lang,char * work_dir) {
 		setrlimit(RLIMIT_FSIZE, &LIM);
 
 		if(lang==3){
-		   LIM.rlim_max = STD_MB *2048;
-		   LIM.rlim_cur = STD_MB *2048;	
+		   LIM.rlim_max = STD_MB <<11;
+		   LIM.rlim_cur = STD_MB <<11;	
                 }else{
 		   LIM.rlim_max = STD_MB *256 ;
 		   LIM.rlim_cur = STD_MB *256 ;

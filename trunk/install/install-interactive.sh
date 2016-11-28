@@ -72,7 +72,9 @@ sudo cp java0.policy  judge.conf /home/judge/etc
 
 sudo chown -R $APACHEUSER /home/judge
 sudo chown -R root /home/judge/log /home/judge/etc /home/judge/run?
-sudo chmod 711 /home/judge /home/judge/data /home/judge/run?
+sudo chmod 711 /home/judge /home/judge/data
+sudo chgrp judge /home/judge/run?
+sudo chmod 771 /home/judge/run?
 
 #update database account
 SED_CMD="s/OJ_USER_NAME=root/OJ_USER_NAME=$DBUSER/g"

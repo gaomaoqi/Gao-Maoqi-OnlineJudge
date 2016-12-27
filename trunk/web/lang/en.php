@@ -63,6 +63,7 @@ $MSG_TEST_RUN="Test Running Done";
 	$MSG_CE="CE";
 	$MSG_CO="CO";
 	$MSG_TR="Test";
+	$MSG_RESET="Reset";
 	//problemset.php
 	$MSG_SEARCH="Search";
 	$MSG_PROBLEM_ID="Problem ID";

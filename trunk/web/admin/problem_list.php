@@ -80,7 +80,8 @@ for (;$row=mysqli_fetch_object($result);){
                 }
                 if(isset($_SESSION['administrator'])||isset($_SESSION["p".$row->problem_id])){
                         echo "<td><a href=problem_edit.php?id=$row->problem_id&getkey=".$_SESSION['getkey'].">Edit</a>";
-                        echo "<td><a href='phpfm.php?frame=3&pid=$row->problem_id'>TestData</a>";
+			echo "<td><a href='javascript:phpfm($row->problem_id);'>TestData</a>";
+
                 }
         }
         echo "</tr>";
@@ -88,5 +89,20 @@ for (;$row=mysqli_fetch_object($result);){
 echo "<tr><td colspan=7><input type=submit name='problem2contest' value='CheckToNewContest'>";
 echo "</tr></form>";
 echo "</table></center>";
+?>
+<script src=../template/bs3/jquery.min.js></script>
+<script>
+function phpfm(pid){
+        //alert(pid);
+        $.post("phpfm.php",{'frame':3,'pid':pid,'pass':''},function(data,status){
+                if(status=="success"){
+                        document.location.href="phpfm.php?frame=3&pid="+pid;
+                }
+        });
+}
+
+</script>
+<?php
+
 require("../oj-footer.php");
 ?>

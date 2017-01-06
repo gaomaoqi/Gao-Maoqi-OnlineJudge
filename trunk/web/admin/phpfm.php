@@ -2579,6 +2579,10 @@ function html_header($header=""){
             }else return false;
             return true;
         }
+	var flag = ".(($setflag)?"true":"false")."
+        function set_flag(arg) {
+            flag = arg;
+        }
         getFrameSize();
     //-->
     </script>
@@ -3212,7 +3216,7 @@ function dir_list_form() {
                     document.cookie='sel_dir_warn'+'='+escape('true')+';';
                 }
                 set_sel_dir_warn(true);
-                parent.frame2.set_flag(true);
+                set_flag(true);
             }
         }
 		function set_sel_dir_warn(b){
@@ -3220,7 +3224,7 @@ function dir_list_form() {
 		}
 		function cancel_copy_move(){
            	set_sel_dir_warn(false);
-           	parent.frame2.set_flag(false);
+           	set_flag(false);
 		}
         function chmod_form(){
             cancel_copy_move();

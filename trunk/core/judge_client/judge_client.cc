@@ -52,7 +52,7 @@
 #define STD_T_LIM 2
 #define STD_F_LIM (STD_MB<<5)
 #define STD_M_LIM (STD_MB<<7)
-#define BUFFER_SIZE 512
+#define BUFFER_SIZE 5120
 
 #define OJ_WT0 0
 #define OJ_WT1 1
@@ -866,8 +866,8 @@ int compile(int lang,char * work_dir) {
 
 	const char * CP_R[] = { "ruby", "-c", "Main.rb", NULL };
 	const char * CP_B[] = { "chmod", "+rx", "Main.sh", NULL };
-	const char * CP_Y[] = { "python", "-c",
-			"import py_compile; py_compile.compile(r'Main.py')", NULL };
+	//const char * CP_Y[] = { "python", "-c",
+	//		"import py_compile; py_compile.compile(r'Main.py')", NULL };
 	const char * CP_PH[] = { "php", "-l", "Main.php", NULL };
 	const char * CP_PL[] = { "perl", "-c", "Main.pl", NULL };
 	const char * CP_CS[] = { "gmcs", "-warn:0", "Main.cs", NULL };
@@ -881,7 +881,7 @@ int compile(int lang,char * work_dir) {
 	const char * CP_CLANG_CPP[]={"clang++", "Main.cc", "-o", "Main", "-fno-asm", "-Wall",
 	         		"-lm", "--static", "-std=c++0x",  "-DONLINE_JUDGE", NULL };
 	const char * CP_LUA[] = { "luac","-o","Main", "Main.lua", NULL };
-	const char * CP_JS[] = { "js24","-c", "Main.js", NULL };
+	//const char * CP_JS[] = { "js24","-c", "Main.js", NULL };
 
 	char javac_buf[7][32];
 	char *CP_J[7];
@@ -933,7 +933,7 @@ int compile(int lang,char * work_dir) {
                 execute_cmd("mount -o bind /etc/alternatives etc/alternatives");
                 execute_cmd("mount -o bind /proc proc");
                 
-                if (lang != 3 && lang != 9)
+                if (lang != 3 && lang != 9 && lang != 6)
                         chroot(work_dir);
  
 		while(setgid(1536)!=0) sleep(1);
@@ -959,9 +959,9 @@ int compile(int lang,char * work_dir) {
 		case 5:
 			execvp(CP_B[0], (char * const *) CP_B);
 			break;
-		case 6:
-			execvp(CP_Y[0], (char * const *) CP_Y);
-			break;
+		//case 6:
+		//	execvp(CP_Y[0], (char * const *) CP_Y);
+		//	break;
 		case 7:
 			execvp(CP_PH[0], (char * const *) CP_PH);
 			break;
@@ -987,9 +987,9 @@ int compile(int lang,char * work_dir) {
 		case 15:
 			execvp(CP_LUA[0], (char * const *) CP_LUA);
 			break;
-		case 16:
-			execvp(CP_JS[0], (char * const *) CP_JS);
-			break;
+		//case 16:
+		//	execvp(CP_JS[0], (char * const *) CP_JS);
+		//	break;
 		default:
 			printf("nothing to do!\n");
 		}
@@ -1257,11 +1257,12 @@ void copy_shell_runtime(char * work_dir) {
 	execute_cmd("/bin/mkdir %s/lib", work_dir);
 	execute_cmd("/bin/mkdir %s/lib64", work_dir);
 	execute_cmd("/bin/mkdir %s/bin", work_dir);
-	execute_cmd("/bin/cp /lib/* %s/lib/", work_dir);
-	execute_cmd("/bin/cp -a /lib/i386-linux-gnu %s/lib/", work_dir);
+//	execute_cmd("/bin/cp /lib/* %s/lib/", work_dir);
+//	execute_cmd("/bin/cp -a /lib/i386-linux-gnu %s/lib/", work_dir);
+//	execute_cmd("/bin/cp -a /usr/lib/i386-linux-gnu %s/lib/", work_dir);
 	execute_cmd("/bin/cp -a /lib/x86_64-linux-gnu %s/lib/", work_dir);
 	execute_cmd("/bin/cp /lib64/* %s/lib64/", work_dir);
-	execute_cmd("/bin/cp -a /lib32 %s/", work_dir);
+//	execute_cmd("/bin/cp /lib32 %s/", work_dir);
 	execute_cmd("/bin/cp /bin/busybox %s/bin/", work_dir);
 	execute_cmd("/bin/ln -s /bin/busybox %s/bin/sh", work_dir);
 	execute_cmd("/bin/cp /bin/bash %s/bin/bash", work_dir);
@@ -1400,6 +1401,7 @@ void copy_python_runtime(char * work_dir) {
 
         copy_shell_runtime(work_dir);
         execute_cmd("mkdir -p %s/usr/include", work_dir);
+        execute_cmd("mkdir -p %s/dev", work_dir);
         execute_cmd("mkdir -p %s/usr/lib", work_dir);
         execute_cmd("mkdir -p %s/usr/lib64", work_dir);
         execute_cmd("mkdir -p %s/usr/local/lib", work_dir);
@@ -1410,7 +1412,7 @@ void copy_python_runtime(char * work_dir) {
         execute_cmd("cp -a /usr/include/python* %s/usr/include/", work_dir);
         execute_cmd("cp -a /usr/lib/libpython* %s/usr/lib/", work_dir);
         execute_cmd("/bin/mkdir -p %s/home/judge", work_dir);
-	execute_cmd("/bin/chown judge %s/home/judge", work_dir);
+	execute_cmd("/bin/chown judge %s", work_dir);
 	execute_cmd("/bin/mkdir -p %s/etc", work_dir);
 	execute_cmd("/bin/grep judge /etc/passwd>%s/etc/passwd", work_dir);
 	execute_cmd("/bin/mount -o bind /dev %s/dev", work_dir);
@@ -1496,32 +1498,38 @@ void copy_lua_runtime(char * work_dir) {
 }
 void copy_js_runtime(char * work_dir) {
 
-	copy_shell_runtime(work_dir);
+//	copy_shell_runtime(work_dir);
 	execute_cmd("/bin/mkdir -p %s/usr/lib /lib/i386-linux-gnu/", work_dir);
-	execute_cmd("/bin/cp /lib/i386-linux-gnu/libpthread.so.0  %s/lib/i386-linux-gnu/", work_dir);
-	execute_cmd("/bin/cp /usr/lib/i386-linux-gnu/libnspr4.so  %s/lib/i386-linux-gnu/", work_dir);
-	execute_cmd("/bin/cp /usr/lib/i386-linux-gnu/libffi.so.6  %s/lib/i386-linux-gnu/", work_dir);
-	execute_cmd("/bin/cp /usr/lib/i386-linux-gnu/libstdc++.so.6  %s/lib/i386-linux-gnu/", work_dir);
-	execute_cmd("/bin/cp /lib/i386-linux-gnu/libm.so.6  %s/lib/i386-linux-gnu/", work_dir);
-	execute_cmd("/bin/cp /lib/i386-linux-gnu/libgcc_s.so.1  %s/lib/i386-linux-gnu/", work_dir);
-	execute_cmd("/bin/cp /lib/i386-linux-gnu/libc.so.6  %s/lib/i386-linux-gnu/", work_dir);
-	execute_cmd("/bin/cp /lib/i386-linux-gnu/libdl.so.2  %s/lib/i386-linux-gnu/", work_dir);
-	execute_cmd("/bin/cp /lib/i386-linux-gnu/librt.so.1   %s/lib/i386-linux-gnu/", work_dir);
-	
+        execute_cmd("/bin/cp /lib/i386-linux-gnu/libz.so.*  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /usr/lib/i386-linux-gnu/libcares.so.*  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /usr/lib/libv8.so.*  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/i386-linux-gnu/libssl.so.*  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/i386-linux-gnu/libcrypto.so.*  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/i386-linux-gnu/libdl.so.*  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/i386-linux-gnu/librt.so.*  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /usr/lib/i386-linux-gnu/libstdc++.so.*  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/i386-linux-gnu/libpthread.so.*  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/i386-linux-gnu/libc.so.6  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/i386-linux-gnu/libm.so.6  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/i386-linux-gnu/libgcc_s.so.1  %s/lib/i386-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/ld-linux.so.*  %s/lib/i386-linux-gnu/", work_dir);
+
 	execute_cmd("/bin/mkdir -p %s/usr/lib /lib/x86_64-linux-gnu/", work_dir);
-        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libpthread.so.0  %s/lib/x86_64-linux-gnu/", work_dir);
-        execute_cmd("/bin/cp /usr/lib/x86_64-linux-gnu/libnspr4.so  %s/lib/x86_64-linux-gnu/", work_dir);
-        execute_cmd("/bin/cp /usr/lib/x86_64-linux-gnu/libffi.so.6  %s/lib/x86_64-linux-gnu/", work_dir);
-        execute_cmd("/bin/cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6  %s/lib/x86_64-linux-gnu/", work_dir);
-        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libm.so.6  %s/lib/x86_64-linux-gnu/", work_dir);
-        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libgcc_s.so.1  %s/lib/x86_64-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libz.so.*  %s/lib/x86_64-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /usr/lib/x86_64-linux-gnu/libcares.so.*  %s/lib/x86_64-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /usr/lib/libv8.so.*  %s/lib/x86_64-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libssl.so.*  %s/lib/x86_64-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libcrypto.so.*  %s/lib/x86_64-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libdl.so.*  %s/lib/x86_64-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/librt.so.*  %s/lib/x86_64-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /usr/lib/x86_64-linux-gnu/libstdc++.so.*  %s/lib/x86_64-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libpthread.so.*  %s/lib/x86_64-linux-gnu/", work_dir);
         execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libc.so.6  %s/lib/x86_64-linux-gnu/", work_dir);
-        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libdl.so.2  %s/lib/x86_64-linux-gnu/", work_dir);
-        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/librt.so.1  %s/lib/x86_64-linux-gnu/", work_dir);
+        execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libm.so.6  %s/lib/x86_64-linux-gnu/", work_dir);
         execute_cmd("/bin/cp /lib/x86_64-linux-gnu/libgcc_s.so.1  %s/lib/x86_64-linux-gnu/", work_dir);
         execute_cmd("/bin/cp /lib64/ld-linux-x86-64.so.2  %s/lib/x86_64-linux-gnu/", work_dir);
 
-	execute_cmd("/bin/cp /usr/bin/js24 %s/", work_dir);
+	execute_cmd("/bin/cp /usr/bin/nodejs %s/", work_dir);
 
 }
 void run_solution(int & lang, char * work_dir, int & time_lmt, int & usedtime,
@@ -1568,6 +1576,7 @@ void run_solution(int & lang, char * work_dir, int & time_lmt, int & usedtime,
 	// proc limit
 	switch (lang) {
 	case 3:  //java
+	case 4:  //ruby
 	case 16:
 	case 12:
 		LIM.rlim_cur = LIM.rlim_max = 50;
@@ -1638,7 +1647,7 @@ void run_solution(int & lang, char * work_dir, int & time_lmt, int & usedtime,
 		execl("/lua", "/lua", "Main", (char *) NULL);
 		break;
 	case 16: //SpiderMonkey
-		execl("/js24", "/js24", "Main.js", (char *) NULL);
+		execl("/nodejs", "/nodejs", "Main.js", (char *) NULL);
 		break;
 
 	}
@@ -1749,7 +1758,7 @@ int special_judge(char* oj_home, int problem_id, char *infile, char *outfile,
 void judge_solution(int & ACflg, int & usedtime, int time_lmt, int isspj,
 		int p_id, char * infile, char * outfile, char * userfile, int & PEflg,
 		int lang, char * work_dir, int & topmemory, int mem_lmt,
-		int solution_id, double num_of_test) {
+		int solution_id, int num_of_test) {
 	//usedtime-=1000;
 	int comp_res;
 	if (!oi_mode)
@@ -1837,7 +1846,7 @@ void watch_solution(pid_t pidApp, char * infile, int & ACflg, int isspj,
 		wait4(pidApp, &status, 0, &ruse);
 
 //jvm gc ask VM before need,so used kernel page fault times and page size
-		if (lang == 3 || lang == 7) {
+		if (lang == 3 || lang == 7 || lang == 16 || lang==9) {
 			tempmemory = get_page_fault_mem(ruse, pidApp);
 		} else {        //other use VmPeak
 			tempmemory = get_proc_status(pidApp, "VmPeak:") << 10;
@@ -1986,8 +1995,8 @@ void umount(char * work_dir){
         execute_cmd("/bin/umount %s/usr", work_dir);
         execute_cmd("/bin/umount %s/bin", work_dir);
         execute_cmd("/bin/umount %s/proc", work_dir);
-        execute_cmd("/bin/umount bin usr lib lib64 etc/alternatives proc");
-        execute_cmd("/bin/umount *");
+        execute_cmd("/bin/umount bin usr lib lib64 etc/alternatives proc dev");
+        execute_cmd("/bin/umount %s/*",work_dir);
 }
 void clean_workdir(char * work_dir) {
 	umount(work_dir);
@@ -2202,7 +2211,7 @@ int main(int argc, char** argv) {
 	get_solution(solution_id, work_dir, lang);
 
 	//java is lucky
-	if (lang >= 3 && lang != 13 && lang != 14) {  // Clang Clang++ not VM or Script
+	if (lang >= 3 && lang != 10 && lang != 13 && lang != 14) {  // Clang Clang++ not VM or Script
 		// the limit for java
 		time_lmt = time_lmt + java_time_bonus;
 		mem_lmt = mem_lmt + java_memory_bonus;

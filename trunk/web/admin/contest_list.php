@@ -33,7 +33,7 @@ else
 	$keyword="";
 $keyword=mysqli_real_escape_string($mysqli,$keyword);
 if($keyword) $sql="select `contest_id`,`title`,`start_time`,`end_time`,`private`,`defunct` FROM `contest` where title like '%$keyword%' ";
-$result=mysqli_query($mysqli,$sql) or die(mysqli_error());
+$result=mysqli_query($mysqli,$sql) or die(mysqli_error($mysqli));
 ?>
 <form action=contest_list.php class=center><input name=keyword><input type=submit value="<?php echo $MSG_SEARCH?>" ></form>
 

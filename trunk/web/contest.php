@@ -159,20 +159,22 @@
   if(isset($_POST['keyword'])){
       $keyword=mysqli_real_escape_string($mysqli,$_POST['keyword']);
   }
+  //echo "$keyword";
   $mycontests="";
   foreach($_SESSION as $key => $value){
-      if($key[0]=='c'&&intval(substr($key,1))>0){
-//	echo substr($key,1)."<br>";
-	 $mycontests.=",".intval(substr($key,1));
+      if(($key[0]=='m'||$key[0]=='c')&&intval(substr($key,1))>0){
+//      echo substr($key,1)."<br>";
+         $mycontests.=",".intval(substr($key,1));
       }
   }
-  if(strlen($mycontests)>0) $mycontests=substr($mycontests,1); 
+  if(strlen($mycontests)>0) $mycontests=substr($mycontests,1);
 //  echo "$mycontests";
   $wheremy="";
   if(isset($_GET['my'])) $wheremy=" and contest_id in ($mycontests)";
-  $sql="SELECT * FROM `contest` WHERE `defunct`='N' $wheremy ORDER BY `contest_id` DESC limit 1000";
+
+
+  $sql="SELECT * FROM `contest` WHERE `defunct`='N' ORDER BY `contest_id` DESC limit 1000";
   $sql="select *  from contest left join (select * from privilege where rightstr like 'm%') p on concat('m',contest_id)=rightstr where contest.defunct='N' and contest.title like '%$keyword%' $wheremy  order by contest_id desc limit 1000;";
-  //echo $sql;
 			$result=mysqli_query($mysqli,$sql);
 			
 			$view_contest=Array();

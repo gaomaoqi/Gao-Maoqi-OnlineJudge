@@ -90,15 +90,15 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
 <textarea style="width:80%" cols=180 rows=20 id="source" name="source"><?php echo htmlentities($view_src,ENT_QUOTES,"UTF-8")?></textarea><br>
 <?php echo $MSG_Input?>:<textarea style="width:30%" cols=40 rows=5 id="input_text" name="input_text" ><?php echo $view_sample_input?></textarea>
 <?php echo $MSG_Output?>:
-<textarea style="width:30%" cols=40 rows=5 id="out" name="out" >SHOULD BE:
+<textarea style="width:30%" cols=10 rows=5 id="out" name="out" >SHOULD BE:
 <?php echo $view_sample_output?>
 </textarea>
 <br>
 <input id="Submit" class="btn btn-info" type=button value="<?php echo $MSG_SUBMIT?>" onclick="do_submit();" >
 <input id="TestRun" class="btn btn-info" type=button value="<?php echo $MSG_TR?>" onclick=do_test_run();><span class="btn" id=result>状态</span>
 <?php if (isset($OJ_BLOCKLY)&&$OJ_BLOCKLY){?>
-	<input type=button class="btn" onclick="openBlockly()" value="<?php echo $MSG_BLOCKLY_OPEN?>" style="color:white;background-color:rgb(169,91,128)">
-	<input type=button  class="btn" onclick="loadFromBlockly() " value="<?php echo $MSG_BLOCKLY_TEST?>" style="color:white;background-color:rgb(90,164,139)">
+	<input id="blockly_loader" type=button class="btn" onclick="openBlockly()" value="<?php echo $MSG_BLOCKLY_OPEN?>" style="color:white;background-color:rgb(169,91,128)">
+	<input id="transrun" type=button  class="btn" onclick="loadFromBlockly() " value="<?php echo $MSG_BLOCKLY_TEST?>" style="display:none;color:white;background-color:rgb(90,164,139)">
 <div id="blockly" class="center">Blockly</div>
 <?php }?>
 </form>
@@ -115,6 +115,7 @@ echo"<option value=$i ".( $lastlang==$i?"selected":"").">
  <script>
 var sid=0;
 var i=0;
+var using_blockly=false;
 var judge_result=[<?php
 foreach($judge_result as $result){
 echo "'$result',";
@@ -189,6 +190,8 @@ return ret+"";
 }
 var count=0;
 function do_submit(){
+if(using_blockly) 
+ translate();
 if(typeof(eAL) != "undefined"){ eAL.toggle("source");eAL.toggle("source");}
 var mark="<?php echo isset($id)?'problem_id':'cid';?>";
 var problem_id=document.getElementById(mark);
@@ -249,12 +252,18 @@ function reloadtemplate(lang){
 function openBlockly(){
    $("#frame_source").hide();
    $("#TestRun").hide();
+   $("#language")[0].scrollIntoView();
    $("#language").val(6).hide();
    $("#language_span").hide();
    $("#EditAreaArroundInfos_source").hide();
    $('#blockly').html('<iframe name=\'frmBlockly\' width=90% height=580 src=\'blockly/demos/code/index.html\'></iframe>'); 
+  $("#blockly_loader").hide();
+  $("#transrun").show();
+  $("#Submit").prop('disabled', true);
+  using_blockly=true;
+  
 }
-function loadFromBlockly(){
+function translate(){
   var source=$("#source");
   var editor=$(window.frames['frame_source'].document).find('textarea[id=textarea]');
   var blockly=$(window.frames['frmBlockly'].document);
@@ -266,8 +275,13 @@ function loadFromBlockly(){
   source.val(python.text());
   eAL.toggle("source");
   $("#language").val(6);
-  do_test_run();
+ 
+}
+function loadFromBlockly(){
+ translate();
+ do_test_run();
   $("#frame_source").hide();
+//  $("#Submit").prop('disabled', false);
 }
 </script>
 

@@ -1,6 +1,8 @@
 <?php @session_start();
 	ini_set("display_errors","Off");  //set this to "On" for debugging  ,especially when no reason blank shows up.
-	
+	ini_set("session.cookie_httponly", 1);   
+	header('X-Frame-Options:SAMEORIGIN');
+
 //for people using hustoj out of China , be careful of the last two line of this file !
 
 // connect db 
@@ -18,7 +20,7 @@ static  $OJ_ONLINE=false;
 static  $OJ_LANG="en";
 static  $OJ_SIM=false; 
 static  $OJ_DICT=false;
-static  $OJ_LANGMASK=0; //1mC 2mCPP 4mPascal 8mJava 16mRuby 32mBash 1008 for security reason to mask all other language
+static  $OJ_LANGMASK=262064; //1mC 2mCPP 4mPascal 8mJava 16mRuby 32mBash 1008 for security reason to mask all other language
 static  $OJ_EDITE_AREA=true;//true: syntax highlighting is active
 static  $OJ_AUTO_SHARE=false;//true: One can view all AC submit if he/she has ACed it onece.
 static  $OJ_CSS="hoj.css";
@@ -37,7 +39,7 @@ static  $OJ_TEMPLATE="bs3";
 if(isset($_GET['tp'])) $OJ_TEMPLATE=$_GET['tp'];
 static  $OJ_LOGIN_MOD="hustoj";
 static  $OJ_RANK_LOCK_PERCENT=0;
-static  $OJ_SHOW_DIFF=true;
+static  $OJ_SHOW_DIFF=false;
 static  $OJ_TEST_RUN=false;
 static  $OJ_BLOCKLY=false; //是否启用Blockly界面
 
@@ -89,4 +91,7 @@ global $mysqli;
 	//sychronize php and mysql server with timezone settings, dafault setting for China
 	//if you are not from China, comment out these two lines or modify them.
 	date_default_timezone_set("PRC");
-	mysqli_query($mysqli,"SET time_zone ='+8:00'");?>
+	mysqli_query($mysqli,"SET time_zone ='+8:00'");
+
+	
+?>

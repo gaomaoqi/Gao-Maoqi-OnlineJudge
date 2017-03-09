@@ -1,0 +1,17 @@
+[Unit]
+Description=ICPC Judged
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/judged /home/judge
+ExecReload=/bin/pkill -9 judged & judged /home/judge
+TasksMax=1
+TimeoutStartSec=0
+# set delegate yes so that systemd does not reset the cgroups of docker containers
+Delegate=yes
+# kill only the docker process, not all processes in the cgroup
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

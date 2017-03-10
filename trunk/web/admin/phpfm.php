@@ -1,23 +1,3 @@
-<?php require_once("../include/db_info.inc.php");?>
-
-<?php require_once("admin-header.php");
-
-
-
-if (!(isset($_SESSION['administrator'])
-
-      ||isset($_SESSION['problem_editor'])
-
-     )){
-
-	echo "<a href='../loginpage.php'>Please Login First!</a>";
-
-	exit(1);
-
-}
-
-?>
-
 <?php
 //a:9:{s:4:"lang";s:2:"en";s:9:"auth_pass";s:32:"d41d8cd98f00b204e9800998ecf8427e";s:8:"quota_mb";i:0;s:17:"upload_ext_filter";a:0:{}s:19:"download_ext_filter";a:0:{}s:15:"error_reporting";i:1;s:7:"fm_root";s:0:"";s:17:"cookie_cache_time";i:2592000;s:7:"version";s:5:"0.9.8";}
 /*--------------------------------------------------
@@ -64,7 +44,16 @@ if (!(isset($_SESSION['administrator'])
 // +--------------------------------------------------
 // | Header and Globals
 // +--------------------------------------------------	
-	$charset = "UTF-8";
+@session_start();
+if (!(isset($_SESSION['administrator'])
+      ||isset($_SESSION['problem_editor'])
+     )){
+	echo $_SESSION['administrator'];
+	echo "<a href='../loginpage.php'>Please Login First!</a>";
+	exit(1);
+}
+require_once("../include/db_info.inc.php");
+    $charset = "UTF-8";
     //@setlocale(LC_CTYPE, 'C');
     header("Pragma: no-cache");
     header("Cache-Control: no-store");
@@ -3358,7 +3347,7 @@ function dir_list_form() {
         }
         if($entry_count){
             $out .= "
-                <tr bgcolor=\"#DDDDDD\"><td colspan=50><nobr>$uplink <a href=\"".$path_info["basename"]."?frame=3&current_dir=$current_dir\">$current_dir</a></nobr>
+                <tr bgcolor=\"#DDDDDD\">
                 <tr>
                 <td bgcolor=\"#DDDDDD\" colspan=50><nobr>
                     <input type=\"button\" style=\"width:80\" onclick=\"selectANI(this)\" id=\"ANI0\" value=\"".et('SelAll')."\">

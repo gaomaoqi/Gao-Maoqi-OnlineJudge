@@ -27,13 +27,13 @@
       <div class="jumbotron">
 <hr>
 <center>
-  <font size="+3">HUSTOJ Online Judge FAQ</font>
+  <font size="+3"><?php echo $OJ_NAME?>  FAQ</font>
 </center>
 <hr>
 <p><font color=green>Q</font>:What is the compiler the judge is using and what are the compiler options?<br>
   <font color=red>A</font>:The online judge system is running on <a href="http://www.debian.org/">Debian Linux</a>.
-	We are using <a href="http://gcc.gnu.org/">GNU GCC/G++</a> for C/C++ compile, 
-	<a href="http://www.freepascal.org">Free Pascal</a> for pascal compile and 
+	We are using <a href="http://gcc.gnu.org/">GNU GCC/G++</a> for C/C++ compile,
+	<a href="http://www.freepascal.org">Free Pascal</a> for pascal compile and
 	<a href="http://openjdk.java.net">openjdk-7-jdk</a> for Java. The compile options are:<br>
 </p>
 <table border="1">

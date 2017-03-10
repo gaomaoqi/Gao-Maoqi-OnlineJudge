@@ -32,9 +32,9 @@
 <hr>
 <p><font color=green>Q</font>:这个在线裁判系统使用什么样的编译器和编译选项?<br>
   <font color=red>A</font>:系统运行于<a href="http://www.debian.org/">Debian</a>/<a href="http://www.ubuntu.com">Ubuntu</a>
-	Linux. 使用<a href="http://gcc.gnu.org/">GNU GCC/G++</a> 作为C/C++编译器, 
-	<a href="http://www.freepascal.org">Free Pascal</a> 作为pascal 编译器 ，
-	用 <a href="http://openjdk.java.net/">openjdk-7</a>编译 Java. 对应的编译选项如下:<br>
+	Linux. 使用<a href="http://gcc.gnu.org/">GNU GCC/G++</a> 作为C/C++编译器,
+	<a href="http://www.freepascal.org">Free Pascal</a> 作为pascal 编译器 ，用
+	<a href="http://openjdk.java.net/">openjdk-7</a> 编译 Java. 对应的编译选项如下:<br>
 </p>
 <table border="1">
   <tr>
@@ -43,7 +43,7 @@
   </tr>
   <tr>
     <td>C++:</td>
-    <td><font color=blue>g++ Main.cc -o Main  -fno-asm -O2 -Wall -lm --static -DONLINE_JUDGE</font></td>
+    <td><font color=blue>g++ -fno-asm -Wall -lm --static -std=c++11 -DONLINE_JUDGE -o Main Main.cc</font></td>
   </tr>
   <tr>
     <td>Pascal:</td>

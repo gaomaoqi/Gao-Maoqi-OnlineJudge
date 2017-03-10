@@ -1,13 +1,15 @@
 [Unit]
-Description=ICPC Judged
+Description=HUSTOJ Judged
 After=network.target
 
 [Service]
 Type=forking
 ExecStart=/usr/bin/judged /home/judge
-ExecReload=/bin/kill -s HUP $MAINPID
-ExecStop=/bin/kill -s QUIT $MAINPID
-PrivateTmp=true
+ExecReload=/bin/pkill -9 judged & judged /home/judge
+TasksMax=1
+TimeoutStartSec=0
+Delegate=yes
+KillMode=process
 
 [Install]
 WantedBy=multi-user.target

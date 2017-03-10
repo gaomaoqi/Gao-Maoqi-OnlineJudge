@@ -26,9 +26,10 @@ fi
 
 #try install tools
 if uname -a|grep 'Ubuntu\|Debian'
-then 
-sudo apt-get install make flex g++ clang libmysql++-dev php apache2 mysql-server php-mysql php-gd php-cli mono-gmcs subversion php-mbstring
-sudo apt-get install make flex g++ clang libmysql++-dev php7.0 apache2 mysql-server php7.0-xml php7.0-mysql php7.0-gd php7.0-cli mono-gmcs php7.0-mbstring subversion  redis-server php7.0-redis
+then
+sudo apt-get update
+sudo apt-get install make flex g++ clang libmysqlclient-dev libmysql++-dev php apache2 libapache2-mod-php  mysql-server php-xml php-mysql php-gd php-cli mono-mcs subversion php-mbstring
+sudo apt-get install make flex g++ clang libmysql++-dev php apache2 libapache2-mod-php  mysql-server php-xml php-mysql php-gd php-cli mono-mcs php-mbstring subversion  redis-server php-redis
 sudo /etc/init.d/mysql start
 HTTP_START="sudo /etc/init.d/apache2 restart"
 

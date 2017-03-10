@@ -3,7 +3,7 @@ Description=HUSTOJ Judged
 After=network.target
 
 [Service]
-Type=simple
+Type=forking
 ExecStart=/usr/bin/judged /home/judge
 ExecReload=/bin/pkill -9 judged & judged /home/judge
 TasksMax=1

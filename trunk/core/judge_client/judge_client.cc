@@ -938,6 +938,8 @@ int compile(int lang,char * work_dir) {
                 	execute_cmd("mount -o bind /etc/alternatives etc/alternatives");
                 	execute_cmd("mount -o bind /proc proc");
                 	execute_cmd("mount -o bind /dev dev");
+			if(lang>2&&lang!=10&&lang!=13&&lang!=14)
+				execute_cmd("mount -o bind /dev dev");
                         chroot(work_dir);
 		}
 		while(setgid(1536)!=0) sleep(1);

@@ -180,7 +180,7 @@ for($i=0;$i<$pid_cnt;$i++){
 }
 
 
-$sql="select num,user_id from
+$sql="select num,ANY_VALUE(user_id) as user_id from
         (select num,user_id from solution where contest_id=$cid and result=4 order by solution_id ) contest
         group by num";
 if($OJ_MEMCACHE){

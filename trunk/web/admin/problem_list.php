@@ -1,10 +1,7 @@
 <?php require("admin-header.php");
-
         if(isset($OJ_LANG)){
                 require_once("../lang/$OJ_LANG.php");
         }
-
-
 require_once("../include/set_get_key.php");
 if (!(isset($_SESSION['administrator'])
                 ||isset($_SESSION['contest_creator'])
@@ -30,10 +27,8 @@ if (isset($_GET['page'])){
 }else $page=$cnt;
 $pstart=1000+$page_cnt*intval($page-1);
 $pend=$pstart+$page_cnt;
-
 echo "<title>Problem List</title>";
 echo "<center><h2>Problem List</h2></center>";
-
 echo "<form action=problem_list.php>";
 echo "<select class='input-mini' onchange=\"location.href='problem_list.php?page='+this.value;\">";
 for ($i=1;$i<=$cnt;$i++){
@@ -44,7 +39,6 @@ for ($i=1;$i<=$cnt;$i++){
         echo "**</option>";
 }
 echo "</select>";
-
 $sql="select `problem_id`,`title`,`in_date`,`defunct` FROM `problem` where problem_id>=$pstart and problem_id<=$pend order by `problem_id` desc";
 //echo $sql;
 if($keyword) $sql="select `problem_id`,`title`,`in_date`,`defunct` FROM `problem` where title like '%$keyword%' or source like '%$keyword%'";
@@ -81,7 +75,6 @@ for (;$row=mysqli_fetch_object($result);){
                 if(isset($_SESSION['administrator'])||isset($_SESSION["p".$row->problem_id])){
                         echo "<td><a href=problem_edit.php?id=$row->problem_id&getkey=".$_SESSION['getkey'].">Edit</a>";
 			echo "<td><a href='javascript:phpfm($row->problem_id);'>TestData</a>";
-
                 }
         }
         echo "</tr>";
@@ -90,7 +83,7 @@ echo "<tr><td colspan=7><input type=submit name='problem2contest' value='CheckTo
 echo "</tr></form>";
 echo "</table></center>";
 ?>
-<script src=../template/bs3/jquery.min.js></script>
+<script src='../template/bs3/jquery.min.js' ></script>
 <script>
 function phpfm(pid){
         //alert(pid);
@@ -100,9 +93,7 @@ function phpfm(pid){
                 }
         });
 }
-
 </script>
 <?php
-
 require("../oj-footer.php");
 ?>

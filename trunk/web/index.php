@@ -32,22 +32,22 @@
 	}
 $view_apc_info="";
 
-$sql=	"SELECT UNIX_TIMESTAMP(date(in_date))*1000 md,count(1) c FROM `solution`  group by md order by md desc ";
+$sql=	"SELECT UNIX_TIMESTAMP(date(in_date))*1000 md,count(1) c FROM `solution`  group by md order by md desc limit 100";
 	$result=mysqli_query($mysqli,$sql);//mysql_escape_string($sql));
 	$chart_data_all= array();
 //echo $sql;
     
 	while ($row=mysqli_fetch_array($result)){
-		$chart_data_all[$row['md']]=$row['c'];
+		array_push($chart_data_all,array($row['md'],$row['c']));
     }
     
-$sql=	"SELECT UNIX_TIMESTAMP(date(in_date))*1000 md,count(1) c FROM `solution` where result=4 group by md order by md desc ";
+$sql=	"SELECT UNIX_TIMESTAMP(date(in_date))*1000 md,count(1) c FROM `solution` where result=4 group by md order by md desc limit 100";
 	$result=mysqli_query($mysqli,$sql);//mysql_escape_string($sql));
 	$chart_data_ac= array();
 //echo $sql;
     
 	while ($row=mysqli_fetch_array($result)){
-		$chart_data_ac[$row['md']]=$row['c'];
+		array_push($chart_data_ac,array($row['md'],$row['c']));
     }
     
 	

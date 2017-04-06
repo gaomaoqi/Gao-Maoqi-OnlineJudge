@@ -56,12 +56,10 @@ $sql="insert into `privilege` (`user_id`,`rightstr`)  values('".$_SESSION['user_
 mysqli_query($mysqli,$sql);
 $_SESSION["p$pid"]=true;
 	
-   echo "<td><a href='javascript:phpfm($pid);'>TestData</a>";
-
-
+echo "<a href='javascript:phpfm($pid);'>Add more TestData now !</a>";
 /*	*/
 ?>
-<script src=../template/bs3/jquery.min.js></script>
+<script src='../template/bs3/jquery.min.js' ></script>
 <script>
 function phpfm(pid){
         //alert(pid);

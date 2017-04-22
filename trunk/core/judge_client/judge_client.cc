@@ -1267,8 +1267,12 @@ void copy_shell_runtime(char * work_dir) {
 	execute_cmd("/bin/mkdir %s/lib64", work_dir);
 	execute_cmd("/bin/mkdir %s/bin", work_dir);
 //	execute_cmd("/bin/cp /lib/* %s/lib/", work_dir);
-//	execute_cmd("/bin/cp -a /lib/i386-linux-gnu %s/lib/", work_dir);
-//	execute_cmd("/bin/cp -a /usr/lib/i386-linux-gnu %s/lib/", work_dir);
+
+#ifdef __i386
+	execute_cmd("/bin/cp -a /lib/i386-linux-gnu %s/lib/", work_dir);
+	execute_cmd("/bin/cp -a /usr/lib/i386-linux-gnu %s/lib/", work_dir);
+	execute_cmd("/bin/cp -a /lib/ld-linux.so.* %s/lib/", work_dir);
+#endif
 	execute_cmd("/bin/cp -a /lib/x86_64-linux-gnu %s/lib/", work_dir);
 	execute_cmd("/bin/cp /lib64/* %s/lib64/", work_dir);
 //	execute_cmd("/bin/cp /lib32 %s/", work_dir);
@@ -1624,7 +1628,7 @@ void run_solution(int & lang, char * work_dir, int & time_lmt, int & usedtime,
 		break;
 	case 3:
               sprintf(java_xms, "-Xmx%dM", mem_lmt);
-              sprintf(java_xmx, "-XX:MaxPermSize=%dM", mem_lmt);
+              //sprintf(java_xmx, "-XX:MaxPermSize=%dM", mem_lmt);
 
 		execl("/usr/bin/java", "/usr/bin/java", java_xms, java_xmx,
 				"-Djava.security.manager",

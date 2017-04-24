@@ -2,7 +2,7 @@ HUSTOJ安装说明
 	by zhblue(newsclan@gmail.com)
 方法一、
 
-1、安装Ubuntu 14.04 LTS  (16.04 need the php7 branch)  
+1、安装Ubuntu 16.04 LTS  (14.04 need the master branch)  
 2、执行如下命令  
     sudo apt-get update  
     sudo apt-get install subversion  
@@ -16,7 +16,7 @@ HUSTOJ安装说明
 
 方法二、
 
-如果是阿里云，系统选择ubuntu14.04，可以使用下面脚本
+如果是阿里云，系统选择ubuntu16.04，可以使用下面脚本
 
     wget https://raw.githubusercontent.com/zhblue/hustoj/php7/trunk/install/install-ubuntu16.04.sh
     chmod +x install-ubuntu16.04.sh

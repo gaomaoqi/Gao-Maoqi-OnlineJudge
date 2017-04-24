@@ -18,7 +18,7 @@ HUSTOJ安装说明
 
 如果是阿里云，系统选择ubuntu14.04，可以使用下面脚本
 
-    wget https://raw.githubusercontent.com/zhblue/hustoj/master/trunk/install/install-ubuntu16.04.sh
+    wget https://raw.githubusercontent.com/zhblue/hustoj/php7/trunk/install/install-ubuntu16.04.sh
     chmod +x install-ubuntu16.04.sh
     sudo ./install-ubuntu16.04.sh
     

@@ -436,8 +436,9 @@ int work() {
 
 	//sleep_time=sleep_tmp;
 	/* get the database info */
-	if (!get_jobs(jobs))
-		retcnt = 0;
+	if (!get_jobs(jobs)){
+		return 0;
+	}
 	/* exec the submit */
 	for (int j = 0; jobs[j] > 0; j++) {
 		runid = jobs[j];

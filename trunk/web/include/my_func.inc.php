@@ -40,7 +40,8 @@ function pwGen($password,$md5ed=False)
 function pwCheck($password,$saved)
 {
 	if (isOldPW($saved)){
-		$mpw = md5($password);
+		if(!isOldPW($password)) $mpw = md5($password);
+		else $mpw=$password;
 		if ($mpw==$saved) return True;
 		else return False;
 	}

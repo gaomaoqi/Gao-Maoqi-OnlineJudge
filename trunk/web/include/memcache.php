@@ -1,5 +1,6 @@
 <?php
         
+    require_once(dirname(__FILE__)."/db_info.inc.php");
     # Connect to memcache:
     global $memcache;
     if ($OJ_MEMCACHE){
@@ -27,14 +28,14 @@
 
     # Caching version of pdo_query()
     function mysql_query_cache($sql, $linkIdentifier = false,$timeout = 4) {
-	
+	global $OJ_NAME,$OJ_MEMCACHE;	
 
 //首先调用上面的getCache函数，如果返回值不为false的话，就说明是从memcached服务器获取的数据
 //如果返回false，此时就需要直接从数据库中获取数据了。
 //需要注意的是这里使用操作的命令加上sql语句的md5码作为一个特定的key，可能大家觉得使用数据项的
 //名称作为key会比较自然一点。运行memcached加上"-vv"参数，并且不作为daemon运行的话，可以看见
 //memcached处理时输出的相关信息
-        if (!($cache = getCache(md5($OJ_NAME.$_SEVER['HTTP_HOST']."mysql_query" . $sql)))) {
+        if (!($cache = getCache(md5($OJ_NAME.$_SERVER['HTTP_HOST']."mysql_query" . $sql)))) {
 
             $cache = false;
 
@@ -45,7 +46,7 @@
     //如果开启了服务器的话，数据将会被缓存到memcached服务器中
                 if (!setCache(md5("mysql_query" . $sql), $cache, $timeout)) {
                     # If we get here, there isn’t a memcache daemon running or responding
-		  echo "apt-get install memcached";
+		 if($OJ_MEMCACHE) echo "You can run these command to get faster speed:<br>sudo apt-get install memcached<br>sudo apt-get install php5-memcache<br>sudo apt-get install php-memcache";
                 }
 
         }

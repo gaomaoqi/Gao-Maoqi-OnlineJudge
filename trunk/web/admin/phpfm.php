@@ -44,15 +44,15 @@
 // +--------------------------------------------------
 // | Header and Globals
 // +--------------------------------------------------	
-@session_start();
-if (!(isset($_SESSION['administrator'])
-      ||isset($_SESSION['problem_editor'])
+require_once("../include/db_info.inc.php");
+if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
+      ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
      )){
-	echo $_SESSION['administrator'];
+	echo $_SESSION[$OJ_NAME.'_'.'administrator'];
 	echo "<a href='../loginpage.php'>Please Login First!</a>";
 	exit(1);
 }
-require_once("../include/db_info.inc.php");
+
     $charset = "UTF-8";
     //@setlocale(LC_CTYPE, 'C');
     header("Pragma: no-cache");
@@ -2259,6 +2259,7 @@ function total_move($orig,$dest) {
 }
 function download(){
     global $current_dir,$filename;
+    $filename = remove_special_chars($filename);
     $file = $current_dir.$filename;
     if(file_exists($file)){
         $is_denied = false;
@@ -2320,6 +2321,7 @@ function zip_extract(){
         if (zip_entry_filesize($zip_entry)) {
             $complete_path = $path.dirname(zip_entry_name($zip_entry));
             $complete_name = $path.zip_entry_name($zip_entry);
+	    $complete_path=remove_special_chars($complete_path);
             if(!file_exists($complete_path)) {
                 $tmp = '';
                 foreach(explode('/',$complete_path) AS $k) {
@@ -2330,6 +2332,7 @@ function zip_extract(){
                 }
             }
             if (zip_entry_open($zip, $zip_entry, "r")) {
+		$complete_name=remove_special_chars($complete_name);
                 if ($fd = fopen($current_dir.$complete_name, 'w')){
                     fwrite($fd, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry)));
                     fclose($fd);
@@ -2376,9 +2379,12 @@ function replace_double($sub,$str){
 }
 function remove_special_chars($str){
     $str = trim($str);
-    $str = strtr($str,"¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ!@#%&*()[]{}+=?",
-                      "YuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy_______________");
-    $str = str_replace("..","",str_replace("/","",str_replace("\\","",str_replace("\$","",$str))));
+    $str = strtr($str,"¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ!@#%&*()[]{}+=?/\\",
+                      "YuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy_________________");
+    $str = str_replace("..","",$str);
+    $str = str_replace("\\","",$str);
+    $str = str_replace("/","",$str);
+    $str = str_replace("\$","",$str);
     return $str;
 }
 function format_path($str){
@@ -3876,6 +3882,7 @@ function get_mime_type($ext = ''){
 function view(){
     global $doc_root,$path_info,$url_info,$current_dir,$islinux,$filename,$passthru;
 	if (intval($passthru)){
+    $filename = remove_special_chars($filename);
 	    $file = $current_dir.$filename;
 	    if(file_exists($file)){
 	        $is_denied = false;
@@ -3936,6 +3943,8 @@ function view(){
 }
 function edit_file_form(){
     global $current_dir,$filename,$file_data,$save_file,$path_info;
+    $filename=remove_special_chars($filename);
+   // echo "[$filename]";
     $file = $current_dir.$filename;
     if ($save_file){
         $fh=fopen($file,"w");
@@ -3954,7 +3963,7 @@ function edit_file_form(){
     <input type=hidden name=save_file value=\"1\">
     <input type=hidden name=current_dir value=\"$current_dir\">
     <input type=hidden name=filename value=\"$filename\">
-    <tr><th colspan=2>".$file."</th></tr>
+    <tr><th colspan=2>".$filename."</th></tr>
     <tr><td colspan=2><textarea name=file_data style='width:1000px;height:680px;'>".html_encode($file_data)."</textarea></td></tr>
     <tr><td><input type=button value=\"".et('Refresh')."\" onclick=\"document.edit_form_refresh.submit()\"></td><td align=right><input type=button value=\"".et('SaveFile')."\" onclick=\"go_save()\"></td></tr>
     </form>
@@ -4158,6 +4167,7 @@ function config_form(){
     echo "</body>\n</html>";
 }
 function server_info(){
+/*
     if (!@phpinfo()) echo et('NoPhpinfo')."...";
     echo "<br><br>";
 	    $a=ini_get_all();
@@ -4225,6 +4235,7 @@ function server_info(){
     //-->
     </script>";
     echo "</body>\n</html>";
+	*/
 }
 // +--------------------------------------------------
 // | Session

@@ -14,7 +14,8 @@ RUN set -ex \
 		php5-fpm php5-mysql php5-gd \
 	#	php5-memcache memcached \
 		nginx \
-	#	python3 \
+		python \
+		python3 \
 		fp-compiler \
 	#	openjdk-7-jdk \
 	#	clang

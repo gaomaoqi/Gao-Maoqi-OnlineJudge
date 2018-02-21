@@ -1,7 +1,7 @@
-#FROM ubuntu:trusty-20171117  #638MB
+FROM ubuntu:trusty-20171117
 #COPY ./sources.list /etc/apt/sources.list 
 
-FROM debian:jessie-slim
+#FROM debian:jessie-slim
 #COPY ./sources.debian.list /etc/apt/sources.list
 
 COPY ./docker-entrypoint.sh /usr/local/bin/
@@ -14,7 +14,7 @@ RUN set -ex \
 		php5-fpm php5-mysql php5-gd \
 	#	php5-memcache memcached \
 		nginx \
-		python3 \
+	#	python3 \
 		fp-compiler \
 	#	openjdk-7-jdk \
 	#	clang

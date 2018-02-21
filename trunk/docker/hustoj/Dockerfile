@@ -1,6 +1,10 @@
-FROM ubuntu:trusty-20171117
-#COPY ./sources.list /etc/apt/sources.list
-#FROM debian:jessie-slim
+#FROM ubuntu:trusty-20171117  #638MB
+#COPY ./sources.list /etc/apt/sources.list 
+
+FROM debian:jessie-slim
+#COPY ./sources.debian.list /etc/apt/sources.list
+
+COPY ./docker-entrypoint.sh /usr/local/bin/
 
 RUN set -ex \
 	&& apt-get update \
@@ -8,27 +12,26 @@ RUN set -ex \
 		git \
 		make flex g++ libmysqlclient-dev libmysql++-dev \
 		php5-fpm php5-mysql php5-gd \
-		php5-memcache memcached \
+	#	php5-memcache memcached \
 		nginx \
+		python3.2 \
 		fp-compiler \
-		openjdk-7-jdk \
-		clang \
-	#&& apt-get remove --purge git
-	&& rm -rf /var/lib/apt/lists/* 
-	
-RUN set -ex \
+	#	openjdk-7-jdk \
+	#	clang
+# mysql
 	&& echo 'mysql-server-5.5 mysql-server/root_password password ""' | debconf-set-selections \
 	&& echo 'mysql-server-5.5 mysql-server/root_password_again password ""' |debconf-set-selections \
-	&& apt-get update && apt-get install -y mysql-server \
-	&& rm -rf /var/lib/apt/lists/*
-	
-RUN set -ex \
+	#&& apt-get update 
+	&& apt-get install -y mysql-server \
+# code
 	&& /usr/sbin/useradd -m -u 1536 judge \
 	&& cd / && git clone https://github.com/zhblue/hustoj.git \	
 	&& mv /hustoj/trunk /home/judge/src \
-	&& rm -R /hustoj 
-	
-RUN set -ex \
+# clear
+	&& rm -R /hustoj \
+	&& apt-get autoremove -y --purge git \
+	&& rm -rf /var/lib/apt/lists/* \
+#
 	&& USER=`cat /etc/mysql/debian.cnf |grep user|head -1|awk  '{print $3}'` \
 	&& PASSWORD=`cat /etc/mysql/debian.cnf |grep password|head -1|awk  '{print $3}'` \
 	&& CPU=`grep "cpu cores" /proc/cpuinfo |head -1|awk '{print $4}'`   \	
@@ -44,19 +47,9 @@ RUN set -ex \
 	&& sed -i "s/DB_USER=\"root\"/DB_USER=\"$USER\"/g" src/web/include/db_info.inc.php   \
 	&& sed -i "s/DB_PASS=\"root\"/DB_PASS=\"$PASSWORD\"/g" src/web/include/db_info.inc.php   \
 	&& chown www-data src/web/upload data   \
-	&& sed -i "s:include /etc/nginx/mime.types;:client_max_body_size    80m;\n\tinclude /etc/nginx/mime.types;:g" /etc/nginx/nginx.conf   \
-	&& chown -R mysql:mysql /var/lib/mysql \
-	&& sed -i "s:root /usr/share/nginx/html;:root /home/judge/src/web;:g" /etc/nginx/sites-enabled/default   \
-	&& sed -i "s:index index.html:index index.php:g" /etc/nginx/sites-enabled/default   \
-	&& sed -i "s:#location ~ \\\.php\\$:location ~ \\\.php\\$:g" /etc/nginx/sites-enabled/default   \
-	&& sed -i "s:#\tfastcgi_split_path_info:\tfastcgi_split_path_info:g" /etc/nginx/sites-enabled/default   \
-	&& sed -i "s:#\tfastcgi_pass unix:\tfastcgi_pass unix:g" /etc/nginx/sites-enabled/default   \
-	&& sed -i "s:#\tfastcgi_index:\tfastcgi_index:g" /etc/nginx/sites-enabled/default   \
-	&& sed -i "s:#\tinclude fastcgi_params;:\tinclude fastcgi_params;\n\t}:g" /etc/nginx/sites-enabled/default   \
 	&& sed -i "s/post_max_size = 8M/post_max_size = 80M/g" /etc/php5/fpm/php.ini     \
-	&& sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 80M/g" /etc/php5/fpm/php.ini   
-
-RUN set -ex \
+	&& sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 80M/g" /etc/php5/fpm/php.ini   \
+# judged
 	&& cd /home/judge/src/core/judged \
     && make \
     && chmod +x judged \
@@ -65,27 +58,24 @@ RUN set -ex \
     && make \
     && chmod +x judge_client \
     && cp judge_client /usr/bin \
-	&& cd /home/judge/ 
-
-RUN set -ex \
+	&& cd /home/judge/ \
+# db
 	&& chown -R mysql:mysql /var/lib/mysql  \
 	&& service mysql restart \
 	&& service mysql status \
-	&& USER=`cat /etc/mysql/debian.cnf |grep user|head -1|awk  '{print $3}'` \
-	&& PASSWORD=`cat /etc/mysql/debian.cnf |grep password|head -1|awk  '{print $3}'` \
+	#&& USER=`cat /etc/mysql/debian.cnf |grep user|head -1|awk  '{print $3}'` \
+	#&& PASSWORD=`cat /etc/mysql/debian.cnf |grep password|head -1|awk  '{print $3}'` \
 	&& mysql -h localhost -u$USER -p$PASSWORD< /home/judge/src/install/db.sql \
 	&& echo "insert into jol.privilege values('admin','administrator','N');"|mysql -h localhost -u$USER -p$PASSWORD \
-	&& service mysql stop
-		
+	#&& service mysql stop \
+	&& chmod +x /usr/local/bin/docker-entrypoint.sh \
+	&& ln -s /usr/local/bin/docker-entrypoint.sh  /docker-entrypoint.sh
+
+COPY nginx/default.conf /etc/nginx/sites-available/default
+	
 WORKDIR /home/judge/
 EXPOSE 80
 VOLUME ["/data"]
 
-COPY ./docker-entrypoint.sh /usr/local/bin/
-RUN set -ex \
-	&& chmod +x /usr/local/bin/docker-entrypoint.sh \
-	&& ln -s /usr/local/bin/docker-entrypoint.sh  /docker-entrypoint.sh
-
 ENTRYPOINT ["/docker-entrypoint.sh"]
-#CMD judged /home/judge debug && 
-#CMD tail -f /dev/null
+#CMD judged /home/judge debug && tail -f /dev/null

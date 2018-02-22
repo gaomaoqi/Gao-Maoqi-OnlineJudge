@@ -6,11 +6,12 @@ if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']))){
 }
 ?>
 <?php 
-$ids = "(" . $_POST['ids'] . ")";
-if($_POST['act'] =='Y')
-	$sql="update `problem` set `defunct`='Y' where `problem_id` in ".$ids;
-else
-	$sql="update `problem` set `defunct`='N' where `problem_id` in ".$ids;
-pdo_query($sql) ;
+$ids = explode(',',$_POST['ids']);
+foreach ($ids as $id)
+{
+	if($_POST['act'] =='Y')		$sql="update `problem` set `defunct`='Y' where `problem_id` = ? ";
+	else		$sql="update `problem` set `defunct`='N' where `problem_id` = ? ";
+	pdo_query($sql,intval($id)) ;
+}
 echo("success");
 ?>

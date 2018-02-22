@@ -58,6 +58,7 @@ echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\
 echo "<input type=submit name='problem2contest' value='CheckToNewContest'>";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button ID='Available' value='Available'>";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Reserved' value='Reserved'>";
+echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Delete' value='Delete'>";
 echo "<tr><td>PID<td>Title<td>AC<td>Date";
 if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
         if(isset($_SESSION[$OJ_NAME.'_'.'administrator']))   echo "<td>Status<td>Delete";
@@ -131,6 +132,24 @@ $(document).ready(function(){
                 }
         );
   });
+  $("#Delete").click(function(){
+        var data='0';
+        $.each($('input:checkbox:checked'),function(){
+                if($(this).val()!='on') data += ',' + $(this).val();
+        });
+        
+        $.post("problem_del_ajax.php",
+                {ids:data},
+                function(data,status){
+					if(data == 'ok')
+                        location.reload();
+					else
+						alert(data);
+                        //console.log(data);
+                }
+        );
+  });
+  
 });
 </script>
 </div>

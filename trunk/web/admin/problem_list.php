@@ -56,6 +56,8 @@ echo "<form method=post action=contest_add.php>";
 echo "<tr><td colspan=8>";
 echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
 echo "<input type=submit name='problem2contest' value='CheckToNewContest'>";
+echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button ID='Available' value='Available'>";
+echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Reserved' value='Reserved'>";
 echo "<tr><td>PID<td>Title<td>AC<td>Date";
 if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
         if(isset($_SESSION[$OJ_NAME.'_'.'administrator']))   echo "<td>Status<td>Delete";
@@ -100,5 +102,35 @@ function phpfm(pid){
                 }
         });
 }
+$(document).ready(function(){
+  $("#Available").click(function(){
+        var data='0';
+        $.each($('input:checkbox:checked'),function(){
+                if($(this).val()!='on')data += ',' + $(this).val();
+        });
+        
+        $.post("problem_df_change_ajax.php",
+                {act:'N',ids:data},
+                function(data,status){
+                        location.reload();
+                        //console.log(data);
+                }
+        );
+  });
+  $("#Reserved").click(function(){
+        var data='0';
+        $.each($('input:checkbox:checked'),function(){
+                if($(this).val()!='on') data += ',' + $(this).val();
+        });
+        
+        $.post("problem_df_change_ajax.php",
+                {act:'Y',ids:data},
+                function(data,status){
+                        location.reload();
+                        //console.log(data);
+                }
+        );
+  });
+});
 </script>
 </div>

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-DIRECTORY="/data/data/"
+DIRECTORY="/data/data"
 if [ ! -d $DIRECTORY ]; then
-	mv  /home/judge/data/ /data/
+	mv  /home/judge/data /data
 else
-	rm -R /home/judge/data/
+	rm -R /home/judge/data
 fi
 ln -s $DIRECTORY /home/judge/data
 	

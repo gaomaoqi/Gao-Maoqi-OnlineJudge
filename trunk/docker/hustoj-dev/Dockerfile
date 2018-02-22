@@ -1,5 +1,5 @@
 FROM ubuntu:trusty-20171117
-COPY ./sources.list /etc/apt/sources.list 
+#COPY ./sources.list /etc/apt/sources.list 
 
 #FROM debian:jessie-slim
 #COPY ./sources.debian.list /etc/apt/sources.list
@@ -23,10 +23,11 @@ RUN set -ex \
 	&& echo 'mysql-server-5.5 mysql-server/root_password password ""' | debconf-set-selections \
 	&& echo 'mysql-server-5.5 mysql-server/root_password_again password ""' |debconf-set-selections \
 	#&& apt-get update 
-	&& apt-get install -y mysql-server \
+	&& apt-get install -y mysql-server 
 # code
+RUN set -ex \
 	&& /usr/sbin/useradd -m -u 1536 judge \
-	&& cd / && git clone https://github.com/shiningrise/hustoj.git \	
+	&& cd / && git clone -b docker-dev https://github.com/shiningrise/hustoj.git \	
 	&& mv /hustoj/trunk /home/judge/src \
 # clear
 	&& rm -R /hustoj \

@@ -26,7 +26,7 @@ RUN set -ex \
 	&& apt-get install -y mysql-server \
 # code
 	&& /usr/sbin/useradd -m -u 1536 judge \
-	&& cd / && git clone https://github.com/zhblue/hustoj.git \	
+	&& cd / && git clone https://github.com/shiningrise/hustoj.git \	
 	&& mv /hustoj/trunk /home/judge/src \
 # clear
 	&& rm -R /hustoj \

@@ -1,7 +1,7 @@
-#FROM ubuntu:trusty-20171117
+FROM ubuntu:trusty-20171117
 #COPY ./sources.list /etc/apt/sources.list 
 
-FROM debian:jessie-slim
+#FROM debian:jessie-slim
 #COPY ./sources.debian.list /etc/apt/sources.list
 
 COPY ./docker-entrypoint.sh /usr/local/bin/

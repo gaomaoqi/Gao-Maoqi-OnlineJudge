@@ -46,7 +46,7 @@ foreach($result as $row){
         echo "<tr>";
         echo "<td>".$row['problem_id'];
         echo "<input type=checkbox name='pid[]' value='".$row['problem_id']."'>";
-        echo "<td><a href=".$row['host']."/problem.php?id=".$row['problem_id']."'>".$row['title']."</a>";
+        echo "<td><a href=".$row['host']."/problem.php?id=".$row['problem_id'].">".$row['title']."</a>";
         echo "<td>".$row['accepted'];
 		echo "<td>".$row['submit'];
 		echo "<td>".$row['source'];

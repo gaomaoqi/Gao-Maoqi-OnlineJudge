@@ -233,7 +233,7 @@ function import_fps($tempfile){
 
 	if($spid>0){
 		require_once("../include/set_get_key.php");
-		echo "<br><a class=blue href=contest_add.php?spid=$spid&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">Use these problems to create a contest.</a>";
+	//	echo "<br><a class=blue href=contest_add.php?spid=$spid&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">Use these problems to create a contest.</a>";
 	 }
 }
  require_once("../include/simple_html_dom.php");
@@ -241,10 +241,7 @@ function import_fps($tempfile){
  $host_id=$_POST ['host_id'];
  $url=$host_id . "/admin/problem_export_xml_byId.php?problem_id=" . $problem_id;
  $html = file_get_html($url);
-$msg = import_fps($html);
-if($msg == '')
-	$msg = "ok";
-echo $msg;
-//echo $html;
+import_fps($html);
+echo "ok";
 ?>
 

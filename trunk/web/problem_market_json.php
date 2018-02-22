@@ -13,11 +13,17 @@ $result=mysql_query_cache($sql);
 $row=$result[0];
 $cnt=$row['upid']-$first;
 $cnt=$cnt/$page_cnt;
+if (isset($_GET['getPageCount'])&& $_GET['getPageCount']=='1')
+{
+	echo($cnt);
+	exit(1);
+}
 
   //remember page
   $page="1";
 if (isset($_GET['page'])){
     $page=intval($_GET['page']);
+	if($page=0)$page=1;
     if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
          $sql="update users set volume=? where user_id=?";
          pdo_query($sql,$page,$_SESSION[$OJ_NAME.'_'.'user_id']);

@@ -20,6 +20,7 @@ if(isset($_GET['keyword']))
 else
 	$keyword="";
 $oj_market_host = "http://tk.wxy1.cn";
+$oj_market_host = "http://192.168.0.8";
 //static  $OJ_MARKET=array(array("http://tk.wxy1.cn/","changkeyId1"),array("http://oj.wxy1.cn/","changkeyId2"));
 // $page_cnt=100;
 // $result=pdo_query($sql);

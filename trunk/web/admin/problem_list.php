@@ -140,12 +140,13 @@ $(document).ready(function(){
         
         $.post("problem_del_ajax.php",
                 {ids:data},
-                function(data,status){
-					if(data == 'ok')
-                        location.reload();
-					else
-						alert(data);
-                        //console.log(data);
+                function(result){
+					if(result == 'ok')
+						location.reload();
+                    else 
+						alert(result);
+					console.log(result == 'ok');
+					console.log(result);
                 }
         );
   });

@@ -1,5 +1,5 @@
 <?php
-ini_set("display_errors","On");
+//ini_set("display_errors","On");
 require_once('../include/db_info.inc.php');
 //require_once("../include/check_get_key.php");
 if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']))){
@@ -32,7 +32,8 @@ if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']))){
 			$sql="ALTER TABLE problem AUTO_INCREMENT = $max_id";
 			pdo_query($sql);
 		}
-		echo "ok";
+		ob_clean();
+		echo 'ok';
   }else{
 	echo "Nees enable system() in php.ini";
   }

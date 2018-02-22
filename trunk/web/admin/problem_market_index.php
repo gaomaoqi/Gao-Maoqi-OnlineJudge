@@ -112,12 +112,15 @@ $(document).ready(function(){
 		var host_id=$(this).attr('host-id');
 		console.log(host_id);
 		console.log(problem_id);
+		var _self = $(this);
         $.post("problem_import_xml_byId_ajax.php",
                 {problem_id:problem_id,host_id:host_id},
                 function(data,status){
                         //location.reload();
                  //       console.log(data);
-					alert(data);
+					_self.val('ok');
+					_self.attr('title',data);
+					//alert(data);
                 }
         );
   });

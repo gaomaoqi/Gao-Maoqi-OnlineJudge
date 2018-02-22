@@ -242,6 +242,7 @@ function import_fps($tempfile){
  $url=$host_id . "/admin/problem_export_xml_byId.php?problem_id=" . $problem_id;
  $html = file_get_html($url);
 import_fps($html);
-echo "ok";
+//ob_clean();
+//echo "ok";
 ?>
 

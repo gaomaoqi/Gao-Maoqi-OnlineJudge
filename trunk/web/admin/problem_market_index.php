@@ -100,7 +100,7 @@ $post = "user_id=" .$oj_market_username. "&password=".$oj_market_password;
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $login_url);
 curl_setopt($ch, CURLOPT_HEADER, false);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER,0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $post);         //提交方式为post
 curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
 $msg = curl_exec($ch);
@@ -111,8 +111,7 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $data_url);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);  
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 0); 
-//curl_setopt($ch, CURLOPT_VERBOSE,0L);   
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   
 curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
 $json = curl_exec($ch);
 $result = json_decode($json,true);

@@ -18,9 +18,9 @@
    }
     $sql="SELECT `rightstr` FROM `privilege` WHERE `user_id`=?";
     $login=check_login($user_id,$password);
-	
 	if ($login)
     {
+
 		$_SESSION[$OJ_NAME.'_'.'user_id']=$login;
 		$result=pdo_query($sql,$login);
 
@@ -33,10 +33,10 @@
 			echo "history.go(-2);\n";
 		echo "</script>";
 	}else{
-		
 		echo "<script language='javascript'>\n";
-		echo "alert('UserName or Password Wrong!');\n";
-		echo "history.go(-1);\n";
+	//	echo "alert('UserName or Password Wrong!');\n";
+echo "alert('". $password ."');\n";
+	//	echo "history.go(-1);\n";
 		echo "</script>";
 	}
 ?>

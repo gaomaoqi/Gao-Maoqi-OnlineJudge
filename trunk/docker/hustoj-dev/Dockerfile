@@ -51,6 +51,9 @@ RUN set -ex \
 	&& chown www-data src/web/upload data   \
 	&& sed -i "s/post_max_size = 8M/post_max_size = 80M/g" /etc/php5/fpm/php.ini     \
 	&& sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 80M/g" /etc/php5/fpm/php.ini   \
+	&& sed -i "s/max_execution_time = 30/max_execution_time = 180/g" /etc/php5/fpm/php.ini   \
+	&& sed -i "s/max_input_time = 60/max_input_time = 360/g" /etc/php5/fpm/php.ini   \
+	&& sed -i "s/memory_limit = 128M/memory_limit = 256M/g" /etc/php5/fpm/php.ini   \
 # judged
 	&& cd /home/judge/src/core/judged \
     && make \

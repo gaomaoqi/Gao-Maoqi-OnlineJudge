@@ -1,5 +1,5 @@
 FROM ubuntu:trusty-20171117
-#COPY ./sources.list /etc/apt/sources.list 
+COPY ./sources.list /etc/apt/sources.list 
 
 #FROM debian:jessie-slim
 #COPY ./sources.debian.list /etc/apt/sources.list
@@ -12,7 +12,8 @@ RUN set -ex \
 		git \
 		make flex g++ libmysqlclient-dev libmysql++-dev \
 		php5-fpm php5-mysql php5-gd \
-	#	php5-memcache memcached \
+		php5-memcache memcached \
+		libcurl4-openssl-dev \
 		nginx \
 		python \
 		python3 \

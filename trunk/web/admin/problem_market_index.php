@@ -15,18 +15,39 @@ if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
         echo "<a href='../loginpage.php'>Please Login First!</a>";
         exit(1);
 }
+
+class MarketUser
+{
+	public $host;
+	public $username;
+	public $password;
+	public $secret_key;
+}
+$file_path = "../config/market.php";
+$str = file_get_contents($file_path);
+$str = str_replace("//","\\/\\/",$str);
+$markets= json_decode($json,true);
+if(count($markets,1) == 0){
+	$markets[0] = new MarketUser();
+	$markets[0]->host = "http://tk.wxy1.cn";
+	$markets[0]->username = "wxy";
+	$markets[0]->password = "123456abcdefg";
+	$markets[0]->secret_key = "吴晓阳";
+}
+// if (is_writable($file_path)) {
+	// $str = json_encode($markets,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+	// $str = str_replace("\\","",$str);
+	// file_put_contents($file_path,$str);  
+// }else{
+	// echo "请检查zhidao.txt文件是否有写入权限！";
+// }
 if(isset($_GET['keyword']))
 	$keyword=$_GET['keyword'];
 else
 	$keyword="";
-$oj_market_host = "http://tk.wxy1.cn";
-//$oj_market_host = "http://192.168.0.8";
-//static  $OJ_MARKET=array(array("http://tk.wxy1.cn/","changkeyId1"),array("http://oj.wxy1.cn/","changkeyId2"));
-// $page_cnt=100;
-// $result=pdo_query($sql);
-// $row=$result[0];
-// $cnt=intval($row['upid'])-1000;
-// $cnt=intval($cnt/$page_cnt)+(($cnt%$page_cnt)>0?1:0);
+$oj_market_host = $markets[0]->host;
+$oj_market_username = $markets[0]->username;
+$oj_market_password = $markets[0]->password;
 $page=1;
 if (isset($_GET['page'])){
     $page=intval($_GET['page']);
@@ -62,7 +83,17 @@ if (isset($_GET['page'])){
 </nav>
 
 <?php
-
+ $login_url = $oj_market_host .'/login.php';   //登录页面地址
+ $cookie_file = dirname(__FILE__)."/config/cookie";    //cookie文件存放位置（自定义）
+echo curl_getinfo();
+// $ch = curl_init();
+// curl_setopt($ch, CURLOPT_URL, $login_url);
+// curl_setopt($ch, CURLOPT_HEADER, 0);
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+// curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
+// curl_exec($ch);
+// curl_close($ch);
+  
 $json = @file_get_contents($oj_market_host . '/problem_market_json.php?page='.$page);
 $result = json_decode($json,true);
 

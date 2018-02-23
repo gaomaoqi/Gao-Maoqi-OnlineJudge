@@ -13,9 +13,13 @@ $result=mysql_query_cache($sql);
 $row=$result[0];
 $cnt=$row['upid']-$first;
 $cnt=$cnt/$page_cnt;
-
+if (isset($_GET['getPageCount']))
+{
+	echo($cnt);
+	exit(1);
+}
+$page=1;
   //remember page
-  $page="1";
 if (isset($_GET['page'])){
     $page=intval($_GET['page']);
     if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
@@ -29,7 +33,7 @@ if (isset($_GET['page'])){
             $row=$result[0];
             $page=intval($row[0]);
     }
-    if(!is_numeric($page)||$page<0)
+    if(!is_numeric($page)||$page<1)
         $page='1';
 }
   //end of remember page

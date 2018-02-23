@@ -1,4 +1,9 @@
-<?php require("admin-header.php");
+<?php 
+ini_set('display_errors',1);            //错误信息  
+ini_set('display_startup_errors',1);    //php启动错误信息  
+error_reporting(-1);                    //打印出所有的 错误信息  
+
+require("admin-header.php");
         if(isset($OJ_LANG)){
                 require_once("../lang/$OJ_LANG.php");
         }
@@ -14,21 +19,22 @@ if(isset($_GET['keyword']))
 	$keyword=$_GET['keyword'];
 else
 	$keyword="";
+$oj_market_host = "http://tk.wxy1.cn";
+$oj_market_host = "http://192.168.0.8";
 //static  $OJ_MARKET=array(array("http://tk.wxy1.cn/","changkeyId1"),array("http://oj.wxy1.cn/","changkeyId2"));
-$json = @file_get_contents('http://tk.wxy1.cn/problem_market_json.php');
-$result = json_decode($json,true);
 // $page_cnt=100;
 // $result=pdo_query($sql);
 // $row=$result[0];
 // $cnt=intval($row['upid'])-1000;
 // $cnt=intval($cnt/$page_cnt)+(($cnt%$page_cnt)>0?1:0);
+$page=1;
 if (isset($_GET['page'])){
     $page=intval($_GET['page']);
   }else $page=$cnt;
  $pstart=1000+$page_cnt*intval($page-1);
  $pend=$pstart+$page_cnt;
  echo "<div class='container'>";
- echo "<form action=problem_list.php>";
+ echo "<form action=problem_market_index.php>";
  if($keyword) {
 	 $keyword="%$keyword%";
  }else{
@@ -37,7 +43,29 @@ if (isset($_GET['page'])){
 ?>
 <input name=keyword><input type=button value="<?php echo $MSG_SEARCH?>" ></form>
 
+<nav id="page" class="center">
+	<ul class="pagination">
+		<li class="page-item"><a href="problem_market_index.php?page=1">&lt;&lt;</a></li>
+		<?php  
+		$pagecount = intval(@file_get_contents($oj_market_host.'/problem_market_json.php?getPageCount=1'));
+		if($pagecount == 0)$pagecount=1;
+		for ($i = 1; $i <= $pagecount; $i++) {
+		?>
+					<li class="page-item <?php if($page == $i){echo "active";} ?> "><a href="problem_market_index.php?page=<?php echo $i ?> ">
+					<?php echo $i ?> 
+					</a></li>
+		<?php		
+		}
+		?>
+		<li class="page-item"><a href="problem_market_index.php?page=<?php echo $pagecount ?>">&gt;&gt;</a></li>
+	</ul>
+</nav>
+
 <?php
+
+$json = @file_get_contents($oj_market_host . '/problem_market_json.php?page='.$page);
+$result = json_decode($json,true);
+
 echo "<center><table class='table table-striped' width=90% border=1>";
 echo "<tr><td colspan=8>";
 echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
@@ -46,7 +74,7 @@ foreach($result as $row){
         echo "<tr>";
         echo "<td>".$row['problem_id'];
         echo "<input type=checkbox name='pid[]' value='".$row['problem_id']."'>";
-        echo "<td><a href=".$row['host']."/problem.php?id=".$row['problem_id']."'>".$row['title']."</a>";
+        echo "<td><a target='_blank' href=".$row['host']."/problem.php?id=".$row['problem_id'].">".$row['title']."</a>";
         echo "<td>".$row['accepted'];
 		echo "<td>".$row['submit'];
 		echo "<td>".$row['source'];
@@ -59,6 +87,23 @@ echo "<tr><td colspan=8>";
 echo "</tr>";
 echo "</table></center>";
 ?>
+<nav id="page" class="center">
+	<ul class="pagination">
+		<li class="page-item"><a href="problem_market_index.php?page=1">&lt;&lt;</a></li>
+		<?php  
+		$pagecount = intval(@file_get_contents($oj_market_host.'/problem_market_json.php?getPageCount=1'));
+		if($pagecount == 0)$pagecount=1;
+		for ($i = 1; $i <= $pagecount; $i++) {
+		?>
+					<li class="page-item <?php if($page == $i){echo "active";} ?> "><a href="problem_market_index.php?page=<?php echo $i ?> ">
+					<?php echo $i ?> 
+					</a></li>
+		<?php		
+		}
+		?>
+		<li class="page-item"><a href="problem_market_index.php?page=<?php echo $pagecount ?>">&gt;&gt;</a></li>
+	</ul>
+</nav>
 <script src='../template/bs3/jquery.min.js' ></script>
 <script>
 $(document).ready(function(){

@@ -1,14 +1,14 @@
 [
     {
-        "host": "http://tk.wxy1.cn",
-        "username": "hustoj",
-        "password": "123456",
+        "host": "http:\/\/192.168.0.8",
+        "username": "admin",
+        "password": "e10adc3949ba59abbe56e057f20f883e",
         "secret_key": "吴晓阳"
     },
-	{
-        "host": "http://tk.hustoj.com/",
+    {
+        "host": "http:\/\/tk.wxy1.cn",
         "username": "hustoj",
-        "password": "123456",
+        "password": "e10adc3949ba59abbe56e057f20f883e",
         "secret_key": "吴晓阳"
-    },
+    }
 ]

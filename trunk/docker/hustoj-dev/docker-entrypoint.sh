@@ -32,6 +32,14 @@ else
 fi
 ln -s $DIRECTORY /var/lib/mysql
 
+DIRECTORY="/data/config"
+if [ ! -d $DIRECTORY ]; then
+	mv  /home/judge/src/web/config /data
+else
+	rm -R /home/judge/src/web/config
+fi
+ln -s $DIRECTORY /home/judge/src/web/config
+
 chmod 775 -R /data/data 
 chgrp -R www-data /data/data
 chmod 770 -R /data/upload 
@@ -41,8 +49,8 @@ chgrp -R www-data /data/judge.conf
 chmod 770 -R /data/db_info.inc.php
 chgrp -R www-data /data/db_info.inc.php
 chmod 770 -R /home/judge/src/web/upload
-chgrp -R www-data /home/judge/src/web/config
-chmod 770 -R /home/judge/src/web/config
+chgrp -R www-data /home/judge/src/web/config  /data/config
+chmod 770 -R /home/judge/src/web/config  /data/config
 #chown -R mysql:mysql /var/lib/mysql 
 chown -R mysql:mysql /data/mysql/
 

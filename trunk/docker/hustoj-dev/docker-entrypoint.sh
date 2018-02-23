@@ -40,6 +40,7 @@ chmod 770 -R /data/judge.conf
 chgrp -R www-data /data/judge.conf
 chmod 770 -R /data/db_info.inc.php
 chgrp -R www-data /data/db_info.inc.php
+chmod 770 -R /home/judge/src/web/upload
 
 #chown -R mysql:mysql /var/lib/mysql 
 chown -R mysql:mysql /data/mysql/

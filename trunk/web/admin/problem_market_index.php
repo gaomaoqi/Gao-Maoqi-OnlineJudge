@@ -86,13 +86,13 @@ if (isset($_GET['page'])){
  $login_url = $oj_market_host .'/login.php';   //登录页面地址
  $cookie_file = dirname(__FILE__)."/config/cookie";    //cookie文件存放位置（自定义）
 echo curl_getinfo();
-// $ch = curl_init();
-// curl_setopt($ch, CURLOPT_URL, $login_url);
-// curl_setopt($ch, CURLOPT_HEADER, 0);
-// curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-// curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
-// curl_exec($ch);
-// curl_close($ch);
+ $ch = curl_init();
+ curl_setopt($ch, CURLOPT_URL, $login_url);
+ curl_setopt($ch, CURLOPT_HEADER, 0);
+ curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+ curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
+ curl_exec($ch);
+ curl_close($ch);
   
 $json = @file_get_contents($oj_market_host . '/problem_market_json.php?page='.$page);
 $result = json_decode($json,true);

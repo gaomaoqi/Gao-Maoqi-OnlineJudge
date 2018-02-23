@@ -50,10 +50,7 @@
 	<script>
 		function jsMd5(){
 			if($("input[name=password]").val()=="") return false;
-			var pwd = hex_md5($("input[name=password]").val());
-			$("input[name=password]").val(pwd);
-		//	alert(pwd);
-		//	return false;
+			$("input[name=password]").val(hex_md5($("input[name=password]").val()));
 			return true;
 		}
 	</script>

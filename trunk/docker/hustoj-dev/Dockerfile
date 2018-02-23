@@ -1,5 +1,8 @@
 FROM daocloud.io/shiningrise/hustoj-dev-base
 
+COPY nginx/default.conf /etc/nginx/sites-available/default	
+COPY ./docker-entrypoint.sh /usr/local/bin/
+
 # code
 RUN set -ex \
 	&& cd / && git clone -b docker-dev https://github.com/shiningrise/hustoj.git \	

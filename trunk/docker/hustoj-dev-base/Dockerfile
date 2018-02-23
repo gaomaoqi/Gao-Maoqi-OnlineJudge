@@ -4,8 +4,6 @@ COPY ./sources.list /etc/apt/sources.list
 #FROM debian:jessie-slim
 #COPY ./sources.debian.list /etc/apt/sources.list
 
-COPY ./docker-entrypoint.sh /usr/local/bin/
-
 RUN set -ex \
 	&& apt-get update \
 	&& apt-get install -y \
@@ -35,4 +33,3 @@ RUN set -ex \
 	
 	&& /usr/sbin/useradd -m -u 1536 judge 
 	
-COPY nginx/default.conf /etc/nginx/sites-available/default	

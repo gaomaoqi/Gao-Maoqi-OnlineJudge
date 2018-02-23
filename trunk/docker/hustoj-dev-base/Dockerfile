@@ -13,7 +13,7 @@ RUN set -ex \
 		make flex g++ libmysqlclient-dev libmysql++-dev \
 		php5-fpm php5-mysql php5-gd \
 		php5-memcache memcached \
-		libcurl4-openssl-dev \
+		curl libcurl3 libcurl3-dev php5-curl \
 		nginx \
 		python \
 		python3 \

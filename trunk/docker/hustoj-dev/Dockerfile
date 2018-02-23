@@ -1,4 +1,4 @@
-FROM daocloud.io/shiningrise/hustoj:base
+FROM daocloud.io/shiningrise/hustoj-dev-base
 
 # code
 RUN set -ex \

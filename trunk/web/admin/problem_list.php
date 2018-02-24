@@ -106,6 +106,12 @@ function phpfm(pid){
                 }
         });
 }
+function iGetInnerText(testStr) {
+	var resultStr = testStr.replace(/\ +/g, ""); //去掉空格
+	resultStr = testStr.replace(/[ ]/g, "");    //去掉空格
+	resultStr = testStr.replace(/[\r\n]/g, ""); //去掉回车换行
+	return resultStr;
+}
 $(document).ready(function(){
   $("#Available").click(function(){
         var data='0';
@@ -159,7 +165,7 @@ $(document).ready(function(){
         $.post("problem_push_by_Id_ajax.php",
                 {problem_id:problem_id},
                 function(data,status){
-					if(data =='ok')
+					if(iGetInnerText(data) =='ok')
 						_self.val('ok');
 					else
 						_self.val('no');

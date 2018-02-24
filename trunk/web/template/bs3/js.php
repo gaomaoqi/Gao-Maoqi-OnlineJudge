@@ -28,6 +28,8 @@ $(document).ready(function(){
 });
   console.log("If you want to change the appearance of the web pages, make a copy of bs3 under template directory.\nRename it to whatever you like, and change the $OJ_TEMPLATE value in db_info.inc.php\nAfter that modify files under your own directory .\n");
 
-
+	if (window!=top){   
+        top.location.href =window.location.href; 
+    }  
 </script>
 

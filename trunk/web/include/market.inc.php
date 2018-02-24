@@ -39,14 +39,25 @@ curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
 curl_exec($ch);
 curl_close($ch);
 
-$post = "user_id=" .$oj_market_username. "&password=".$oj_market_password;
+$post = "isLogin=1";
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $login_url);
 curl_setopt($ch, CURLOPT_HEADER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $post);         //提交方式为post
 curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
-$msg = curl_exec($ch);
+$isLogin = curl_exec($ch);
 curl_close($ch);
-
+if($isLogin !='yes')
+{
+	$post = "user_id=" .$oj_market_username. "&password=".$oj_market_password;
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $login_url);
+	curl_setopt($ch, CURLOPT_HEADER, false);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $post);         //提交方式为post
+	curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
+	$msg = curl_exec($ch);
+	curl_close($ch);
+}
 ?>

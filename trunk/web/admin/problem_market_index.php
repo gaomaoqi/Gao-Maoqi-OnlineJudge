@@ -36,8 +36,6 @@ if (isset($_GET['page'])){
 	// $result=pdo_query($sql,$pstart,$pend);
 }
 ?>
-<input name=keyword><input type=button value="<?php echo $MSG_SEARCH?>" ></form>
-
 <nav id="page" class="center">
 	<ul class="pagination">
 		<li class="page-item"><a href="problem_market_index.php?page=1">&lt;&lt;</a></li>
@@ -67,6 +65,7 @@ curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
 $json = curl_exec($ch);
 $result = json_decode($json,true);
 curl_close($ch);
+echo $json;
 echo "<center><table class='table table-striped' width=90% border=1>";
 echo "<tr><td colspan=8>";
 echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
@@ -74,7 +73,7 @@ echo "<tr><td>PID<td>Title<td>AC<td>submit<td>source<td>Date<td>pull";
 foreach($result as $row){
         echo "<tr>";
         echo "<td>".$row['problem_id'];
-        echo "<input type=checkbox name='pid[]' value='".$row['problem_id']."'>";
+       // echo "<input type=checkbox name='pid[]' value='".$row['problem_id']."'>";
         echo "<td><a target='_blank' href=".$row['host']."/problem.php?id=".$row['problem_id'].">".$row['title']."</a>";
         echo "<td>".$row['accepted'];
 		echo "<td>".$row['submit'];

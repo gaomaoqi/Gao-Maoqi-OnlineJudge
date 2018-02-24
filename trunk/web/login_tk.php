@@ -1,16 +1,14 @@
 <?php 
-if(iset($_POST("isLogin")))
-{
-	if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])))
-	{
-		echo "yes";
-	}
-	else
-	{
-		echo "no";
-	}
-	exit(1);
-}
+// if(iset($_POST("isLogin")))
+// {
+	// if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))
+	// {
+		// echo "isLogin";
+	// }
+	// else
+		// echo "noLogin"
+	// exit(1);
+// }
 require_once("./include/db_info.inc.php");
 require_once("./include/login-".$OJ_LOGIN_MOD.".php");
 $user_id=$_POST['user_id'];
@@ -28,8 +26,8 @@ if ($login)
 
 	foreach ($result as $row)
 		$_SESSION[$OJ_NAME.'_'.$row['rightstr']]=true;
-	echo "yes";
+	echo "isLogin";
 }else{
-	echo "no";
+	echo "noLogin";
 }
 ?>

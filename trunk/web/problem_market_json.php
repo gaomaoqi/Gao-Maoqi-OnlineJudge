@@ -22,7 +22,7 @@ if (isset($_GET['getPageCount']))
 if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
                 ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
                 )){
-        echo "no";
+        echo "please login first!";
         exit(1);
 }
 

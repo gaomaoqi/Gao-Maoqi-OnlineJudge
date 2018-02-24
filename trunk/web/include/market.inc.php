@@ -48,7 +48,8 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $post);         //提交方式为post
 curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
 $isLogin = curl_exec($ch);
 curl_close($ch);
-if($isLogin !='yes')
+echo "isLogin=".$isLogin;
+if($isLogin !='isLogin')
 {
 	$post = "user_id=" .$oj_market_username. "&password=".$oj_market_password;
 	$ch = curl_init();

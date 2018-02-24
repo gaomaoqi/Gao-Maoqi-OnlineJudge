@@ -240,7 +240,7 @@ require_once("../include/market.inc.php");
 require_once("../include/simple_html_dom.php");
 $problem_id=$_POST ['problem_id'];
 $host_id=$_POST ['host_id'];
-$data_url=$host_id . "/admin/problem_export_xml_byId.php?problem_id=" . $problem_id; 
+$data_url=$host_id . "/market/problem_export_xml_byId.php?problem_id=" . $problem_id; 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $data_url);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

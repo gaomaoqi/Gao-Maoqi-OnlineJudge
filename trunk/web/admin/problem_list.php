@@ -39,10 +39,10 @@ echo "</select>";
 $sql="";
 if($keyword) {
 	$keyword="%$keyword%";
-	$sql="select `problem_id`,`title`,`accepted`,`in_date`,`defunct` FROM `problem` where title like ? or source like ?";
+	$sql="select md5(title) as title_md5,`problem_id`,`title`,`accepted`,`in_date`,`defunct` FROM `problem` where title like ? or source like ?";
 	$result=pdo_query($sql,$keyword,$keyword);
 }else{
-	$sql="select `problem_id`,`title`,`accepted`,`in_date`,`defunct` FROM `problem` where problem_id>=? and problem_id<=? order by `problem_id` desc";
+	$sql="select md5(title) as title_md5,`problem_id`,`title`,`accepted`,`in_date`,`defunct` FROM `problem` where problem_id>=? and problem_id<=? order by `problem_id` desc";
 	$result=pdo_query($sql,$pstart,$pend);
 }
 ?>
@@ -88,7 +88,7 @@ foreach($result as $row){
 			echo "<td><a href='javascript:phpfm(".$row['problem_id'].");'>TestData</a>";
                 }
 				echo "<td>";
-				echo "<input type=button class='pushproblem' value='push' problem-id=".$row['problem_id'].">";
+				echo "<input type=button class='pushproblem' value='push' disabled title_md5=".$row['title_md5']." problem-id=".$row['problem_id'].">";
         }
         echo "</tr>";
 }
@@ -160,6 +160,25 @@ $(document).ready(function(){
         );
   });
 
+	$(".pushproblem").each(function(index){
+		var title_md5=$(this).attr('title_md5');
+		var _self = $(this);
+        $.post("/market/hasProblem.php",
+                {title_md5:title_md5},
+                function(data,status){
+					if(data == 1)
+						_self.attr('title',"可以推送");
+					else if(data == 2)
+						_self.val("已存在");
+					else
+						_self.val("异常");
+					if(iGetInnerText(data) !='1')_self.attr("disabled",true);
+					else _self.attr("disabled",false);
+					console.log(data);
+					//alert(data);
+                }
+        );
+	});
     $(".pushproblem").click(function(){
         var problem_id=$(this).attr('problem-id');
 		var _self = $(this);

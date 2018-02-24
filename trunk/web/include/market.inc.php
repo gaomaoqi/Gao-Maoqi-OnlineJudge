@@ -28,7 +28,7 @@ $oj_market_password = $markets[0]["password"];
 	// echo "请检查zhidao.txt文件是否有写入权限！";
 // }
 $oj_market_password = $oj_market_password;
-$login_url = $oj_market_host .'/login_tk.php';   //登录页面地址
+$login_url = $oj_market_host .'/market/login_tk.php';   //登录页面地址
 $cookie_file = dirname(dirname(__FILE__)) . "/config/cookie.txt";    //cookie文件存放位置（自定义）
 
 $ch = curl_init();

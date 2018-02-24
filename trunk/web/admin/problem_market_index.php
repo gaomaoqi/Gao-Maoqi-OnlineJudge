@@ -1,5 +1,5 @@
 <?php 
-ini_set('display_errors',0);            //错误信息  
+ini_set('display_errors',1);            //错误信息  
 ini_set('display_startup_errors',1);    //php启动错误信息  
 error_reporting(-1);                    //打印出所有的 错误信息  
 
@@ -66,11 +66,14 @@ curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
 $json = curl_exec($ch);
 $result = json_decode($json,true);
 curl_close($ch);
-//echo $json;
+if( is_null($result))	
+	echo $json;
 echo "<center><table class='table table-striped' width=90% border=1>";
 echo "<tr><td colspan=8>";
-echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
+//echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
+echo "题库市场网址：".$oj_market_host . " &nbsp;&nbsp;题库市场接入账号：".$oj_market_username;
 echo "<tr><td>PID<td>Title<td>AC<td>submit<td>source<td>Date<td>pull";
+if( !is_null($result))
 foreach($result as $row){
         echo "<tr>";
         echo "<td>".$row['problem_id'];
@@ -81,9 +84,10 @@ foreach($result as $row){
 		echo "<td>".$row['source'];
         echo "<td>".$row['in_date'];
 		echo "<td>";
-		echo "<input type=button class='pullproblem' value='pull' host-id=".$row['host']." problem-id=".$row['problem_id'].">";
+		echo "<input type=button class='pullproblem' disabled value='pull' title_md5=".md5($row['title'])." host-id=".$row['host']." problem-id=".$row['problem_id'].">";
         echo "</tr>";
 }
+
 echo "<tr><td colspan=8>";
 echo "</tr>";
 echo "</table></center>";
@@ -121,7 +125,7 @@ $(document).ready(function(){
 		console.log(host_id);
 		console.log(problem_id);
 		var _self = $(this);
-        $.post("problem_import_xml_byId_ajax.php",
+        $.post("../market/problem_import_xml_byId_ajax.php",
                 {problem_id:problem_id,host_id:host_id},
                 function(data,status){
 					if(iGetInnerText(data) =='ok')
@@ -133,6 +137,25 @@ $(document).ready(function(){
                 }
         );
   });
+    $(".pullproblem").each(function(index){
+		var title_md5=$(this).attr('title_md5');
+		var _self = $(this);
+        $.post("/market/hasProblem_api.php",
+                {title_md5:title_md5},
+                function(data,status){
+					if(data == 1)
+						_self.attr('title',"可以拉取");
+					else if(data == 2)
+						_self.val("已存在");
+					else
+						_self.val("异常");
+					if(iGetInnerText(data) !='1')_self.attr("disabled",true);
+					else _self.attr("disabled",false);
+					console.log(data);
+					//alert(data);
+                }
+        );
+	});
 });
 </script>
 </div>

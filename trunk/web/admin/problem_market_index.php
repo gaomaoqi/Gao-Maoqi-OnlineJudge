@@ -22,6 +22,8 @@ else
 	$keyword="";
 require_once("../include/market.inc.php");
 $page=1;
+$cnt=1;
+$page_cnt=0;
 if (isset($_GET['page'])){
     $page=intval($_GET['page']);
   }else $page=$cnt;

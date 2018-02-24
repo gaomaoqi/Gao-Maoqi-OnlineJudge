@@ -88,7 +88,7 @@ foreach($result as $row){
 			echo "<td><a href='javascript:phpfm(".$row['problem_id'].");'>TestData</a>";
                 }
 				echo "<td>";
-				echo "<input type=button class='pushproblem' value='push' host-id=".$row['host']." problem-id=".$row['problem_id'].">";
+				echo "<input type=button class='pushproblem' value='push' problem-id=".$row['problem_id'].">";
         }
         echo "</tr>";
 }
@@ -155,18 +155,13 @@ $(document).ready(function(){
   });
     $(".pushproblem").click(function(){
         var problem_id=$(this).attr('problem-id');
-		var host_id=$(this).attr('host-id');
-		console.log(host_id);
 		console.log(problem_id);
 		var _self = $(this);
-        $.post("problem_import_xml_byId_ajax.php",
-                {problem_id:problem_id,host_id:host_id},
+        $.post("problem_push_by_Id_ajax.php",
+                {problem_id:problem_id},
                 function(data,status){
-                        //location.reload();
-                 //       console.log(data);
 					_self.val('ok');
 					_self.attr('title',data);
-					//alert(data);
                 }
         );
   });

@@ -89,7 +89,7 @@ if(isset($_GET['search'])&&trim($_GET['search'])!=""){
 
 if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 	
-	$sql="SELECT `problem_id`,`title`,`source`,`submit`,`accepted` FROM `problem` WHERE $filter_sql ";
+	$sql="SELECT `problem_id`,`title`,`source`,`submit`,`accepted`,`in_date` FROM `problem` WHERE $filter_sql ";
 	
 }
 else{
@@ -122,7 +122,7 @@ $view_problemset=Array();
 $i=0;
 
 class ProblemMarketItem {
-	public $host = "";
+   public $host = "";
    public $problem_id = "";
    public $title  = "";
    public $source = "";

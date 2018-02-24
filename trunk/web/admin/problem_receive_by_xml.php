@@ -2,11 +2,6 @@
 //require_once("../include/check_post_key.php");
 require_once ("../include/db_info.inc.php");
 
-if($GLOBALS['HTTP_RAW_POST_DATA'])
-{
-	echo "ok";
-    echo $GLOBALS['HTTP_RAW_POST_DATA'];
-|
 if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']))){
 //	echo "Please Login First!";
 //	exit(1);
@@ -22,7 +17,6 @@ if(isset($OJ_LANG)){
 	fclose($fp);
 }
 require_once ("../include/problem.php");
-require_once ("../include/db_info.inc.php");
 function getLang($language){
 	$language_name=$GLOBALS['language_name'];
 	
@@ -242,13 +236,14 @@ function import_fps($tempfile){
 	//	echo "<br><a class=blue href=contest_add.php?spid=$spid&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">Use these problems to create a contest.</a>";
 	 }
 }
- require_once("../include/simple_html_dom.php");
- $problem_id=$_POST ['problem_id'];
- $host_id=$_POST ['host_id'];
- $url=$host_id . "/admin/problem_export_xml_byId.php?problem_id=" . $problem_id;
- $html = file_get_html($url);
-import_fps($html);
+
+require_once("../include/simple_html_dom.php");
+$input = $GLOBALS['HTTP_RAW_POST_DATA'];
+//libxml_disable_entity_loader(true);
+//$xml = simplexml_load_string($input,'SimpleXMLElement',LIBXML_NOCDATA);
+import_fps($input);
 //ob_clean();
 //echo "ok";
 ?>
+*/
 

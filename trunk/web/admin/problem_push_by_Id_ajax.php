@@ -7,6 +7,8 @@ if(!isset($OJ_LANG)){
 }
 require_once("../lang/$OJ_LANG.php");
 require_once("../include/const.inc.php");
+require_once("../include/market.inc.php");
+
 function fixcdata($content){
     return str_replace("]]>","]]]]><![CDATA[>",$content);
 }
@@ -168,7 +170,24 @@ function export_fps($problem_id,$OJ_DATA){
 	$xml .= "</fps>";
 	return $xml;
 }
-
+function send($xml,$oj_market_host)
+{
+	$header[] = 'Content-type: text/xml';
+	$url = $oj_market_host . '/admin/problem_receive_by_xml.php';
+	echo $url;
+	$ch = curl_init(); 
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);//设置HTTP头
+	curl_setopt($ch, CURLOPT_POST, 1);//设置为POST方式
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);//POST数据
+	$response = curl_exec($ch);//接收返回信息
+	if (curl_errno($ch)) {//出错则显示错误信息
+		print curl_error($ch);
+	}
+	curl_close($ch); //关闭curl链接
+	echo $response;//显示返回信息,
+}
 // if (! isset ( $_SESSION[$OJ_NAME.'_'.'administrator'] )) {
 	// echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">";
 	// echo "<a href='../loginpage.php'>Please Login First!</a>";
@@ -180,8 +199,8 @@ if (isset($_GET ['problem_id'])) {
 	$id = intval ( $_GET['problem_id'] );
 	$datapath = $OJ_DATA;
 //	header("Content-type:text/xml;charset=utf-8");
-//	echo export_fps($id,$datapath);
-	echo "ok";
+	$xml= export_fps($id,$datapath);
+	echo send($xml,$oj_market_host);
 }
 ?>
 

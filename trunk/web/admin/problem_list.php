@@ -106,7 +106,7 @@ function phpfm(pid){
                 }
         });
 }
-function iGetInnerText(testStr) {
+ function iGetInnerText(testStr) {
 	var resultStr = testStr.replace(/\ +/g, ""); //去掉空格
 	resultStr = testStr.replace(/[ ]/g, "");    //去掉空格
 	resultStr = testStr.replace(/[\r\n]/g, ""); //去掉回车换行
@@ -159,6 +159,7 @@ $(document).ready(function(){
                 }
         );
   });
+
     $(".pushproblem").click(function(){
         var problem_id=$(this).attr('problem-id');
 		var _self = $(this);

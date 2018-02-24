@@ -7,6 +7,7 @@ require("admin-header.php");
         if(isset($OJ_LANG)){
                 require_once("../lang/$OJ_LANG.php");
         }
+require_once("../include/db_info.inc.php");		
 require_once("../include/set_get_key.php");
 if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
                 ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
@@ -65,7 +66,7 @@ curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
 $json = curl_exec($ch);
 $result = json_decode($json,true);
 curl_close($ch);
-echo $json;
+//echo $json;
 echo "<center><table class='table table-striped' width=90% border=1>";
 echo "<tr><td colspan=8>";
 echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
@@ -106,6 +107,13 @@ echo "</table></center>";
 </nav>
 <script src='../template/bs3/jquery.min.js' ></script>
 <script>
+function iGetInnerText(testStr) {
+	var resultStr = testStr.replace(/\ +/g, ""); //去掉空格
+	resultStr = testStr.replace(/[ ]/g, "");    //去掉空格
+	resultStr = testStr.replace(/[\r\n]/g, ""); //去掉回车换行
+	return resultStr;
+}
+
 $(document).ready(function(){
   $(".pullproblem").click(function(){
         var problem_id=$(this).attr('problem-id');
@@ -116,9 +124,10 @@ $(document).ready(function(){
         $.post("problem_import_xml_byId_ajax.php",
                 {problem_id:problem_id,host_id:host_id},
                 function(data,status){
-                        //location.reload();
-                 //       console.log(data);
-					_self.val('ok');
+					if(iGetInnerText(data) =='ok')
+						_self.val('ok');
+					else
+						_self.val('no');
 					_self.attr('title',data);
 					//alert(data);
                 }

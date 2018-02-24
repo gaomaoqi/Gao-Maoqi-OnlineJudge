@@ -218,31 +218,40 @@ function import_fps($tempfile){
 		}
 		
 	}
-	unlink ( $tempfile );
-	if(isset($OJ_REDIS)&&$OJ_REDIS){
-           $redis = new Redis();
-           $redis->connect($OJ_REDISSERVER, $OJ_REDISPORT);
-                $sql="select solution_id from solution where result=0 and problem_id>0";
-                 $result=pdo_query($sql);
-                 foreach($result as $row){
-                        echo $row['solution_id']."\n";
-                        $redis->lpush($OJ_REDISQNAME,$row['solution_id']);
-                }
+	// unlink ( $tempfile );
+	// if(isset($OJ_REDIS)&&$OJ_REDIS){
+           // $redis = new Redis();
+           // $redis->connect($OJ_REDISSERVER, $OJ_REDISPORT);
+                // $sql="select solution_id from solution where result=0 and problem_id>0";
+                 // $result=pdo_query($sql);
+                 // foreach($result as $row){
+                        // echo $row['solution_id']."\n";
+                        // $redis->lpush($OJ_REDISQNAME,$row['solution_id']);
+                // }
                 
-        }
+        // }
 
 	if($spid>0){
-		require_once("../include/set_get_key.php");
+	//	require_once("../include/set_get_key.php");
 	//	echo "<br><a class=blue href=contest_add.php?spid=$spid&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">Use these problems to create a contest.</a>";
 	 }
 }
- require_once("../include/simple_html_dom.php");
- $problem_id=$_POST ['problem_id'];
- $host_id=$_POST ['host_id'];
- $url=$host_id . "/admin/problem_export_xml_byId.php?problem_id=" . $problem_id;
- $html = file_get_html($url);
+require_once("../include/market.inc.php");
+require_once("../include/simple_html_dom.php");
+$problem_id=$_POST ['problem_id'];
+$host_id=$_POST ['host_id'];
+$data_url=$host_id . "/admin/problem_export_xml_byId.php?problem_id=" . $problem_id; 
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $data_url);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);  
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   
+curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
+$html = curl_exec($ch);
+curl_close($ch);
+
 import_fps($html);
 //ob_clean();
-//echo "ok";
+echo "ok";
 ?>
 

@@ -7,12 +7,6 @@ if(!isset($OJ_LANG)){
 }
 require_once("../lang/$OJ_LANG.php");
 require_once("../include/const.inc.php");
-if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
-                ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
-                )){
-        echo "Please Login First!";
-        exit(1);
-}
 require_once("../include/market.inc.php");
 
 function fixcdata($content){
@@ -176,7 +170,7 @@ function export_fps($problem_id,$OJ_DATA){
 	$xml .= "</fps>";
 	return $xml;
 }
-function send($xml,$oj_market_host)
+function send($xml,$oj_market_host,$cookie_file)
 {
 	$header[] = 'Content-type: text/xml';
 	$url = $oj_market_host . '/admin/problem_receive_by_xml.php';
@@ -186,6 +180,10 @@ function send($xml,$oj_market_host)
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);//设置HTTP头
 	curl_setopt($ch, CURLOPT_POST, 1);//设置为POST方式
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);//POST数据
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);  
+	curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
+
 	$response = curl_exec($ch);//接收返回信息
 	if (curl_errno($ch)) {//出错则显示错误信息
 		print curl_error($ch);
@@ -193,13 +191,18 @@ function send($xml,$oj_market_host)
 	curl_close($ch); //关闭curl链接
 	return $response;//显示返回信息,
 }
-
+if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
+                ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
+                )){
+        echo "Please Login First! msg from problem_push_by_Id_ajax.php";
+        exit(1);
+}
 if (isset($_POST ['problem_id'])) {
 	//require_once("../include/check_post_key.php");
 	$id = intval ( $_POST['problem_id'] );
 //	header("Content-type:text/xml;charset=utf-8");
 	$xml= export_fps($id,$OJ_DATA);
-	$rtn = send($xml,$oj_market_host);
+	$rtn = send($xml,$oj_market_host,$cookie_file);
 	if($rtn == '')$rtn = 'ok';
 	echo $rtn;
 }

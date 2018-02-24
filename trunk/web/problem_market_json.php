@@ -87,12 +87,12 @@ if(isset($_GET['search'])&&trim($_GET['search'])!=""){
 
 if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 	
-	$sql="SELECT `problem_id`,`title`,`source`,`submit`,`accepted`,`in_date` FROM `problem` WHERE $filter_sql ";
+	$sql="SELECT md5(title) as title_md5,`problem_id`,`title`,`source`,`submit`,`accepted`,`in_date` FROM `problem` WHERE $filter_sql ";
 	
 }
 else{
 	$now=strftime("%Y-%m-%d %H:%M",time());
-	$sql="SELECT `problem_id`,`title`,`source`,`submit`,`accepted`,`in_date` FROM `problem` ".
+	$sql="SELECT md5(title) as title_md5,`problem_id`,`title`,`source`,`submit`,`accepted`,`in_date` FROM `problem` ".
 	"WHERE `defunct`='N' and $filter_sql AND `problem_id` NOT IN(
 		SELECT  `problem_id` 
 		FROM contest c

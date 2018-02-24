@@ -18,9 +18,8 @@ if (isset($_GET['getPageCount']))
 	echo(intval($cnt+0.999));
 	exit(1);
 }
-
+require_once("../include/market.inc.php");
 if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
-                ||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])
                 ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
                 )){
         echo "no";

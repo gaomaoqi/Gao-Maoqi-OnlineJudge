@@ -7,6 +7,12 @@ if(!isset($OJ_LANG)){
 }
 require_once("../lang/$OJ_LANG.php");
 require_once("../include/const.inc.php");
+if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
+                ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
+                )){
+        echo "Please Login First!";
+        exit(1);
+}
 require_once("../include/market.inc.php");
 
 function fixcdata($content){
@@ -187,11 +193,6 @@ function send($xml,$oj_market_host)
 	curl_close($ch); //关闭curl链接
 	return $response;//显示返回信息,
 }
-// if (! isset ( $_SESSION[$OJ_NAME.'_'.'administrator'] )) {
-	// echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">";
-	// echo "<a href='../loginpage.php'>Please Login First!</a>";
-	// exit ( 1 );
-// }
 
 if (isset($_POST ['problem_id'])) {
 	//require_once("../include/check_post_key.php");

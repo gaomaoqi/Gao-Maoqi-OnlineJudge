@@ -1,4 +1,24 @@
 <?php 
+if(iset($_POST("isLogin")))
+{
+	if(isset($_SESSION[$OJ_NAME.'_'.'user_id']))
+	{
+		echo "yes";
+	}
+	else
+	{
+		echo "no";
+	}
+	exit(1);
+}
+if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
+                ||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])
+                ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
+                )){
+        echo "Please Login First!";
+        exit(1);
+}
+
     require_once("./include/db_info.inc.php");
 	require_once("./include/login-".$OJ_LOGIN_MOD.".php");
     $user_id=$_POST['user_id'];

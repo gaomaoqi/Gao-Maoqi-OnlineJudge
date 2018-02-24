@@ -157,11 +157,12 @@ function fixImageURL(&$html,&$did){
    }   	
 }
 
-// if (! isset ( $_SESSION[$OJ_NAME.'_'.'administrator'] )) {
-	// echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">";
-	// echo "<a href='../loginpage.php'>Please Login First!</a>";
-	// exit ( 1 );
-// }
+if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
+                ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
+                )){
+        echo "Please Login First!";
+        exit(1);
+}
 if (isset($_GET ['problem_id'])) {
 	//require_once("../include/check_post_key.php");
 	$id = intval ( $_GET['problem_id'] );

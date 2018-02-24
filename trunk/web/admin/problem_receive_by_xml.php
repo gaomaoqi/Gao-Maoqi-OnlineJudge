@@ -2,9 +2,12 @@
 //require_once("../include/check_post_key.php");
 require_once ("../include/db_info.inc.php");
 
-if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']))){
-//	echo "Please Login First!";
-//	exit(1);
+if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
+                ||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])
+                ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
+                )){
+        echo "Please Login First!";
+        exit(1);
 }
 if(isset($OJ_LANG)){
 		require_once("../lang/$OJ_LANG.php");

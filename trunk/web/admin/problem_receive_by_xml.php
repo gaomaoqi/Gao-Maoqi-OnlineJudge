@@ -218,18 +218,18 @@ function import_fps($tempfile){
 		}
 		
 	}
-	unlink ( $tempfile );
-	if(isset($OJ_REDIS)&&$OJ_REDIS){
-           $redis = new Redis();
-           $redis->connect($OJ_REDISSERVER, $OJ_REDISPORT);
-                $sql="select solution_id from solution where result=0 and problem_id>0";
-                 $result=pdo_query($sql);
-                 foreach($result as $row){
-                        echo $row['solution_id']."\n";
-                        $redis->lpush($OJ_REDISQNAME,$row['solution_id']);
-                }
+	// unlink ( $tempfile );
+	// if(isset($OJ_REDIS)&&$OJ_REDIS){
+           // $redis = new Redis();
+           // $redis->connect($OJ_REDISSERVER, $OJ_REDISPORT);
+                // $sql="select solution_id from solution where result=0 and problem_id>0";
+                 // $result=pdo_query($sql);
+                 // foreach($result as $row){
+                        // echo $row['solution_id']."\n";
+                        // $redis->lpush($OJ_REDISQNAME,$row['solution_id']);
+                // }
                 
-        }
+        // }
 
 	if($spid>0){
 		require_once("../include/set_get_key.php");
@@ -243,7 +243,6 @@ $input = $GLOBALS['HTTP_RAW_POST_DATA'];
 //$xml = simplexml_load_string($input,'SimpleXMLElement',LIBXML_NOCDATA);
 import_fps($input);
 //ob_clean();
-//echo "ok";
+echo "ok";
 ?>
-*/
 

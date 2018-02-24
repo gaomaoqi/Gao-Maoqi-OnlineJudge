@@ -155,13 +155,17 @@ $(document).ready(function(){
   });
     $(".pushproblem").click(function(){
         var problem_id=$(this).attr('problem-id');
-		console.log(problem_id);
 		var _self = $(this);
         $.post("problem_push_by_Id_ajax.php",
                 {problem_id:problem_id},
                 function(data,status){
-					_self.val('ok');
+					if(data =='ok')
+						_self.val('ok');
+					else
+						_self.val('no');
 					_self.attr('title',data);
+					console.log(data);
+				//	alert(data);
                 }
         );
   });

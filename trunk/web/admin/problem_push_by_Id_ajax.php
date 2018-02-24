@@ -174,7 +174,6 @@ function send($xml,$oj_market_host)
 {
 	$header[] = 'Content-type: text/xml';
 	$url = $oj_market_host . '/admin/problem_receive_by_xml.php';
-	echo $url;
 	$ch = curl_init(); 
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -186,7 +185,7 @@ function send($xml,$oj_market_host)
 		print curl_error($ch);
 	}
 	curl_close($ch); //关闭curl链接
-	echo $response;//显示返回信息,
+	return $response;//显示返回信息,
 }
 // if (! isset ( $_SESSION[$OJ_NAME.'_'.'administrator'] )) {
 	// echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">";
@@ -194,13 +193,14 @@ function send($xml,$oj_market_host)
 	// exit ( 1 );
 // }
 
-if (isset($_GET ['problem_id'])) {
+if (isset($_POST ['problem_id'])) {
 	//require_once("../include/check_post_key.php");
-	$id = intval ( $_GET['problem_id'] );
-	$datapath = $OJ_DATA;
+	$id = intval ( $_POST['problem_id'] );
 //	header("Content-type:text/xml;charset=utf-8");
-	$xml= export_fps($id,$datapath);
-	echo send($xml,$oj_market_host);
+	$xml= export_fps($id,$OJ_DATA);
+	$rtn = send($xml,$oj_market_host);
+	if($rtn == '')$rtn = 'ok';
+	echo $rtn;
 }
 ?>
 

@@ -53,7 +53,7 @@ if($keyword) {
 <?php
 echo "<center><table class='table table-striped' width=90% border=1>";
 echo "<form method=post action=contest_add.php>";
-echo "<tr><td colspan=8>";
+echo "<tr><td colspan=9>";
 echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
 echo "<input type=submit name='problem2contest' value='CheckToNewContest'>";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button ID='Available' value='Available'>";
@@ -62,13 +62,14 @@ echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Delete' value='Delete'>";
 echo "<tr><td>PID<td>Title<td>AC<td>Date";
 if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
         if(isset($_SESSION[$OJ_NAME.'_'.'administrator']))   echo "<td>Status<td>Delete";
-        echo "<td>Edit<td>TestData</tr>";
+        echo "<td>Edit<td>TestData";
+		echo "<td>push</tr>";
 }
 foreach($result as $row){
         echo "<tr>";
         echo "<td>".$row['problem_id'];
         echo "<input type=checkbox name='pid[]' value='".$row['problem_id']."'>";
-        echo "<td><a href='../problem.php?id=".$row['problem_id']."'>".$row['title']."</a>";
+        echo "<td><a target='_blank' href='../problem.php?id=".$row['problem_id']."'>".$row['title']."</a>";
         echo "<td>".$row['accepted'];
         echo "<td>".$row['in_date'];
   if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
@@ -86,10 +87,12 @@ foreach($result as $row){
                         echo "<td><a href=problem_edit.php?id=".$row['problem_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">Edit</a>";
 			echo "<td><a href='javascript:phpfm(".$row['problem_id'].");'>TestData</a>";
                 }
+				echo "<td>";
+				echo "<input type=button class='pushproblem' value='push' host-id=".$row['host']." problem-id=".$row['problem_id'].">";
         }
         echo "</tr>";
 }
-echo "<tr><td colspan=8><input type=submit name='problem2contest' value='CheckToNewContest'>";
+echo "<tr><td colspan=9><input type=submit name='problem2contest' value='CheckToNewContest'>";
 echo "</tr></form>";
 echo "</table></center>";
 ?>
@@ -150,7 +153,23 @@ $(document).ready(function(){
                 }
         );
   });
-  
+    $(".pushproblem").click(function(){
+        var problem_id=$(this).attr('problem-id');
+		var host_id=$(this).attr('host-id');
+		console.log(host_id);
+		console.log(problem_id);
+		var _self = $(this);
+        $.post("problem_import_xml_byId_ajax.php",
+                {problem_id:problem_id,host_id:host_id},
+                function(data,status){
+                        //location.reload();
+                 //       console.log(data);
+					_self.val('ok');
+					_self.attr('title',data);
+					//alert(data);
+                }
+        );
+  });
 });
 </script>
 </div>

@@ -54,12 +54,15 @@ if($keyword) {
 echo "<center><table class='table table-striped' width=90% border=1>";
 echo "<form method=post action=contest_add.php>";
 echo "<tr><td colspan=9>";
-echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
-echo "<input type=submit name='problem2contest' value='CheckToNewContest'>";
+
+echo "&nbsp;&nbsp;<input type=submit name='problem2contest' value='CheckToNewContest'>";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button ID='Available' value='Available'>";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Reserved' value='Reserved'>";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Delete' value='Delete'>";
-echo "<tr><td>PID<td>Title<td>AC<td>Date";
+echo "&nbsp;&nbsp;题库网址：".$oj_market_host . " &nbsp;&nbsp;账号：".$oj_market_username;
+echo "<tr><td>PID";
+echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
+echo "<td>Title<td>AC<td>Date";
 if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
         if(isset($_SESSION[$OJ_NAME.'_'.'administrator']))   echo "<td>Status<td>Delete";
         echo "<td>Edit<td>TestData";
@@ -166,9 +169,9 @@ $(document).ready(function(){
         $.post("/market/hasProblem.php",
                 {title_md5:title_md5},
                 function(data,status){
-					if(data == 1)
+					if(data == 2)
 						_self.attr('title',"可以推送");
-					else if(data == 2)
+					else if(data == 1)
 						_self.val("已存在");
 					else
 						_self.val("异常");

@@ -1,6 +1,6 @@
 <?php 
 require_once ("../include/db_info.inc.php");
-require_once("../include/set_get_key.php");
+//require_once("../include/set_get_key.php");
 if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
                 ||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])
                 ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])

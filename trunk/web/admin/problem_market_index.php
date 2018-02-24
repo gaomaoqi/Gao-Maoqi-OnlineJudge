@@ -71,7 +71,7 @@ if( is_null($result))
 echo "<center><table class='table table-striped' width=90% border=1>";
 echo "<tr><td colspan=8>";
 //echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
-echo "题库市场网址：".$oj_market_host . " &nbsp;&nbsp;题库市场接入账号：".$oj_market_username;
+echo "题库网址：".$oj_market_host . " &nbsp;&nbsp;题库账号：".$oj_market_username;
 echo "<tr><td>PID<td>Title<td>AC<td>submit<td>source<td>Date<td>pull";
 if( !is_null($result))
 foreach($result as $row){

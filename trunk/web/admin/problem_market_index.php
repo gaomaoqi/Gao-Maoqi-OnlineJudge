@@ -84,7 +84,7 @@ foreach($result as $row){
 		echo "<td>".$row['source'];
         echo "<td>".$row['in_date'];
 		echo "<td>";
-		echo "<input type=button class='pullproblem' disabled value='pull' title_md5=".md5($row['title'])." host-id=".$row['host']." problem-id=".$row['problem_id'].">";
+		echo "<input type=button class='pullproblem' disabled value='pull' title_md5='".md5($row['title'])."' host-id=".$row['host']." problem-id=".$row['problem_id'].">";
         echo "</tr>";
 }
 
@@ -140,16 +140,16 @@ $(document).ready(function(){
     $(".pullproblem").each(function(index){
 		var title_md5=$(this).attr('title_md5');
 		var _self = $(this);
-        $.post("/market/hasProblem_api.php",
+        $.post("../market/hasProblem_api.php",
                 {title_md5:title_md5},
                 function(data,status){
-					if(data == 1)
+					if(data == 2)
 						_self.attr('title',"可以拉取");
-					else if(data == 2)
+					else if(data == 1)
 						_self.val("已存在");
 					else
 						_self.val("异常");
-					if(iGetInnerText(data) !='1')_self.attr("disabled",true);
+					if(data !=2)_self.attr("disabled",true);
 					else _self.attr("disabled",false);
 					console.log(data);
 					//alert(data);

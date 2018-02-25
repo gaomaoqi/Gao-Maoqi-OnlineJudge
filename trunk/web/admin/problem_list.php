@@ -175,7 +175,7 @@ $(document).ready(function(){
 						_self.val("已存在");
 					else
 						_self.val("异常");
-					if(iGetInnerText(data) !='1')_self.attr("disabled",true);
+					if(iGetInnerText(data) !='2')_self.attr("disabled",true);
 					else _self.attr("disabled",false);
 					console.log(data);
 					//alert(data);

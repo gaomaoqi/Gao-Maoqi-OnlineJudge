@@ -1,13 +1,13 @@
 <?php
 @session_start ();
-require_once ("../include/db_info.inc.php");
+require_once (dirname(__FILE__)."/../include/db_info.inc.php");
 
 if(!isset($OJ_LANG)){
 	$OJ_LANG="en";
 }
-require_once("../lang/$OJ_LANG.php");
-require_once("../include/const.inc.php");
-require_once("../include/market.inc.php");
+require_once(dirname(__FILE__)."/../lang/$OJ_LANG.php");
+require_once(dirname(__FILE__)."/../include/const.inc.php");
+require_once(dirname(__FILE__)."/../market/market.inc.php");
 
 function fixcdata($content){
     return str_replace("]]>","]]]]><![CDATA[>",$content);
@@ -170,25 +170,12 @@ function export_fps($problem_id,$OJ_DATA){
 	$xml .= "</fps>";
 	return $xml;
 }
-function send($xml,$oj_market_host,$cookie_file)
+function send($xml,$oj_market_host)
 {
 	$header[] = 'Content-type: text/xml';
-	$url = $oj_market_host . '/admin/problem_receive_by_xml.php';
-	$ch = curl_init(); 
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);//设置HTTP头
-	curl_setopt($ch, CURLOPT_POST, 1);//设置为POST方式
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);//POST数据
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);  
-	curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
-
-	$response = curl_exec($ch);//接收返回信息
-	if (curl_errno($ch)) {//出错则显示错误信息
-		print curl_error($ch);
-	}
-	curl_close($ch); //关闭curl链接
+	$url = $oj_market_host . '/market/problem_receive_by_xml.php';
+    $response = http_request($url,$header,$xml);
+    //$response = http_request($url,false,$xml);
 	return $response;//显示返回信息,
 }
 if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
@@ -198,12 +185,13 @@ if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
         exit(1);
 }
 if (isset($_POST ['problem_id'])) {
-	//require_once("../include/check_post_key.php");
 	$id = intval ( $_POST['problem_id'] );
+    $rtn = 'error';
 //	header("Content-type:text/xml;charset=utf-8");
 	$xml= export_fps($id,$OJ_DATA);
-	$rtn = send($xml,$oj_market_host,$cookie_file);
-	if($rtn == '')$rtn = 'ok';
+    market_login();
+	$rtn = send($xml,$oj_market_host);
+	echo $oj_market_host;
 	echo $rtn;
 }
 ?>

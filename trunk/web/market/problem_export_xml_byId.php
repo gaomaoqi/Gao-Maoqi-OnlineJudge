@@ -1,12 +1,12 @@
 <?php
 @session_start ();
-require_once ("../include/db_info.inc.php");
+require_once (dirname(__FILE__)."/../include/db_info.inc.php");
 
 if(!isset($OJ_LANG)){
 	$OJ_LANG="en";
 }
-require_once("../lang/$OJ_LANG.php");
-require_once("../include/const.inc.php");
+require_once(dirname(__FILE__)."/../lang/$OJ_LANG.php");
+require_once(dirname(__FILE__)."/../include/const.inc.php");
 function fixcdata($content){
     return str_replace("]]>","]]]]><![CDATA[>",$content);
 }

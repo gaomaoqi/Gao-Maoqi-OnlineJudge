@@ -1,6 +1,5 @@
-<?php 
-//require_once("../include/check_post_key.php");
-require_once ("../include/db_info.inc.php");
+<?php
+require_once (dirname(__FILE__)."/../include/db_info.inc.php");
 
 if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
                 ||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])
@@ -10,19 +9,19 @@ if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
         exit(1);
 }
 if(isset($OJ_LANG)){
-		require_once("../lang/$OJ_LANG.php");
-	}	
-	require_once ("../include/const.inc.php");
+		require_once(dirname(__FILE__)."/../lang/$OJ_LANG.php");
+	}
+	require_once (dirname(__FILE__)."/../include/const.inc.php");
 ?>
 <?php function image_save_file($filepath ,$base64_encoded_img){
 	$fp=fopen($filepath ,"wb");
 	fwrite($fp,base64_decode($base64_encoded_img));
 	fclose($fp);
 }
-require_once ("../include/problem.php");
+require_once (dirname(__FILE__)."/../include/problem.php");
 function getLang($language){
 	$language_name=$GLOBALS['language_name'];
-	
+
 	for($i=0;$i<count($language_name);$i++){
 		//echo "$language=$language_name[$i]=".($language==$language_name[$i]);
 		if($language==$language_name[$i]){
@@ -53,26 +52,26 @@ function submitSolution($pid,$solution,$language)
 
 <?php
 function getValue($Node, $TagName) {
-	
+
 	return $Node->$TagName;
 }
 function getAttribute($Node, $TagName,$attribute) {
 	return $Node->children()->$TagName->attributes()->$attribute;
 }
 function hasProblem($title){
-	
+
 	$md5=md5($title);
-	$sql="select 1 from problem where md5(title)=?";  
+	$sql="select 1 from problem where md5(title)=?";
 	$result=pdo_query( $sql,$md5 );
-	$rows_cnt=count($result);		
-	
-	//echo "row->$rows_cnt";			
+	$rows_cnt=count($result);
+
+	//echo "row->$rows_cnt";
 	return  ($rows_cnt>0);
 
 }
 function mkpta($pid,$prepends,$node){
 	$language_ext=$GLOBALS['language_ext'];
-        $OJ_DATA=$GLOBALS['OJ_DATA'];	
+        $OJ_DATA=$GLOBALS['OJ_DATA'];
 	foreach($prepends as $prepend) {
 		$language =$prepend->attributes()->language;
 		$lang=getLang($language);
@@ -95,16 +94,16 @@ function import_fps($tempfile){
 		//echo $searchNode->title,"\n";
 
 		$title =$searchNode->title;
-		
+
 		$time_limit = $searchNode->time_limit;
     	$unit=getAttribute($searchNode,'time_limit','unit');
     	//echo $unit;
 		if($unit=='ms') $time_limit/=1000;
-		
+
 		$memory_limit = getValue ( $searchNode, 'memory_limit' );
 		$unit=getAttribute($searchNode,'memory_limit','unit');
 		if($unit=='kb') $memory_limit/=1024;
-		
+
 		$description = getValue ( $searchNode, 'description' );
 		$input = getValue ( $searchNode, 'input' );
 		$output = getValue ( $searchNode, 'output' );
@@ -114,8 +113,8 @@ function import_fps($tempfile){
 //		$test_output = getValue ( $searchNode, 'test_output' );
 		$hint = getValue ( $searchNode, 'hint' );
 		$source = getValue ( $searchNode, 'source' );
-		
-		
+
+
 		$spjcode = getValue ( $searchNode, 'spj' );
 		$spj = trim($spjcode)?1:0;
 		if(!hasProblem($title )){
@@ -128,7 +127,7 @@ function import_fps($tempfile){
         //  	if(!isset($OJ_SAE)||!$OJ_SAE){
 				$testinputs=$searchNode->children()->test_input;
 				$testno=0;
-			
+
 				foreach($testinputs as $testNode){
 					//if($testNode->nodeValue)
 					mkdata($pid,"test".$testno++.".in",$testNode,$OJ_DATA);
@@ -146,7 +145,7 @@ function import_fps($tempfile){
 			$did=array();
 			$testno=0;
 			foreach($images as $img){
-			//	
+			//
 				$src=getValue($img,"src");
 				if(!in_array($src,$did)){
 						$base64=getValue($img,"base64");
@@ -159,24 +158,24 @@ function import_fps($tempfile){
 						$testno++;
 						$newpath="../upload/pimg".$pid."_".$testno.".".$ext;
 						if($OJ_SAE) $newpath="saestor://web/upload/pimg".$pid."_".$testno.".".$ext;
-						 
+
 						image_save_file($newpath,$base64);
 						$newpath=dirname($_SERVER['REQUEST_URI'] )."/../upload/pimg".$pid."_".$testno.".".$ext;
 						if($OJ_SAE) $newpath=$SAE_STORAGE_ROOT."upload/pimg".$pid."_".$testno.".".$ext;
-						
-						$sql="update problem set description=replace(description,?,?) where problem_id=?";  
+
+						$sql="update problem set description=replace(description,?,?) where problem_id=?";
 						pdo_query( $sql,$src,$newpath,$pid);
-						$sql="update problem set input=replace(input,?,?) where problem_id=?";  
+						$sql="update problem set input=replace(input,?,?) where problem_id=?";
 						pdo_query( $sql,$src,$newpath,$pid);
-						$sql="update problem set output=replace(output,?,?) where problem_id=?";  
+						$sql="update problem set output=replace(output,?,?) where problem_id=?";
 						pdo_query( $sql,$src,$newpath,$pid);
-						$sql="update problem set hint=replace(hint,?,?) where problem_id=?";  
+						$sql="update problem set hint=replace(hint,?,?) where problem_id=?";
 						pdo_query( $sql,$src,$newpath,$pid);
 						array_push($did,$src);
 				}
-				
+
 			}
-			
+
 			if(!isset($OJ_SAE)||!$OJ_SAE){
 				if($spj) {
 					$basedir = "$OJ_DATA/$pid";
@@ -191,17 +190,17 @@ function import_fps($tempfile){
 						////system( " gcc -o $basedir/spj $basedir/spj.c  ");
 						if(!file_exists("$basedir/spj")){
 							echo "you need to compile $basedir/spj.cc for spj[  g++ -o $basedir/spj $basedir/spj.cc   ]<br> and rejudge $pid";
-						
+
 						}else{
-							
+
 							unlink("$basedir/spj.cc");
 						}
-					
-					
+
+
 					}
 				}
 			}
-			
+
 			$solutions = $searchNode->children()->solution;
 			foreach($solutions as $solution) {
 				$language =$solution->attributes()->language;
@@ -214,38 +213,18 @@ function import_fps($tempfile){
 			mkpta($pid,$prepends,"template");
 			$prepends = $searchNode->children()->append;
 			mkpta($pid,$prepends,"append");
-			
-			
 		}else{
-			echo "$title is already in this OJ";		
+			echo "$title is already in this OJ";
 		}
-		
 	}
-	// unlink ( $tempfile );
-	// if(isset($OJ_REDIS)&&$OJ_REDIS){
-           // $redis = new Redis();
-           // $redis->connect($OJ_REDISSERVER, $OJ_REDISPORT);
-                // $sql="select solution_id from solution where result=0 and problem_id>0";
-                 // $result=pdo_query($sql);
-                 // foreach($result as $row){
-                        // echo $row['solution_id']."\n";
-                        // $redis->lpush($OJ_REDISQNAME,$row['solution_id']);
-                // }
-                
-        // }
-
-	if($spid>0){
-		require_once("../include/set_get_key.php");
-	//	echo "<br><a class=blue href=contest_add.php?spid=$spid&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">Use these problems to create a contest.</a>";
-	 }
 }
 
-require_once("../include/simple_html_dom.php");
+require_once(dirname(__FILE__)."/../include/simple_html_dom.php");
 $input = $GLOBALS['HTTP_RAW_POST_DATA'];
 //libxml_disable_entity_loader(true);
 //$xml = simplexml_load_string($input,'SimpleXMLElement',LIBXML_NOCDATA);
 import_fps($input);
 //ob_clean();
-echo "ok";
+//echo "ok";
 ?>
 

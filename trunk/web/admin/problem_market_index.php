@@ -1,12 +1,11 @@
 <?php 
-ini_set('display_errors',1);            //错误信息  
-ini_set('display_startup_errors',1);    //php启动错误信息  
-error_reporting(-1);                    //打印出所有的 错误信息  
-
+//ini_set('display_errors',1);            //错误信息
+//ini_set('display_startup_errors',1);    //php启动错误信息
+//error_reporting(-1);                    //打印出所有的 错误信息
 require("admin-header.php");
-        if(isset($OJ_LANG)){
-                require_once("../lang/$OJ_LANG.php");
-        }
+if(isset($OJ_LANG)){
+        require_once("../lang/$OJ_LANG.php");
+}
 require_once("../include/db_info.inc.php");		
 require_once("../include/set_get_key.php");
 if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
@@ -20,7 +19,7 @@ if(isset($_GET['keyword']))
 	$keyword=$_GET['keyword'];
 else
 	$keyword="";
-require_once("../include/market.inc.php");
+require_once(dirname(__FILE__) ."/../market/market.inc.php");
 $page=1;
 $cnt=1;
 $page_cnt=0;
@@ -56,19 +55,13 @@ if (isset($_GET['page'])){
 </nav>
 
 <?php
+//market_login();
 $data_url = $oj_market_host . '/problem_market_json.php?page='.$page;
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $data_url);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);  
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   
-curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
-$json = curl_exec($ch);
+$json = http_request($data_url);
 $result = json_decode($json,true);
-curl_close($ch);
-if( is_null($result))	
+if(is_null($result))
 	echo $json;
-echo "<center><table class='table table-striped' width=90% border=1>";
+echo "<center><table class='table table-striped' width=98% border=1>";
 echo "<tr><td colspan=8>";
 //echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
 echo "题库网址：".$oj_market_host . " &nbsp;&nbsp;题库账号：".$oj_market_username;
@@ -84,7 +77,7 @@ foreach($result as $row){
 		echo "<td>".$row['source'];
         echo "<td>".$row['in_date'];
 		echo "<td>";
-		echo "<input type=button class='pullproblem' disabled value='pull' title_md5='".md5($row['title'])."' host-id=".$row['host']." problem-id=".$row['problem_id'].">";
+		echo "<input type=button class='pullproblem' disabled value='pull' title_md5='".md5($row['title'])."' problem-id=".$row['problem_id'].">";
         echo "</tr>";
 }
 
@@ -121,12 +114,10 @@ function iGetInnerText(testStr) {
 $(document).ready(function(){
   $(".pullproblem").click(function(){
         var problem_id=$(this).attr('problem-id');
-		var host_id=$(this).attr('host-id');
-		console.log(host_id);
 		console.log(problem_id);
 		var _self = $(this);
         $.post("../market/problem_import_xml_byId_ajax.php",
-                {problem_id:problem_id,host_id:host_id},
+                {problem_id:problem_id},
                 function(data,status){
 					if(iGetInnerText(data) =='ok')
 						_self.val('ok');
@@ -149,9 +140,9 @@ $(document).ready(function(){
 						_self.val("已存在");
 					else
 						_self.val("异常");
-					if(data !=2)_self.attr("disabled",true);
-					else _self.attr("disabled",false);
+					if(data !=2)_self.attr("disabled",true);else _self.attr("disabled",false);
 					console.log(data);
+
 					//alert(data);
                 }
         );

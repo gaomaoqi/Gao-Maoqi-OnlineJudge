@@ -3,6 +3,7 @@
                 require_once("../lang/$OJ_LANG.php");
         }
 require_once("../include/set_get_key.php");
+require_once(dirname(__FILE__) ."/../market/market.inc.php");
 if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
                 ||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])
                 ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
@@ -45,6 +46,7 @@ if($keyword) {
 	$sql="select `problem_id`,`title`,`accepted`,`in_date`,`defunct` FROM `problem` where problem_id>=? and problem_id<=? order by `problem_id` desc";
 	$result=pdo_query($sql,$pstart,$pend);
 }
+market_account_init();
 ?>
 <form action=problem_list.php>
 
@@ -59,7 +61,7 @@ echo "&nbsp;&nbsp;<input type=submit name='problem2contest' value='CheckToNewCon
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button ID='Available' value='Available'>";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Reserved' value='Reserved'>";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Delete' value='Delete'>";
-echo "&nbsp;&nbsp;题库网址：".$oj_market_host . " &nbsp;&nbsp;账号：".$oj_market_username;
+echo "&nbsp;&nbsp;题库网址：".$oj_market_host . " &nbsp;&nbsp;账号：".$oj_market_username ;
 echo "<tr><td>PID";
 echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
 echo "<td>Title<td>AC<td>Date";
@@ -166,7 +168,7 @@ $(document).ready(function(){
 	$(".pushproblem").each(function(index){
 		var title_md5=$(this).attr('title_md5');
 		var _self = $(this);
-        $.post("/market/hasProblem.php",
+        $.post("../market/hasProblem.php",
                 {title_md5:title_md5},
                 function(data,status){
 					if(data == 2)
@@ -175,8 +177,8 @@ $(document).ready(function(){
 						_self.val("已存在");
 					else
 						_self.val("异常");
-					if(iGetInnerText(data) !='2')_self.attr("disabled",true);
-					else _self.attr("disabled",false);
+					if(iGetInnerText(data) !='2')_self.attr("disabled",true);	else _self.attr("disabled",false);
+                    //_self.attr("disabled",false);
 					console.log(data);
 					//alert(data);
                 }
@@ -185,7 +187,7 @@ $(document).ready(function(){
     $(".pushproblem").click(function(){
         var problem_id=$(this).attr('problem-id');
 		var _self = $(this);
-        $.post("problem_push_by_Id_ajax.php",
+        $.post("../market/problem_push_by_Id_ajax.php",
                 {problem_id:problem_id},
                 function(data,status){
 					if(iGetInnerText(data) =='ok')

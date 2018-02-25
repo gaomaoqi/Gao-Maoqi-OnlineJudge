@@ -1,6 +1,5 @@
 <?php 
-require_once ("../include/db_info.inc.php");
-//require_once("../include/check_post_key.php");
+require_once dirname(__FILE__) ."/../include/db_info.inc.php";
 function hasProblem($title_md5){
 	$md5=$title_md5;//md5($title);
 	$sql="select 1 from problem where md5(title)=?";  

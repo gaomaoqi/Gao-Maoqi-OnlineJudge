@@ -30,6 +30,10 @@ if [ ! -d $DIRECTORY ]; then
 fi
 mount --bind $DIRECTORY /var/lib/mysql
 
+if [  -f "/data/judge.conf" ]; then
+	mv /data/judge.conf /data/etc
+fi
+
 if [  -f "/data/db_info.inc.php" ]; then
 	mv /data/db_info.inc.php /data/config
 fi

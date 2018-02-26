@@ -34,12 +34,10 @@ if [  -f "/data/judge.conf" ]; then
 	mv /data/judge.conf /data/etc
 fi
 
-cp /data/etc/judge.conf /data/config
-
 chmod 775 -R /data/data 
 chgrp -R www-data /data/data
-chmod 770 -R 		/data/upload /data/config #/data/judge.conf /data/db_info.inc.php
-chgrp -R www-data 	/data/upload /data/config #/data/judge.conf /data/db_info.inc.php
+chmod 770 -R 		/data/upload /data/config 
+chgrp -R www-data 	/data/upload /data/config 
 chown -R mysql:mysql /data/mysql/
 
 service mysql start

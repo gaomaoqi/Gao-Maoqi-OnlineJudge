@@ -1,4 +1,4 @@
-<?php 
+<?php
 	$url=basename($_SERVER['REQUEST_URI']);
 	$dir=basename(getcwd());
 	if($dir=="discuss3") $path_fix="../";
@@ -37,7 +37,6 @@
               <li <?php if ($dir=="discuss3") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>bbs.php"><?php echo $MSG_BBS?></a></li>
               <li <?php if ($url=="faqs.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>faqs.php"><?php echo $MSG_FAQ?></a></li>
 <?php if(!isset($_GET['cid'])){
-$cid=intval($_GET['cid']);
 ?>
               <li <?php if ($url=="problemset.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>problemset.php"><?php echo $MSG_PROBLEMS?></a></li>
               <li <?php if ($url=="category.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>category.php"><?php echo $MSG_SOURCE?></a></li>

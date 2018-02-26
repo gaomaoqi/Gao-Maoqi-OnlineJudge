@@ -114,7 +114,15 @@ function iGetInnerText(testStr) {
 	resultStr = testStr.replace(/[\r\n]/g, ""); //去掉回车换行
 	return resultStr;
 }
-
+String.prototype.startWith=function(s){
+    if(s==null||s==""||this.length==0||s.length>this.length)
+        return false;
+    if(this.substr(0,s.length)==s)
+        return true;
+    else
+        return false;
+    return true;
+}
 $(document).ready(function(){
   $(".pullproblem").click(function(){
         var problem_id=$(this).attr('problem-id');
@@ -133,6 +141,10 @@ $(document).ready(function(){
         );
   });
     $(".pullproblem").each(function(index){
+        var url = location.href;
+        if (url.startWith(marketHost)) {
+            return;
+        }
 		var title_md5=$(this).attr('title_md5');
 		var _self = $(this);
         $.post("../market/hasProblem_api.php",

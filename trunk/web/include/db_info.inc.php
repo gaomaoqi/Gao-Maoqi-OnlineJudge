@@ -8,8 +8,8 @@
 // connect db 
 static 	$DB_HOST="localhost";
 static 	$DB_NAME="jol";
-static 	$DB_USER="root";
-static 	$DB_PASS="root";
+static 	$DB_USER="debian-sys-maint";
+static 	$DB_PASS="kYoGq2yzvx0W1Ej6";
 
 static 	$OJ_NAME="HUSTOJ";
 static 	$OJ_HOME="./";
@@ -64,6 +64,21 @@ static  $OJ_QQ_AUTH=false;
 static  $OJ_QQ_AKEY='1124518951';
 static  $OJ_QQ_ASEC='df709a1253ef8878548920718085e84b';
 static  $OJ_QQ_CBURL='192.168.0.108';
+
+//题库市场账号配置
+static  $OJ_MARKET_HOST = "http://tk.wxy1.cn";
+static  $OJ_MARKET_USERNAME = "hustoj";
+static  $OJ_MARKET_PASSWORD = "e10adc3949ba59abbe56e057f20f883e";
+
+$filename = dirname(__FILE__)."/../config/system.conf";
+$config = parse_ini_file($filename);
+if($config)
+{
+    $OJ_NAME = $config['OJ_NAME'];
+    $OJ_MARKET_HOST = $config['OJ_MARKET_HOST'];
+    $OJ_MARKET_USERNAME = $config['OJ_MARKET_USERNAME'];
+    $OJ_MARKET_PASSWORD = $config['OJ_MARKET_PASSWORD'];
+}
 
 //if(date('H')<5||date('H')>21||isset($_GET['dark'])) $OJ_CSS="dark.css";
 if( isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && strstr($_SERVER['HTTP_ACCEPT_LANGUAGE'],"zh-CN")) {

@@ -46,7 +46,6 @@ if($keyword) {
 	$sql="select `problem_id`,`title`,`accepted`,`in_date`,`defunct` FROM `problem` where problem_id>=? and problem_id<=? order by `problem_id` desc";
 	$result=pdo_query($sql,$pstart,$pend);
 }
-market_account_init();
 ?>
 <form action=problem_list.php>
 
@@ -61,7 +60,7 @@ echo "&nbsp;&nbsp;<input type=submit name='problem2contest' value='CheckToNewCon
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button ID='Available' value='Available'>";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Reserved' value='Reserved'>";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Delete' value='Delete'>";
-echo "&nbsp;&nbsp;题库网址：".$oj_market_host . " &nbsp;&nbsp;账号：".$oj_market_username ;
+echo "&nbsp;&nbsp;题库网址：".$OJ_MARKET_HOST . " &nbsp;&nbsp;账号：".$OJ_MARKET_USERNAME ;
 echo "<tr><td>PID";
 echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
 echo "<td>Title<td>AC<td>Date";

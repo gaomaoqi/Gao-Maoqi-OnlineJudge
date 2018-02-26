@@ -44,37 +44,19 @@ function http_request($URI, $header = false, $post = false)
 // }else{
 // echo "请检查zhidao.txt文件是否有写入权限！";
 // }
-static $oj_market_host = "http://tk.wxy1.cn";
-static $oj_market_username = "hustoj";
-static $oj_market_password = "e10adc3949ba59abbe56e057f20f883e";
-function market_account_init()
-{
-    global $oj_market_host;
-    global $oj_market_username;
-    global $oj_market_password;
 
-    $file_path = dirname(__FILE__) ."/../config/market.php";
-    $json = file_get_contents($file_path);
-    $markets= json_decode($json,true);
-    if(count($markets,1) > 0){
-        $oj_market_host = $markets[0]["host"];
-        $oj_market_username = $markets[0]["username"];
-        $oj_market_password = $markets[0]["password"];
-    }
-}
 function market_isLogin()
 {
-    global $oj_market_host;
+    global $OJ_MARKET_HOST;
     $post = "checkLogin=1";
-    $login_url = $oj_market_host .'/market/login_tk.php';   //登录页面地址
+    $login_url = $OJ_MARKET_HOST .'/market/login_tk.php';   //登录页面地址
     return http_request($login_url,false,$post);
 }
 function market_login()
 {
-    global $oj_market_host,$oj_market_username,$oj_market_password;
+    global $OJ_MARKET_HOST,$oj_market_username,$oj_market_password;
     $post = "user_id=" .$oj_market_username. "&password=".$oj_market_password;
-    $login_url = $oj_market_host .'/login_tk.php';   //登录页面地址
+    $login_url = $OJ_MARKET_HOST .'/login_tk.php';   //登录页面地址
     return http_request($login_url,false,$post);
 }
-market_account_init();
 ?>

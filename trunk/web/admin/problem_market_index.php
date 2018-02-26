@@ -140,6 +140,7 @@ $(document).ready(function(){
                 }
         );
   });
+    var marketHost = '<?php echo $OJ_MARKET_HOST ?>' ;
     $(".pullproblem").each(function(index){
         var url = location.href;
         if (url.startWith(marketHost)) {

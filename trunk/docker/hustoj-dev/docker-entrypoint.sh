@@ -22,9 +22,12 @@ DIRECTORY="/data/config"
 if [ ! -d $DIRECTORY ]; then
 	cp -R  /home/judge/src/web/config /data
 fi
-#if [ ! -f "/data/config/system.conf" ]; then
+if [ ! -f "/data/config/system.conf" ]; then
 	cp /home/judge/src/web/config/system.conf /data/config
-#fi
+fi
+if [ ! -f "/data/config/root.conf" ]; then
+	cp /home/judge/src/web/config/root.conf /data/config
+fi
 mount --bind $DIRECTORY /home/judge/src/web/config
 
 DIRECTORY="/data/mysql"

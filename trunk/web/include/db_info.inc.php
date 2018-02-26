@@ -8,8 +8,8 @@
 // connect db 
 static 	$DB_HOST="localhost";
 static 	$DB_NAME="jol";
-static 	$DB_USER="debian-sys-maint";
-static 	$DB_PASS="kYoGq2yzvx0W1Ej6";
+static 	$DB_USER="root";
+static 	$DB_PASS="root";
 
 static 	$OJ_NAME="HUSTOJ";
 static 	$OJ_HOME="./";
@@ -70,19 +70,14 @@ static  $OJ_MARKET_HOST = "http://tk.wxy1.cn";
 static  $OJ_MARKET_USERNAME = "hustoj";
 static  $OJ_MARKET_PASSWORD = "e10adc3949ba59abbe56e057f20f883e";
 
-$filename = dirname(__FILE__)."/../config/judge.conf";
+$filename = dirname(__FILE__)."/../config/root.conf";
 $config = parse_ini_file($filename);
 if($config)
 {
-//OJ_HOST_NAME=127.0.0.1
-//OJ_USER_NAME=debian-sys-maint
-//OJ_PASSWORD=kYoGq2yzvx0W1Ej6
-//OJ_DB_NAME=jol
-//OJ_PORT_NUMBER=3306
-    $DB_HOST=$config['OJ_HOST_NAME'];;
-    $DB_NAME=$config['OJ_DB_NAME'];;
-    $DB_USER=$config['OJ_USER_NAME'];;
-    $DB_PASS=$config['OJ_PASSWORD'];;
+    $DB_HOST=$config['DB_HOST'];
+    $DB_NAME=$config['DB_NAME'];
+    $DB_USER=$config['DB_USER'];
+    $DB_PASS=$config['DB_PASS'];
 }
 
 $filename = dirname(__FILE__)."/../config/system.conf";

@@ -202,12 +202,12 @@ if (isset($_GET ['problem_id'])) {
 <source><![CDATA[<?php echo fixcdata($row['source'])?>]]></source>
 <?php
 $pid=$row['problem_id'];
-for ($lang=0;$lang<count($language_ext);$lang++){
+for ($lang=0;1>2 && $lang<count($language_ext);$lang++){
 
 	$solution=getSolution($pid,$lang);
 	if ($solution->language){?>
 		<solution language="<?php echo $solution->language?>"><![CDATA[<?php echo fixcdata($solution->source_code)?>]]></solution>
-	<?php 
+	<?php
 	}
 	$pta=array("prepend","template","append");
 	foreach($pta as $pta_file){

@@ -225,6 +225,6 @@ $input = $GLOBALS['HTTP_RAW_POST_DATA'];
 //$xml = simplexml_load_string($input,'SimpleXMLElement',LIBXML_NOCDATA);
 import_fps($input);
 //ob_clean();
-//echo "ok";
+echo "ok";
 ?>
 

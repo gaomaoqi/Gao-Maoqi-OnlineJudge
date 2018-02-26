@@ -189,7 +189,6 @@ if (isset($_POST ['problem_id'])) {
     $rtn = 'error';
 //	header("Content-type:text/xml;charset=utf-8");
 	$xml= export_fps($id,$OJ_DATA);
-    market_login();
 	$rtn = send($xml,$OJ_MARKET_HOST);
 	echo $rtn;
 }

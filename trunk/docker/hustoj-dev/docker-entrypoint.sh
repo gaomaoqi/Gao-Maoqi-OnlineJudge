@@ -37,19 +37,21 @@ if [  -f "/data/judge.conf" ]; then
 	mv /data/judge.conf /data/etc
 fi
 
-if [  -f "/data/db_info.inc.php" ]; then
-	mv /data/db_info.inc.php /data/config
-fi
-if [  -f "/data/config/db_info.inc.php" ]; then
-	cp /data/config/db_info.inc.php /home/judge/src/web/include/db_info.inc.php
-else
-	cp /home/judge/src/web/include/db_info.inc.php /data/config/db_info.inc.php
-fi
+#if [  -f "/data/db_info.inc.php" ]; then
+#	mv /data/db_info.inc.php /data/config
+#fi
+#if [  -f "/data/config/db_info.inc.php" ]; then
+#	cp /data/config/db_info.inc.php /home/judge/src/web/include/db_info.inc.php
+#else
+#	cp /home/judge/src/web/include/db_info.inc.php /data/config/db_info.inc.php
+#fi
+
+cp /data/etc/judge.conf /data/config
 
 chmod 775 -R /data/data 
 chgrp -R www-data /data/data
-chmod 770 -R 		/data/upload /data/config /data/judge.conf /data/db_info.inc.php
-chgrp -R www-data 	/data/upload /data/config /data/judge.conf /data/db_info.inc.php
+chmod 770 -R 		/data/upload /data/config #/data/judge.conf /data/db_info.inc.php
+chgrp -R www-data 	/data/upload /data/config #/data/judge.conf /data/db_info.inc.php
 #/home/judge/src/web/config 
 #/home/judge/src/web/config
 #chown -R mysql:mysql /var/lib/mysql 

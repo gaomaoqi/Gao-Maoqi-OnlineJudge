@@ -191,7 +191,6 @@ if (isset($_POST ['problem_id'])) {
 	$xml= export_fps($id,$OJ_DATA);
     market_login();
 	$rtn = send($xml,$OJ_MARKET_HOST);
-	echo $OJ_MARKET_HOST;
 	echo $rtn;
 }
 ?>

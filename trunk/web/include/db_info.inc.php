@@ -85,6 +85,30 @@ $config = parse_ini_file($filename);
 if($config)
 {
     $OJ_NAME = $config['OJ_NAME'];
+
+    $OJ_HOME = $config['OJ_HOME'];
+    $OJ_BBS = $config['OJ_BBS'];
+    $OJ_ONLINE = $config['OJ_ONLINE'];
+    $OJ_LANG = $config['OJ_LANG'];
+    $OJ_SIM = $config['OJ_SIM'];
+    $OJ_DICT = $config['OJ_DICT'];
+    $OJ_LANGMASK = $config['OJ_LANGMASK'];
+    $OJ_EDITE_AREA = $config['OJ_EDITE_AREA'];
+    $OJ_AUTO_SHARE = $config['OJ_AUTO_SHARE'];
+    $OJ_CSS = $config['OJ_CSS'];
+    $OJ_VCODE = $config['OJ_VCODE'];
+    $OJ_APPENDCODE = $config['OJ_APPENDCODE'];
+    $OJ_CE_PENALTY = $config['OJ_CE_PENALTY'];
+    $OJ_TEMPLATE = $config['OJ_TEMPLATE'];
+    $OJ_LOGIN_MOD = $config['OJ_LOGIN_MOD'];
+    $OJ_REGISTER = $config['OJ_REGISTER'];
+    $OJ_REG_NEED_CONFIRM = $config['OJ_REG_NEED_CONFIRM'];
+    $OJ_RANK_LOCK_PERCENT = $config['OJ_RANK_LOCK_PERCENT'];
+    $OJ_SHOW_DIFF = $config['OJ_SHOW_DIFF'];
+    $OJ_TEST_RUN = $config['OJ_TEST_RUN'];
+    $OJ_BLOCKLY = $config['OJ_BLOCKLY'];
+    $OJ_ENCODE_SUBMIT = $config['OJ_ENCODE_SUBMIT'];
+
     $OJ_MARKET_HOST = $config['OJ_MARKET_HOST'];
     $OJ_MARKET_USERNAME = $config['OJ_MARKET_USERNAME'];
     $OJ_MARKET_PASSWORD = $config['OJ_MARKET_PASSWORD'];

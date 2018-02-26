@@ -1,5 +1,5 @@
 <?php @session_start();
-	ini_set("display_errors","Off");  //set this to "On" for debugging  ,especially when no reason blank shows up.
+	ini_set("display_errors","On");  //set this to "On" for debugging  ,especially when no reason blank shows up.
 	ini_set("session.cookie_httponly", 1);   
 	header('X-Frame-Options:SAMEORIGIN');
 
@@ -74,10 +74,15 @@ $filename = dirname(__FILE__)."/../config/judge.conf";
 $config = parse_ini_file($filename);
 if($config)
 {
-    $DB_HOST=$config['DB_HOST'];;
-    $DB_NAME=$config['DB_NAME'];;
-    $DB_USER=$config['DB_USER'];;
-    $DB_PASS=$config['DB_PASS'];;
+//OJ_HOST_NAME=127.0.0.1
+//OJ_USER_NAME=debian-sys-maint
+//OJ_PASSWORD=kYoGq2yzvx0W1Ej6
+//OJ_DB_NAME=jol
+//OJ_PORT_NUMBER=3306
+    $DB_HOST=$config['OJ_HOST_NAME'];;
+    $DB_NAME=$config['OJ_DB_NAME'];;
+    $DB_USER=$config['OJ_USER_NAME'];;
+    $DB_PASS=$config['OJ_PASSWORD'];;
 }
 
 $filename = dirname(__FILE__)."/../config/system.conf";

@@ -22,8 +22,8 @@ DIRECTORY="/data/config"
 if [ ! -d $DIRECTORY ]; then
 	cp -R  /home/judge/src/web/config /data
 fi
-if [ ! -d "/data/config/system.conf" ]; then
-	cp -R  /home/judge/src/web/config/system.conf /data/config
+if [ ! -f "/data/config/system.conf" ]; then
+	cp /home/judge/src/web/config/system.conf /data/config
 fi
 mount --bind $DIRECTORY /home/judge/src/web/config
 

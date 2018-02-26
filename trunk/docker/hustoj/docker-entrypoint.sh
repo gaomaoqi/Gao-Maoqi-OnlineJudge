@@ -1,47 +1,43 @@
 #!/bin/bash
 
-DIRECTORY="/data/data"
+DIRECTORY="/data/data/"
 if [ ! -d $DIRECTORY ]; then
-	mv  /home/judge/data /data
-else
-	rm -R /home/judge/data
+	cp -R /home/judge/data/ /data/
 fi
-ln -s $DIRECTORY /home/judge/data
-	
-DIRECTORY="/data/judge.conf"
-if [ ! -f $DIRECTORY ]; then
-	mv /home/judge/etc/judge.conf /data/
-else
-	rm /home/judge/etc/judge.conf
-fi
-ln -s $DIRECTORY /home/judge/etc/judge.conf
+mount --bind $DIRECTORY /home/judge/data
 
-DIRECTORY="/data/db_info.inc.php"
-if [ ! -f $DIRECTORY ]; then
-	mv /home/judge/src/web/include/db_info.inc.php /data/
-else
-	rm /home/judge/src/web/include/db_info.inc.php
+DIRECTORY="/data/etc/"
+if [ ! -d $DIRECTORY ]; then
+	cp -R  /home/judge/etc/ /data/
 fi
-ln -s $DIRECTORY /home/judge/src/web/include/db_info.inc.php
+mount --bind $DIRECTORY /home/judge/etc
+
+DIRECTORY="/data/upload"
+if [ ! -d $DIRECTORY ]; then
+	cp -R  /home/judge/src/web/upload /data
+fi
+mount --bind $DIRECTORY /home/judge/src/web/upload
+
+DIRECTORY="/data/config"
+if [ ! -d $DIRECTORY ]; then
+	cp -R  /home/judge/src/web/config /data
+fi
+mount --bind $DIRECTORY /home/judge/src/web/config
 
 DIRECTORY="/data/mysql"
 if [ ! -d $DIRECTORY ]; then
-	mv  /var/lib/mysql /data
-else
-	rm -R /var/lib/mysql
+	cp -R /var/lib/mysql /data
 fi
-ln -s $DIRECTORY /var/lib/mysql
+mount --bind $DIRECTORY /var/lib/mysql
+
+if [  -f "/data/judge.conf" ]; then
+	mv /data/judge.conf /data/etc
+fi
 
 chmod 775 -R /data/data 
 chgrp -R www-data /data/data
-chmod 770 -R /data/upload 
-chgrp -R www-data /data/upload
-chmod 770 -R /data/judge.conf 
-chgrp -R www-data /data/judge.conf
-chmod 770 -R /data/db_info.inc.php
-chgrp -R www-data /data/db_info.inc.php
-
-#chown -R mysql:mysql /var/lib/mysql 
+chmod 770 -R 		/data/upload /data/config 
+chgrp -R www-data 	/data/upload /data/config 
 chown -R mysql:mysql /data/mysql/
 
 service mysql start

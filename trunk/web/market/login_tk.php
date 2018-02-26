@@ -1,5 +1,5 @@
 <?php 
- if(iset($_POST("isLogin")) && $_POST("isLogin") =="1")
+ if(iset($_POST("checkLogin")) && $_POST("checkLogin") =="1")
  {
 	 if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))
 	 {
@@ -9,8 +9,8 @@
 		 echo "noLogin";
 	 exit(1);
  }
-require_once("./include/db_info.inc.php");
-require_once("./include/login-".$OJ_LOGIN_MOD.".php");
+require_once(dirname(__FILE__) . "/include/db_info.inc.php");
+require_once(dirname(__FILE__). "/include/login-".$OJ_LOGIN_MOD.".php");
 $user_id=$_POST['user_id'];
 $password=$_POST['password'];
 if (get_magic_quotes_gpc ()) {

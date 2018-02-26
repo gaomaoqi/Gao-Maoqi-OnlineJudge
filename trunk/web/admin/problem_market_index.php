@@ -55,6 +55,7 @@ if (isset($_GET['page'])){
 </nav>
 
 <?php
+echo market_isLogin();//isLogin noLogin
 //market_login();
 $data_url = $oj_market_host . '/problem_market_json.php?page='.$page;
 $json = http_request($data_url);

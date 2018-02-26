@@ -66,7 +66,7 @@ function market_isLogin()
 {
     global $oj_market_host;
     $post = "checkLogin=1";
-    $login_url = $oj_market_host .'/login_tk.php';   //登录页面地址
+    $login_url = $oj_market_host .'/market/login_tk.php';   //登录页面地址
     return http_request($login_url,false,$post);
 }
 function market_login()

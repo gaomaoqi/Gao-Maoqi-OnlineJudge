@@ -170,11 +170,11 @@ function export_fps($problem_id,$OJ_DATA){
 	$xml .= "</fps>";
 	return $xml;
 }
-function send($xml,$oj_market_host)
+function send($xml,$OJ_MARKET_HOST)
 {
 	$header[] = 'Content-type: text/xml';
-	$url = $oj_market_host . '/market/problem_receive_by_xml.php';
-    $response = http_request($url,$header,$xml);
+	$url = $OJ_MARKET_HOST . '/market/problem_receive_by_xml.php';
+    $response = http_request($url,$xml,$header);
     //$response = http_request($url,false,$xml);
 	return $response;//显示返回信息,
 }
@@ -190,8 +190,8 @@ if (isset($_POST ['problem_id'])) {
 //	header("Content-type:text/xml;charset=utf-8");
 	$xml= export_fps($id,$OJ_DATA);
     market_login();
-	$rtn = send($xml,$oj_market_host);
-	echo $oj_market_host;
+	$rtn = send($xml,$OJ_MARKET_HOST);
+	echo $OJ_MARKET_HOST;
 	echo $rtn;
 }
 ?>

@@ -12,9 +12,9 @@ if (isset($_POST ['title_md5'])) {
 	$title_md5 = $_POST['title_md5'];
 	require_once(dirname(__FILE__) ."/market.inc.php");
 	
-	$data_url = $oj_market_host . '/market/hasProblem_api.php';
+	$data_url = $OJ_MARKET_HOST . '/market/hasProblem_api.php';
 	$post = "title_md5=" .$title_md5;
-	$msg = http_request($data_url,false,$post);
+	$msg = http_request($data_url,$post);
 	//echo $title_md5;
 	echo $msg;
 	exit(1);

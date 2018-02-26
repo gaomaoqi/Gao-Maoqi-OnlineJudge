@@ -40,7 +40,7 @@ if (isset($_GET['page'])){
 	<ul class="pagination">
 		<li class="page-item"><a href="problem_market_index.php?page=1">&lt;&lt;</a></li>
 		<?php  
-		$pagecount = intval(@file_get_contents($oj_market_host.'/problem_market_json.php?getPageCount=1'));
+		$pagecount = intval(@file_get_contents($OJ_MARKET_HOST.'/problem_market_json.php?getPageCount=1'));
 		if($pagecount == 0)$pagecount=1;
 		for ($i = 1; $i <= $pagecount; $i++) {
 		?>
@@ -55,9 +55,12 @@ if (isset($_GET['page'])){
 </nav>
 
 <?php
-echo market_isLogin();//isLogin noLogin
+if(market_isLogin() == "noLogin")//isLogin noLogin
+{
+    echo market_login();
+}
 //market_login();
-$data_url = $oj_market_host . '/problem_market_json.php?page='.$page;
+$data_url = $OJ_MARKET_HOST . '/problem_market_json.php?page='.$page;
 $json = http_request($data_url);
 $result = json_decode($json,true);
 if(is_null($result))
@@ -65,7 +68,7 @@ if(is_null($result))
 echo "<center><table class='table table-striped' width=98% border=1>";
 echo "<tr><td colspan=8>";
 //echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
-echo "题库网址：".$oj_market_host . " &nbsp;&nbsp;题库账号：".$oj_market_username;
+echo "题库网址：".$OJ_MARKET_HOST . " &nbsp;&nbsp;题库账号：".$OJ_MARKET_USERNAME;
 echo "<tr><td>PID<td>Title<td>AC<td>submit<td>source<td>Date<td>pull";
 if( !is_null($result))
 foreach($result as $row){
@@ -90,7 +93,7 @@ echo "</table></center>";
 	<ul class="pagination">
 		<li class="page-item"><a href="problem_market_index.php?page=1">&lt;&lt;</a></li>
 		<?php  
-		$pagecount = intval(@file_get_contents($oj_market_host.'/problem_market_json.php?getPageCount=1'));
+		$pagecount = intval(@file_get_contents($OJ_MARKET_HOST.'/problem_market_json.php?getPageCount=1'));
 		if($pagecount == 0)$pagecount=1;
 		for ($i = 1; $i <= $pagecount; $i++) {
 		?>

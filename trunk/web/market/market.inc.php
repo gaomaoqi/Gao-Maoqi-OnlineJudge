@@ -8,7 +8,7 @@ class MarketUser
     public $secret_key;
 }
 
-function http_request($URI, $header = false, $post = false)
+function http_request($URI,$post = false, $header = false)
 {
     $cookie_file = dirname(__FILE__) . "/../config/cookie.txt";
     $ch = curl_init();
@@ -48,15 +48,14 @@ function http_request($URI, $header = false, $post = false)
 function market_isLogin()
 {
     global $OJ_MARKET_HOST;
-    $post = "checkLogin=1";
-    $login_url = $OJ_MARKET_HOST .'/market/login_tk.php';   //登录页面地址
-    return http_request($login_url,false,$post);
+    $login_url = $OJ_MARKET_HOST .'/market/login_check.php';   //登录页面地址
+    return http_request($login_url);
 }
 function market_login()
 {
-    global $OJ_MARKET_HOST,$oj_market_username,$oj_market_password;
-    $post = "user_id=" .$oj_market_username. "&password=".$oj_market_password;
-    $login_url = $OJ_MARKET_HOST .'/login_tk.php';   //登录页面地址
-    return http_request($login_url,false,$post);
+    global $OJ_MARKET_HOST,$OJ_MARKET_USERNAME,$OJ_MARKET_PASSWORD;
+    $post = "user_id=" .$OJ_MARKET_USERNAME. "&password=".$OJ_MARKET_PASSWORD;
+    $login_url = $OJ_MARKET_HOST .'/market/login_tk.php';   //登录页面地址
+    return http_request($login_url,$post);
 }
 ?>

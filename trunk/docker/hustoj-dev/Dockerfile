@@ -92,5 +92,5 @@ WORKDIR /home/judge/
 EXPOSE 80
 VOLUME ["/data"]
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 #CMD judged /home/judge debug && tail -f /dev/null

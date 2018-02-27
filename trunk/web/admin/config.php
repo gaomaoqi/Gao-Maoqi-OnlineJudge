@@ -6,14 +6,9 @@ if (!isset($_SESSION[$OJ_NAME.'_'.'administrator']))
     exit(1);
 }
 $filename = dirname(__FILE__)."/../config/system.conf";
-$str = '';
 if(isset($_POST['config']))
 {
     $str = $_POST['config'];
-    $filename_tmp = dirname(__FILE__)."/../config/system.tmp.conf";
-    file_put_contents($filename_tmp,$str);
-    $tmp = parse_ini_file($filename_tmp);
- //   var_dump($tmp);
     if($tmp) {
         file_put_contents($filename,$str);
         echo '保存成功';
@@ -26,7 +21,7 @@ require("admin-header.php");
 if(isset($OJ_LANG)){
     require_once("../lang/$OJ_LANG.php");
 }
-$str = file_get_contents($filename);
+//$str = file_get_contents($filename);
 
 echo "<title>System Config</title>";
 echo "<center><h2>System Config</h2></center>";
@@ -37,7 +32,8 @@ echo "<center><h2>System Config</h2></center>";
             <form id="myform" method="post" role="form" >
                 <div class="form-group">
                     <label for="exampleInputEmail1">如果你不熟悉配置文件请不要轻易修改此文件</label>
-                    <textarea id="config" class="form-control" rows="30" cols="800" style="width: 900px;" style="overflow-x:scroll ；overflow-y:scroll "><?php echo $str; ?>
+                    <textarea id="config" class="form-control" rows="30" cols="800" style="width: 900px;" style="overflow-x:scroll ；overflow-y:scroll ">
+
                     </textarea>
                 </div>
                 <button id="submit" type="button" class="btn btn-default">Submit</button>

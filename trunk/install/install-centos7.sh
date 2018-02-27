@@ -21,6 +21,7 @@ mkdir etc data log
 
 cp src/install/java0.policy  /home/judge/etc
 cp src/install/judge.conf  /home/judge/etc
+chmod +x src/install/ans2out
 
 if grep "OJ_SHM_RUN=0" etc/judge.conf ; then
 	mkdir run0 run1 run2 run3
@@ -60,6 +61,7 @@ mkdir /var/lib/php/session
 chown apache /var/lib/php/session
 
 cd /home/judge/src/core
+chmod +x make.sh
 ./make.sh
 
 if grep "/usr/bin/judged" /etc/rc.local ; then

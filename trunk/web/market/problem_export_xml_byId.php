@@ -1,12 +1,12 @@
 <?php
 @session_start ();
-require_once ("../include/db_info.inc.php");
+require_once (dirname(__FILE__)."/../include/db_info.inc.php");
 
 if(!isset($OJ_LANG)){
 	$OJ_LANG="en";
 }
-require_once("../lang/$OJ_LANG.php");
-require_once("../include/const.inc.php");
+require_once(dirname(__FILE__)."/../lang/$OJ_LANG.php");
+require_once(dirname(__FILE__)."/../include/const.inc.php");
 function fixcdata($content){
     return str_replace("]]>","]]]]><![CDATA[>",$content);
 }
@@ -157,11 +157,12 @@ function fixImageURL(&$html,&$did){
    }   	
 }
 
-// if (! isset ( $_SESSION[$OJ_NAME.'_'.'administrator'] )) {
-	// echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">";
-	// echo "<a href='../loginpage.php'>Please Login First!</a>";
-	// exit ( 1 );
-// }
+if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
+                ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
+                )){
+        echo "Please Login First!";
+        exit(1);
+}
 if (isset($_GET ['problem_id'])) {
 	//require_once("../include/check_post_key.php");
 	$id = intval ( $_GET['problem_id'] );
@@ -201,12 +202,12 @@ if (isset($_GET ['problem_id'])) {
 <source><![CDATA[<?php echo fixcdata($row['source'])?>]]></source>
 <?php
 $pid=$row['problem_id'];
-for ($lang=0;$lang<count($language_ext);$lang++){
+for ($lang=0;1>2 && $lang<count($language_ext);$lang++){
 
 	$solution=getSolution($pid,$lang);
 	if ($solution->language){?>
 		<solution language="<?php echo $solution->language?>"><![CDATA[<?php echo fixcdata($solution->source_code)?>]]></solution>
-	<?php 
+	<?php
 	}
 	$pta=array("prepend","template","append");
 	foreach($pta as $pta_file){

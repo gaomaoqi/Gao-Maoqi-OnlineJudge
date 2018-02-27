@@ -13,25 +13,38 @@ $result=mysql_query_cache($sql);
 $row=$result[0];
 $cnt=$row['upid']-$first;
 $cnt=$cnt/$page_cnt;
+if (isset($_GET['getPageCount']))
+{
+	echo(intval($cnt+0.999));
+	exit(1);
+}
+if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
+                ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
+                )){
+    echo "please login first!";
+    exit(1);
+}
 
+$page=1;
   //remember page
-  $page="1";
-if (isset($_GET['page'])){
-    $page=intval($_GET['page']);
+ if (isset($_GET['page'])){
+     $page=intval($_GET['page']);
     if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
          $sql="update users set volume=? where user_id=?";
          pdo_query($sql,$page,$_SESSION[$OJ_NAME.'_'.'user_id']);
     }
-}else{
-    if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
-            $sql="select volume from users where user_id=?";
-            $result=pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
-            $row=$result[0];
-            $page=intval($row[0]);
-    }
-    if(!is_numeric($page)||$page<0)
-        $page='1';
+ }else{
+     if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
+             $sql="select volume from users where user_id=?";
+             $result=pdo_query($sql,$_SESSION[$OJ_NAME.'_'.'user_id']);
+             $row=$result[0];
+             $page=intval($row[0]);
+     }
+	 else
+		 $page =1;
 }
+if(!is_numeric($page)||$page<1)
+	$page=1;
   //end of remember page
 
 $pstart=$first+$page_cnt*intval($page)-$page_cnt;
@@ -74,7 +87,7 @@ if(isset($_GET['search'])&&trim($_GET['search'])!=""){
 
 if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 	
-	$sql="SELECT `problem_id`,`title`,`source`,`submit`,`accepted` FROM `problem` WHERE $filter_sql ";
+	$sql="SELECT `problem_id`,`title`,`source`,`submit`,`accepted`,`in_date` FROM `problem` WHERE $filter_sql ";
 	
 }
 else{
@@ -107,7 +120,7 @@ $view_problemset=Array();
 $i=0;
 
 class ProblemMarketItem {
-	public $host = "";
+   public $host = "";
    public $problem_id = "";
    public $title  = "";
    public $source = "";

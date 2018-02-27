@@ -10,7 +10,7 @@ class MarketUser
 
 function http_request($URI,$post = false, $header = false)
 {
-    $cookie_file = dirname(__FILE__) . "/../config/cookie.txt";
+    $cookie_file = dirname(__FILE__) . "/../config/cookie.php";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URI);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

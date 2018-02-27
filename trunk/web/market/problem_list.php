@@ -61,18 +61,11 @@ if($keyword) {
 echo "<center><table class='table table-striped' width=90% border=1>";
 echo "<form method=post action=contest_add.php>";
 echo "<tr><td colspan=9>";
-
-echo "&nbsp;&nbsp;<input type=submit name='problem2contest' value='CheckToNewContest'>";
-echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button ID='Available' value='Available'>";
-echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Reserved' value='Reserved'>";
-echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Delete' value='Delete'>";
 echo "&nbsp;&nbsp;题库网址：".$OJ_MARKET_HOST . " &nbsp;&nbsp;账号：".$OJ_MARKET_USERNAME ;
 echo "<tr><td>PID";
-echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
+//echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
 echo "<td>Title<td>AC<td>Date";
 if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
-        if(isset($_SESSION[$OJ_NAME.'_'.'administrator']))   echo "<td>Status<td>Delete";
-        echo "<td>Edit<td>TestData";
 		echo "<td>push</tr>";
 }
 foreach($result as $row){
@@ -83,20 +76,6 @@ foreach($result as $row){
         echo "<td>".$row['accepted'];
         echo "<td>".$row['in_date'];
   if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
-                if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
-                        echo "<td><a href=problem_df_change.php?id=".$row['problem_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">"
-                        .($row['defunct']=="N"?"<span titlc='click to reserve it' class=green>Available</span>":"<span class=red title='click to be available'>Reserved</span>")."</a><td>";
-                        if($OJ_SAE||function_exists("system")){
-                              ?>
-                              <a href=# onclick='javascript:if(confirm("Delete?")) location.href="problem_del.php?id=<?php echo $row['problem_id']?>&getkey=<?php echo $_SESSION[$OJ_NAME.'_'.'getkey']?>";'>
-                              Delete</a>
-                              <?php
-                        }
-                }
-                if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'."p".$row['problem_id']])){
-                        echo "<td><a href=problem_edit.php?id=".$row['problem_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">Edit</a>";
-			echo "<td><a href='javascript:phpfm(".$row['problem_id'].");'>TestData</a>";
-                }
 				echo "<td>";
 				echo "<input type=button class='pushproblem' value='push' disabled title_md5=".md5($row['title'])." problem-id=".$row['problem_id'].">";
         }

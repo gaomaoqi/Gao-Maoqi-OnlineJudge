@@ -78,7 +78,7 @@ if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 ?><li>
 	<a class='btn btn-primary' href="problem_export.php" target="main"><b><?php echo $MSG_EXPORT.$MSG_PROBLEM?></b></a>
     <li><a class='btn btn-primary' href="../market/problem_market_index.php" target="main"><b>题库市场</b></a>
-		<a class='btn btn-primary' href="../market/problem_list.php" target="main"><b>贡献题目</b></a>
+		<a class='btn btn-primary' href="../market/problem_list.php" target="main"><b>分享题目</b></a>
     <li><a class='btn btn-primary' href="config.php" target="main"><b>系统设置</b></a>
 <?php }
 if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){

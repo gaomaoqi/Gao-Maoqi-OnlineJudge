@@ -10,7 +10,7 @@ if(isset($_POST['config']))
 {
     $filename = dirname(__FILE__)."/../config/system.conf.php";
     $config = file_get_contents($filename);
-    $OJ_NAME_POST = stripslashes($_POST['OJ_NAME']);
+    $OJ_NAME_POST = htmlentities(stripslashes($_POST['OJ_NAME']), ENT_QUOTES);
     if($OJ_NAME_POST) {
         $pattern = "/OJ_NAME=\"(.*?)\"/";
         $replacement = "OJ_NAME=\"". $OJ_NAME_POST."\"";

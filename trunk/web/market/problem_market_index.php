@@ -1,13 +1,10 @@
-<?php 
-//ini_set('display_errors',1);            //错误信息
-//ini_set('display_startup_errors',1);    //php启动错误信息
-//error_reporting(-1);                    //打印出所有的 错误信息
-require("admin-header.php");
+<?php
+require(dirname(__FILE__)."/../admin/admin-header.php");
 if(isset($OJ_LANG)){
         require_once("../lang/$OJ_LANG.php");
 }
-require_once("../include/db_info.inc.php");		
-require_once("../include/set_get_key.php");
+require_once(dirname(__FILE__)."/../include/db_info.inc.php");
+require_once(dirname(__FILE__)."/../include/set_get_key.php");
 if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])
                 ||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])
                 )){

@@ -1,3 +1,9 @@
+; connect db
+DB_HOST="localhost"
+DB_NAME="jol"
+DB_USER="root"
+DB_PASS="root" 
+
 OJ_NAME="HUSTOJ"
 OJ_HOME="./"
 OJ_BBS="discuss3"		;"bbs" for phpBB3 bridge or "discuss" for mini-forum

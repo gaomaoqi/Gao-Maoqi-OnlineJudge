@@ -70,7 +70,7 @@ static  $OJ_MARKET_HOST = "http://tk.wxy1.cn";
 static  $OJ_MARKET_USERNAME = "hustoj";
 static  $OJ_MARKET_PASSWORD = "e10adc3949ba59abbe56e057f20f883e";
 
-$filename = dirname(__FILE__)."/../config/root.conf";
+$filename = dirname(__FILE__)."/../config/system.conf.php";
 $config = parse_ini_file($filename);
 if($config)
 {
@@ -78,12 +78,7 @@ if($config)
     $DB_NAME=$config['DB_NAME'];
     $DB_USER=$config['DB_USER'];
     $DB_PASS=$config['DB_PASS'];
-}
 
-$filename = dirname(__FILE__)."/../config/system.conf";
-$config = parse_ini_file($filename);
-if($config)
-{
 	$OJ_NAME = $config['OJ_NAME'];
 
 	$OJ_HOME = $config['OJ_HOME'];

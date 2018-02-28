@@ -60,8 +60,8 @@ RUN set -ex \
 	&& sed -i "s/OJ_RUNNING=1/OJ_RUNNING=$CPU/g" etc/judge.conf   \
 	&& sed -i "s/DB_USER=\"root\"/DB_USER=\"$USER\"/g" src/web/include/db_info.inc.php   \
 	&& sed -i "s/DB_PASS=\"root\"/DB_PASS=\"$PASSWORD\"/g" src/web/include/db_info.inc.php   \
-	&& sed -i "s/DB_USER=\"root\"/DB_USER=\"$USER\"/g" src/web/config/root.conf   \
-	&& sed -i "s/DB_PASS=\"root\"/DB_PASS=\"$PASSWORD\"/g" src/web/config/root.conf   \
+	&& sed -i "s/DB_USER=\"root\"/DB_USER=\"$USER\"/g" src/web/config/system.conf.php   \
+	&& sed -i "s/DB_PASS=\"root\"/DB_PASS=\"$PASSWORD\"/g" src/web/config/system.conf.php   \
 	&& chown www-data src/web/upload data   \
 
 # judged
@@ -92,5 +92,5 @@ WORKDIR /home/judge/
 EXPOSE 80
 VOLUME ["/data"]
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 #CMD judged /home/judge debug && tail -f /dev/null

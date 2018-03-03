@@ -3554,7 +3554,7 @@ function upload_form(){
         }
         echo "
         <input type=button value=\"".et('Send')."\" onclick=\"test_upload_form()\"></nobr>
-        <tr><td> <td><input type=checkbox name=fechar value=\"1\"> <a href=\"JavaScript:troca();\">".et('AutoClose')."</a>
+        <tr><td> <td><input type=checkbox name=fechar value=\"1\" checked> <a href=\"JavaScript:troca();\">".et('AutoClose')."</a>
         <tr><td colspan=2>zip file can be decompressed on the server later. 
 			  just don't add dirs,please<br>
 			  可以上传zip文件，之后点击decompress解压缩，但是请不要在zip文件中包含子目录。
@@ -3616,6 +3616,7 @@ function upload_form(){
             echo "
             <script language=\"Javascript\" type=\"text/javascript\">
             <!--
+		window.opener.location.reload();
                 window.close();
             //-->
             </script>
@@ -4467,6 +4468,7 @@ function frame3(){
                         $zipfile->extract_files();
                     }
                     unset($zipfile);
+ 		    system("/home/judge/src/install/ans2out ".$current_dir);
                     reloadframe("parent",2);
                 }
             }

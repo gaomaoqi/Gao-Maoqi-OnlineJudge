@@ -32,14 +32,16 @@
                         if(array_key_exists('cid',$_REQUEST)&&$_REQUEST['cid']!='')
                                 $cid=intval($_REQUEST['cid']);
                         else
-                                $cid='NULL';
+                                $cid=0;
                         $sql="INSERT INTO `topic` (`title`, `author_id`, `cid`, `pid`) values(?,?,?,?)";
 						//echo $sql;
                         $rows=pdo_query($sql,$_POST['title'],$_SESSION[$OJ_NAME.'_'.'user_id'],$cid,$pid);
-                        if(!$rows)
-                                echo('Unable to post.');
-                        else
+                        if(!$rows){
+				//echo $sql;
+                                echo('Unable to post new.');
+                        }else{
                                 $tid=$rows;
+			}
                 }
                 else
                         echo('Error!');
@@ -47,19 +49,24 @@
         if ($_REQUEST['action']=='reply' || !is_null($tid)){
                 if(is_null($tid)) $tid=intval($_POST['tid']);
                 if (!is_null($tid) && array_key_exists('content', $_POST) && $_POST['content']!=''){
-                        $ip = ($_SERVER['REMOTE_ADDR']);
-			if( !empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ){
-			    $REMOTE_ADDR = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			    $tmp_ip=explode(',',$REMOTE_ADDR);
-			    $ip =(htmlentities($tmp_ip[0],ENT_QUOTES,"UTF-8"));
+			$rows=pdo_query("select tid from topic where tid=?",$tid);
+			if(isset($rows[0])){
+				$ip = ($_SERVER['REMOTE_ADDR']);
+				if( !empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ){
+				    $REMOTE_ADDR = $_SERVER['HTTP_X_FORWARDED_FOR'];
+				    $tmp_ip=explode(',',$REMOTE_ADDR);
+				    $ip =(htmlentities($tmp_ip[0],ENT_QUOTES,"UTF-8"));
+				}
+				$sql="insert INTO `reply` (`author_id`, `time`, `content`, `topic_id`,`ip`) values(?,NOW(),?,?,?)";
+				if(pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id'],$_POST['content'],$tid,$ip)){
+					header('Location: thread.php?tid='.$tid);
+					exit(0);
+				}else{
+					echo('Unable to post.');
+				}
+			}else{
+				echo "reply non-exists topic";
 			}
-                        $sql="insert INTO `reply` (`author_id`, `time`, `content`, `topic_id`,`ip`) values(?,NOW(),?,?,?)";
-                        if(pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id'],$_POST['content'],$tid,$ip)){
-                                header('Location: thread.php?tid='.$tid);
-                                exit(0);
-                        }else{
-                                echo('Unable to post.');
-						}
                 } else echo('Error!');
         }
         require_once("../oj-footer.php");

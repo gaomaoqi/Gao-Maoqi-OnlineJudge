@@ -28,7 +28,17 @@
 	
 <pre id='errtxt' class="alert alert-error"><?php echo $view_reinfo?></pre>
 <div id='errexp'>Explain:</div>
-<script>
+
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <?php include("template/$OJ_TEMPLATE/js.php");?>	
+	  <script>
 var pats=new Array();
 var exps=new Array();
 pats[0]=/A Not allowed system call.* /;
@@ -47,7 +57,7 @@ pats[6]=/CALLID:20/;
 exps[6]="可能存在数组越界，检查题目描述的数据量与所申请数组大小关系";
 function explain(){
 //alert("asdf");
-var errmsg=document.getElementById("errtxt").innerHTML;
+var errmsg=$("#errtxt").text();
 var expmsg="辅助解释：<br><hr>";
 for(var i=0;i<pats.length;i++){
 var pat=pats[i];
@@ -62,14 +72,5 @@ document.getElementById("errexp").innerHTML=expmsg;
 }
 explain();
 </script>
-      </div>
-
-    </div> <!-- /container -->
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <?php include("template/$OJ_TEMPLATE/js.php");?>	    
   </body>
 </html>

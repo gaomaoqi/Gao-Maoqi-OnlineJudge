@@ -41,11 +41,15 @@ function fresh_result(solution_id){
 			// alert(r);
 			// alert(judge_result[r]);
 			var loader="<img width=18 src=image/loader.gif>";
-			row.cells[3].innerHTML="<span class='btn btn-warning'>"+judge_result[ra[0]]+"</span>"+loader;
 			row.cells[4].innerHTML=ra[1];
 			row.cells[5].innerHTML=ra[2];
 			row.cells[9].innerHTML=ra[3];
 			if(ra[0]<4){
+			//	console.log(loader);
+				if(-1==row.cells[3].innerHTML.indexOf("loader")){
+			//		console.log(row.cells[3].innerHTML);
+			 		row.cells[3].innerHTML+=loader;
+				}
 				window.setTimeout("fresh_result("+solution_id+")",interval);
 				interval*=2;
 			}else{

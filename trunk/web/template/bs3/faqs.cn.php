@@ -39,7 +39,9 @@
 <table border="1">
   <tr>
     <td>C:</td>
-    <td><font color=blue>gcc Main.c -o Main  -fno-asm -O2 -Wall -lm --static -std=c99 -DONLINE_JUDGE</font></td>
+    <td><font color=blue>gcc Main.c -o Main  -fno-asm -Wall -lm --static -std=c99 -DONLINE_JUDGE</font>
+	    <pre>#pragma GCC optimize ("O2")</pre> 可以手工开启O2优化
+	  </td>
   </tr>
   <tr>
     <td>C++:</td>
@@ -78,7 +80,7 @@ int main(){
     int a,b;
     while(cin >> a >> b)
         cout << a+b << endl;
-	return 0;
+    return 0;
 }
 </font></pre>
 C:<br>
@@ -88,7 +90,7 @@ int main(){
     int a,b;
     while(scanf("%d %d",&amp;a, &amp;b) != EOF)
         printf("%d\n",a+b);
-	return 0;
+    return 0;
 }
 </font></pre>
  PASCAL:<br>

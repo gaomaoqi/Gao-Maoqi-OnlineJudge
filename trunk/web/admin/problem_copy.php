@@ -6,6 +6,20 @@ if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator']))){
 ?>
 <ol>
 <li>
+Copy from http://hustoj......
+<form method=POST action=problem_add_page_hustoj.php>
+  <input name=url type=text size=100>
+  <input type=submit>
+</form>
+</li>
+<li>
+Copy from https://www.luogu.org/problemnew/show/
+<form method=POST action=problem_add_page_luogu.php>
+  <input name=url type=text size=100>
+  <input type=submit>
+</form>
+</li>
+<li>
 Copy from https://loj.ac/problem/
 <form method=POST action=problem_add_page_loj.php>
   <input name=url type=text size=100>

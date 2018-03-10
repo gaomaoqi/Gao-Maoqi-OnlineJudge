@@ -54,18 +54,23 @@ if($keyword) {
 echo "<center><table class='table table-striped' width=90% border=1>";
 echo "<form method=post action=contest_add.php>";
 echo "<tr><td colspan=8>";
+
+echo "&nbsp;&nbsp;<input type=submit name='problem2contest' value='CheckToNewContest'>";
+echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button ID='Available' value='Available'>";
+echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Reserved' value='Reserved'>";
+echo "&nbsp;&nbsp;&nbsp;&nbsp;<input type=button Id='Delete' value='Delete'>";
+echo "<tr><td>PID";
 echo "<input type=checkbox onchange='$(\"input[type=checkbox]\").prop(\"checked\", this.checked)'>";
-echo "<input type=submit name='problem2contest' value='CheckToNewContest'>";
-echo "<tr><td>PID<td>Title<td>AC<td>Date";
+echo "<td>Title<td>AC<td>Date";
 if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
         if(isset($_SESSION[$OJ_NAME.'_'.'administrator']))   echo "<td>Status<td>Delete";
-        echo "<td>Edit<td>TestData</tr>";
+        echo "<td>Edit<td>TestData";
 }
 foreach($result as $row){
         echo "<tr>";
         echo "<td>".$row['problem_id'];
         echo "<input type=checkbox name='pid[]' value='".$row['problem_id']."'>";
-        echo "<td><a href='../problem.php?id=".$row['problem_id']."'>".$row['title']."</a>";
+        echo "<td><a target='_blank' href='../problem.php?id=".$row['problem_id']."'>".$row['title']."</a>";
         echo "<td>".$row['accepted'];
         echo "<td>".$row['in_date'];
   if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
@@ -83,6 +88,7 @@ foreach($result as $row){
                         echo "<td><a href=problem_edit.php?id=".$row['problem_id']."&getkey=".$_SESSION[$OJ_NAME.'_'.'getkey'].">Edit</a>";
 			echo "<td><a href='javascript:phpfm(".$row['problem_id'].");'>TestData</a>";
                 }
+
         }
         echo "</tr>";
 }
@@ -100,5 +106,70 @@ function phpfm(pid){
                 }
         });
 }
+ function iGetInnerText(testStr) {
+	var resultStr = testStr.replace(/\ +/g, ""); //去掉空格
+	resultStr = testStr.replace(/[ ]/g, "");    //去掉空格
+	resultStr = testStr.replace(/[\r\n]/g, ""); //去掉回车换行
+	return resultStr;
+}
+
+String.prototype.startWith=function(s){
+    if(s==null||s==""||this.length==0||s.length>this.length)
+        return false;
+    if(this.substr(0,s.length)==s)
+        return true;
+    else
+        return false;
+    return true;
+}
+
+$(document).ready(function(){
+  $("#Available").click(function(){
+        var data='0';
+        $.each($('input:checkbox:checked'),function(){
+                if($(this).val()!='on')data += ',' + $(this).val();
+        });
+        
+        $.post("problem_df_change_ajax.php",
+                {act:'N',ids:data},
+                function(data,status){
+                        location.reload();
+                        //console.log(data);
+                }
+        );
+  });
+  $("#Reserved").click(function(){
+        var data='0';
+        $.each($('input:checkbox:checked'),function(){
+                if($(this).val()!='on') data += ',' + $(this).val();
+        });
+        
+        $.post("problem_df_change_ajax.php",
+                {act:'Y',ids:data},
+                function(data,status){
+                        location.reload();
+                        //console.log(data);
+                }
+        );
+  });
+  $("#Delete").click(function(){
+        var data='0';
+        $.each($('input:checkbox:checked'),function(){
+                if($(this).val()!='on') data += ',' + $(this).val();
+        });
+        
+        $.post("problem_del_ajax.php",
+                {ids:data},
+                function(result){
+					if(result == 'ok')
+						location.reload();
+                    else 
+						alert(result);
+					console.log(result == 'ok');
+					console.log(result);
+                }
+        );
+  });
+});
 </script>
 </div>

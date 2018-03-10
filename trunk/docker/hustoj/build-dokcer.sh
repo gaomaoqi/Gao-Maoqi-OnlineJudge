@@ -1,13 +1,10 @@
 
-docker build -f Dockerfile -t hustoj-dev  ./
+#docker rm -f -v /hustoj-dev
+#docker build -f Dockerfile -t hustoj-cpp  ./
 
-docker rm -f /hustoj-dev
+docker rm -f -v /hustoj-cpp 
+#docker run -d -it --privileged --name hustoj-cpp -p 8080:80 hustoj-cpp
+docker rm -f /hustoj-cpp 
+docker run -d -it --privileged --name hustoj-cpp -p 8080:80 -v /home/hustoj-cpp/:/data/ hustoj-cpp
+#docker exec -i -t hustoj-cpp /bin/bash
 
-#rm -R /home/test/
-#mkdir -p /home/test
-#chmod -R 777 /home/test/
-
-#docker run -d -it --privileged --name hustoj-dev -p 80:80 hustoj-dev
-docker run -d -it --privileged --name hustoj-dev -p 80:80 -v /home/test/:/data hustoj-dev
-#docker run -d -it --name hustoj-dev -p 80:80 hustoj-dev
-docker exec -i -t hustoj-dev /bin/bash

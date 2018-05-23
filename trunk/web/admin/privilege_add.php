@@ -22,7 +22,7 @@ if(isset($_POST['do'])){
 	Privilege:
 	<select name="rightstr">
 <?php
-$rightarray=array("administrator","problem_editor","source_browser","contest_creator","http_judge","password_setter" );
+$rightarray=array("administrator","problem_editor","source_browser","contest_creator","http_judge","password_setter","printer","balloon" );
 while(list($key, $val)=each($rightarray)) {
 	if (isset($rightstr) && ($rightstr == $val)) {
 		echo '<option value="'.$val.'" selected>'.$val.'</option>';
@@ -33,6 +33,7 @@ while(list($key, $val)=each($rightarray)) {
 ?></select><br />
 	<input type='hidden' name='do' value='do'>
 	<input type=submit value='Add'>
+	<?php echo $MSG_HELP_ADD_PRIVILEGE; ?>
 </form>
 <form method=post>
 	<b>Add contest for User:</b><br />

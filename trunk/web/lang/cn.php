@@ -152,6 +152,16 @@ $MSG_Compile_OK="人品问题-愚人节快乐";
   
   $MSG_USER="用户";
    
+  $MSG_PRINTER="打印";
+  $MSG_PRINT_DONE="打印完成";
+  $MSG_PRINT_PENDING="提交成功,待打印";
+  $MSG_PRINT_WAITING="请耐心等候，不要重复提交相同的打印任务";
+
+  $MSG_COLOR="颜色";
+  $MSG_BALLOON="气球";
+  $MSG_BALLOON_DONE="气球已发放";
+  $MSG_BALLOON_PENDING="气球待发放";
+
   $MSG_HELP_SEEOJ="跳转回到前台";
   $MSG_HELP_ADD_NEWS="添加首页显示的新闻";
   $MSG_HELP_NEWS_LIST="管理已经发布的新闻";
@@ -164,7 +174,7 @@ $MSG_Compile_OK="人品问题-愚人节快乐";
   $MSG_HELP_SETMESSAGE="设置滚动公告内容";
   $MSG_HELP_SETPASSWORD="重设指定用户的密码，对于管理员帐号需要先降级为普通用户才能修改。";
   $MSG_HELP_REJUDGE="重判指定的题目、提交或比赛。";
-  $MSG_HELP_ADD_PRIVILEGE="给指定用户增加权限，包括管理员、题目添加者、比赛组织者、比赛参加者、代码查看者、手动判题、远程判题等权限。";
+  $MSG_HELP_ADD_PRIVILEGE="给指定用户增加权限，包括管理员、题目添加者、比赛组织者、比赛参加者、代码查看者、手动判题、远程判题、打印员、气球发放员等权限。";
   $MSG_HELP_PRIVILEGE_LIST="查看已有的特殊权限列表、进行删除操作。";
   $MSG_HELP_GIVESOURCE="将导入系统的标程赠与指定帐号，用于训练后辅助未通过的人学习参考。";
   $MSG_HELP_EXPORT_PROBLEM="将系统中的题目以fps.xml文件的形式导出。";
@@ -182,5 +192,5 @@ $MSG_Compile_OK="人品问题-愚人节快乐";
   
   $MSG_HELP_MORE_TESTDATA_LATER="更多组测试数据，请在题目添加完成后补充"; 
   $MSG_HELP_SPJ="特殊裁判的使用，请参考<a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>搜索hustoj special judge</a>"; 
-  
+  $MSG_HELP_BALLOON_SCHOOL="打印，气球帐号的School字段用于过滤任务列表，例如填zjicm则只显示帐号为zjicm开头的任务";
 ?>

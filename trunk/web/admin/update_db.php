@@ -121,10 +121,10 @@ $csql[18]="CREATE TABLE  `custominput` (  `solution_id` int(11) NOT NULL DEFAULT
 
 $tsql[19]="ALTER TABLE `loginlog` ADD INDEX `user_time_index`(`user_id`, `time`);";
 $csql[19]="";
-$tsql[20]="select `password` from contest limit 1 ";
-$csql[20]="ALTER TABLE `contest` ADD `password` CHAR( 16 ) NOT NULL DEFAULT '' AFTER `langmask` ";
-$tsql[21]="select * from source_code_user limit 1 ";
-$csql[21]="create TABLE `source_code_user` like source_code ";
+$tsql[20]="ALTER TABLE `contest` ADD `password` CHAR( 16 ) NOT NULL DEFAULT '' AFTER `langmask` ";
+$csql[20]="";
+$tsql[21]="create TABLE `source_code_user` like source_code";
+$csql[21]="";
 
 $tsql[22]="insert into source_code_user select * from source_code where solution_id not in (select solution_id from source_code_user)  ";
 $csql[22]="";
@@ -137,7 +137,27 @@ $tsql[24]="alter table solution modify column pass_rate decimal(3,2) NOT NULL DE
 
 $csql[25]="";
 $tsql[25]="ALTER TABLE  `solution` CHANGE  `ip`  `ip` CHAR( 46 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';";
-
+$csql[26]="select 1 from printer";
+$tsql[26]="CREATE TABLE  `printer` (
+  `printer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` char(48) NOT NULL,
+  `in_date` datetime NOT NULL DEFAULT '2018-03-13 19:38:00',
+  `status` smallint(6) NOT NULL DEFAULT '0',
+  `worktime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `printer` CHAR(16) NOT NULL DEFAULT 'LOCAL',
+  `content` text NOT NULL ,
+  PRIMARY KEY (`printer_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;";
+$csql[27]="select 1 from balloon";
+$tsql[27]="CREATE TABLE  `balloon` (
+  `balloon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` char(48) NOT NULL,
+  `sid` int(11) NOT NULL ,
+  `cid` int(11) NOT NULL ,
+  `pid` int(11) NOT NULL ,
+  `status` smallint(6) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`balloon_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;";
 
 if(isset($_POST['do'])){
 	require_once("../include/check_post_key.php");

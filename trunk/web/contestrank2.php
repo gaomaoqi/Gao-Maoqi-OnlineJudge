@@ -26,6 +26,7 @@ class TM{
                 if (isset($this->p_ac_sec[$pid])&&$this->p_ac_sec[$pid]>0)
                         return;
                 if ($res!=4){
+			if(isset($OJ_CE_PENALTY)&&!$OJ_CE_PENALTY&&$res==11) return;  // ACM WF punish no ce 
                         if(isset($this->p_wa_num[$pid])){
                                 $this->p_wa_num[$pid]++;
                         }else{
@@ -154,11 +155,11 @@ for ($i=0;$i<$rows_cnt;$i++){
 
                 $user_name=$n_user;
         }
-        if(time()<$end_time&&$lock<$row['in_date']+$start_time)
-        	   $U[$user_cnt]->Add($row['num'],$row['in_date'],0);
+        if(time()<$end_time+3600&&$lock<strtotime($row['in_date']))
+        	   $U[$user_cnt]->Add($row['num'],strtotime($row['in_date'])-$start_time,0);
         else
-        	   $U[$user_cnt]->Add($row['num'],$row['in_date'],intval($row['result']));
-       
+        	   $U[$user_cnt]->Add($row['num'],strtotime($row['in_date'])-$start_time,intval($row['result']));
+      
 }
 $solution_json= json_encode($result);
 

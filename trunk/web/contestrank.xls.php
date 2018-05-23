@@ -1,6 +1,5 @@
 <?php
-ini_set("display_errors","On");
-		ob_start();
+ini_set("display_errors","Off");
 		header ( "content-type:   application/excel" );
 		
 ?>
@@ -33,12 +32,14 @@ class TM{
 	
 		if (isset($this->p_ac_sec[$pid])&&$this->p_ac_sec[$pid]>0)
 			return;
-		if ($res!=4) 
-			if(isset($this->p_wa_num[$pid]))
+		if ($res!=4){
+			if(isset($OJ_CE_PENALTY)&&!$OJ_CE_PENALTY&&$res==11) return;  // ACM WF punish no ce 
+			if(isset($this->p_wa_num[$pid])){
 				$this->p_wa_num[$pid]++;
-			else
+			}else{
 				$this->p_wa_num[$pid]=1;
-		else{
+			}
+		}else{
 			$this->p_ac_sec[$pid]=$sec;
 			$this->solved++;
 			$this->time+=$sec+$this->p_wa_num[$pid]*1200;
@@ -181,7 +182,11 @@ $U=array();
 
 		$user_name=$n_user;
 	}
-	$U[$user_cnt]->Add($row['num'],strtotime($row['in_date'])-$start_time,intval($row['result']),$mark_base,$mark_per_problem,$mark_per_punish);
+
+        if(time()<$end_time+3600&&$lock<strtotime($row['in_date']))
+		  $U[$user_cnt]->Add($row['num'],strtotime($row['in_date'])-$start_time,0,$mark_base,$mark_per_problem,$mark_per_punish);
+        else
+		  $U[$user_cnt]->Add($row['num'],strtotime($row['in_date'])-$start_time,intval($row['result']),$mark_base,$mark_per_problem,$mark_per_punish);
 }
 
 usort($U,"s_cmp");
@@ -207,12 +212,13 @@ for ($i=0;$i<$user_cnt;$i++){
 	if(strpos($_SERVER['HTTP_USER_AGENT'],'MSIE')){
 		$U[$i]->nick=iconv("utf8","gbk",$U[$i]->nick);
 	}
-	echo "<td>".$U[$i]->nick."";
-	echo "<td>$usolved";
+	echo "<td>".$U[$i]->nick."</td>";
+	echo "<td>$usolved</td>";
 	echo "<td>";
         if($usolved==0) $U[$i]->mark=0;	
 	
 	echo $U[$i]->mark>0?intval($U[$i]->mark):0;
+	echo "</td>";
 	for ($j=0;$j<$pid_cnt;$j++){
 		echo "<td>";
 		if(isset($U[$i])){
@@ -221,6 +227,7 @@ for ($i=0;$i<$user_cnt;$i++){
 			if (isset($U[$i]->p_wa_num[$j])&&$U[$i]->p_wa_num[$j]>0) 
 				echo "(-".$U[$i]->p_wa_num[$j].")";
 		}
+		echo "</td>";
 	}
 	echo "</tr>";
 }

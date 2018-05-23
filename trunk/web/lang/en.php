@@ -151,6 +151,16 @@ $MSG_TEST_RUN="Test Running Done";
     
   $MSG_USER="User";
    
+  $MSG_PRINTER="Printer";
+  $MSG_PRINT_DONE="Printed Fine";
+  $MSG_PRINT_PENDING="Pending for Print";
+  $MSG_PRINT_WAITING="Please waiting for delivery, don't post duplicated print task";
+  $MSG_COLOR="Color";
+  $MSG_BALLOON="Balloon";
+  $MSG_BALLOON_DONE="Balloon Sent";
+  $MSG_BALLOON_PENDING="Balloon Pending";
+
+
   $MSG_HELP_SEEOJ="watch the front pages";
   $MSG_HELP_ADD_NEWS="add news for the homepage";
   $MSG_HELP_NEWS_LIST="edit or shutdown published news";
@@ -182,4 +192,5 @@ $MSG_HELP_ONLINE= "view online users";
   $MSG_HELP_MORE_TESTDATA_LATER="more testdata can be added later after this problem added."; 
   $MSG_HELP_SPJ="<a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>search hustoj special judge</a>for more details"; 
  
+  $MSG_HELP_BALLOON_SCHOOL="School Field of the Printer/Balloon privileged Accout, will be used as filter in task list.";
  ?>

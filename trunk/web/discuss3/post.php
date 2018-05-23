@@ -1,6 +1,6 @@
 <?php
         session_start();
-        require_once("../include/db_info.inc.php");
+        require_once("oj-header.php");
         if (!isset($_SESSION[$OJ_NAME.'_'.'user_id'])){
                 require_once("oj-header.php");
                 echo "<a href=loginpage.php>Please Login First</a>";
@@ -33,6 +33,17 @@
                                 $cid=intval($_REQUEST['cid']);
                         else
                                 $cid=0;
+			if($pid==0){
+				  if($cid>0){
+			                $problem_id=htmlentities($_POST['pid'],ENT_QUOTES,'UTF-8');
+//					echo "problem_id:".$problem_id;
+               				$num=strpos($PID,$problem_id);
+//					echo "num:$num";
+					$pid=pdo_query("select problem_id from contest_problem where contest_id=? and num=?",$cid,$num)[0][0];
+//					echo "pid:$pid";
+				  }
+
+			}
                         $sql="INSERT INTO `topic` (`title`, `author_id`, `cid`, `pid`) values(?,?,?,?)";
 						//echo $sql;
                         $rows=pdo_query($sql,$_POST['title'],$_SESSION[$OJ_NAME.'_'.'user_id'],$cid,$pid);
@@ -59,7 +70,12 @@
 				}
 				$sql="insert INTO `reply` (`author_id`, `time`, `content`, `topic_id`,`ip`) values(?,NOW(),?,?,?)";
 				if(pdo_query($sql, $_SESSION[$OJ_NAME.'_'.'user_id'],$_POST['content'],$tid,$ip)){
-					header('Location: thread.php?tid='.$tid);
+					if(isset($_REQUEST['cid'])){
+						$cid=intval($_REQUEST['cid']);
+						header('Location: thread.php?cid='.$cid.'&tid='.$tid);
+					}else{
+						header('Location: thread.php?tid='.$tid);
+					}
 					exit(0);
 				}else{
 					echo('Unable to post.');

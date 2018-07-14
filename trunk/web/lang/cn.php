@@ -126,6 +126,7 @@ $MSG_Compile_OK="人品问题-愚人节快乐";
 	$MSG_EXPORT="导出";
 	$MSG_UPDATE_DATABASE="更新数据库";
 	$MSG_ONLINE="在线";
+	$MSG_SET_LOGIN_IP="指定登录IP";
   //contest
   $MSG_PRIVATE_WARNING="比赛尚未开始或私有，不能查看题目。";
   $MSG_WATCH_RANK="点击这里查看做题排名。";
@@ -133,6 +134,7 @@ $MSG_Compile_OK="人品问题-愚人节快乐";
   $MSG_Private="私有";
   $MSG_Running="运行中";
   $MSG_Start="开始于";
+  $MSG_End="结束于";
   $MSG_TotalTime="总赛时";
   $MSG_LeftTime="剩余";
   $MSG_Ended="已结束";
@@ -140,6 +142,7 @@ $MSG_Compile_OK="人品问题-愚人节快乐";
   $MSG_JUDGER="判题机";
   $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM="考试期间，不能查阅以前提交的代码。";
   $MSG_BBS_NOT_ALLOWED_FOR_EXAM="考试期间,讨论版禁用。";
+  $MSG_MODIFY_NOT_ALLOWED_FOR_EXAM="考试期间,禁止修改帐号信息。";
   $MSG_MAIL_NOT_ALLOWED_FOR_EXAM="考试期间,内邮禁用。";
   $MSG_LOAD_TEMPLATE_CONFIRM="是否加载默认模板?\\n 如果选择是，当前代码将被覆盖!";
   
@@ -193,4 +196,7 @@ $MSG_Compile_OK="人品问题-愚人节快乐";
   $MSG_HELP_MORE_TESTDATA_LATER="更多组测试数据，请在题目添加完成后补充"; 
   $MSG_HELP_SPJ="特殊裁判的使用，请参考<a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>搜索hustoj special judge</a>"; 
   $MSG_HELP_BALLOON_SCHOOL="打印，气球帐号的School字段用于过滤任务列表，例如填zjicm则只显示帐号为zjicm开头的任务";
+
+  $MSG_WARNING_LOGIN_FROM_DIFF_IP="从不同的ip地址登录";
+  $MSG_WARNING_DURING_EXAM_NOT_ALLOWED=" 在考试期间不被允许 ";
 ?>

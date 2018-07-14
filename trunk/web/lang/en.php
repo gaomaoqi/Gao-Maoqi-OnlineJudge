@@ -117,7 +117,8 @@ $MSG_TEST_RUN="Test Running Done";
 	$MSG_EXPORT="Export";
 	$MSG_UPDATE_DATABASE="UpdateDatabase";
 	$MSG_ONLINE="Online";
-   
+   	$MSG_SET_LOGIN_IP="SetLoginIP";
+
   //contest.php
   $MSG_PRIVATE_WARNING="This is a private contest which you don't have privilege。";
   $MSG_WATCH_RANK="Click HERE to watch contest rank.";
@@ -126,6 +127,7 @@ $MSG_TEST_RUN="Test Running Done";
   $MSG_Private="Private";
   $MSG_Running="Running";
   $MSG_Start="Start";
+  $MSG_End="End";
   $MSG_TotalTime="Total";
   $MSG_LeftTime="Left";
 
@@ -134,9 +136,10 @@ $MSG_TEST_RUN="Test Running Done";
   $MSG_Login="Please Login";
   $MSG_JUDGER="Judger";
   
-  $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM="You can't browse early code during examing 。";
-  $MSG_BBS_NOT_ALLOWED_FOR_EXAM="You can't use bbs during examing 。";
-  $MSG_MAIL_NOT_ALLOWED_FOR_EXAM="You can't use mail during examing 。";
+  $MSG_SOURCE_NOT_ALLOWED_FOR_EXAM="You can't browse early code during examing .";
+  $MSG_BBS_NOT_ALLOWED_FOR_EXAM="You can't use bbs during examing.";
+  $MSG_MODIFY_NOT_ALLOWED_FOR_EXAM="You can't change password during examing or contest on site.";
+  $MSG_MAIL_NOT_ALLOWED_FOR_EXAM="You can't use mail during examing.";
   $MSG_LOAD_TEMPLATE_CONFIRM="Do you want to reload template?\\n You may lost all code that you've typed here!";
   $MSG_BLOCKLY_OPEN="Blockly"; 
   $MSG_BLOCKLY_TEST="Blockly Test Run"; 
@@ -193,4 +196,6 @@ $MSG_HELP_ONLINE= "view online users";
   $MSG_HELP_SPJ="<a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>search hustoj special judge</a>for more details"; 
  
   $MSG_HELP_BALLOON_SCHOOL="School Field of the Printer/Balloon privileged Accout, will be used as filter in task list.";
+  $MSG_WARNING_LOGIN_FROM_DIFF_IP="Login from a diffrent ip ";
+  $MSG_WARNING_DURING_EXAM_NOT_ALLOWED=" during exam is not allowed ";
  ?>

@@ -442,9 +442,10 @@ bool check_out(int solution_id, int result) {
 	}
 
 }
+
 int work() {
 //      char buf[1024];
-	static int retcnt = 0;
+	int retcnt = 0;
 	int i = 0;
 	static pid_t ID[100];
 	static int workcnt = 0;
@@ -455,6 +456,8 @@ int work() {
 	//for(i=0;i<max_running;i++){
 	//      ID[i]=0;
 	//}
+	for(i=0;i<max_running *2 +1 ;i++)
+		jobs[i]=0;
 
 	//sleep_time=sleep_tmp;
 	/* get the database info */
@@ -466,10 +469,9 @@ int work() {
 		runid = jobs[j];
 		if (runid % oj_tot != oj_mod)
 			continue;
-		if (DEBUG)
-			write_log("Judging solution %d", runid);
 		if (workcnt >= max_running) {           // if no more client can running
-			tmp_pid = waitpid(-1, NULL, 0);     // wait 4 one child exit
+			tmp_pid = waitpid(-1, NULL, WNOHANG);     // wait 4 one child exit
+			if (DEBUG) printf("try get one tmp_pid=%d\n",tmp_pid);
 			for (i = 0; i < max_running; i++){     // get the client id
 				if (ID[i] == tmp_pid){
 					workcnt--;
@@ -489,18 +491,29 @@ int work() {
 				workcnt++;
 				ID[i] = fork();                                   // start to fork
 				if (ID[i] == 0) {
-					if (DEBUG)
+					if (DEBUG){
+						write_log("Judging solution %d", runid);
 						write_log("<<=sid=%d===clientid=%d==>>\n", runid, i);
+					}
 					run_client(runid, i);    // if the process is the son, run it
 					exit(0);
 				}
 
 			} else {
-				ID[i] = 0;
+			//	ID[i] = 0;
+				if(DEBUG){
+					if(workcnt<max_running)
+						printf("check out failure ! runid:%d pid:%d \n",i,ID[i]);
+					else
+						printf("workcnt:%d max_running:%d ! \n",workcnt,max_running);
+						
+				}
 			}
 		}
+		if(DEBUG)
+			  printf("workcnt:%d max_running:%d ! \n",workcnt,max_running);
 	}
-	while ((tmp_pid = waitpid(-1, NULL, 0)) > 0) {
+	while ((tmp_pid = waitpid(-1, NULL,WNOHANG)) > 0) {
 		for (i = 0; i < max_running; i++){     // get the client id
 			if (ID[i] == tmp_pid){
 			

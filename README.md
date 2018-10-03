@@ -12,30 +12,17 @@ HUSTOJ 是采用GPL的自由软件。
 
 PS: GPL保证你可以合法忽略以上注意事项但不能保证你不受鄙视，呵呵。
 
-Ubuntu14.04（推荐）快速安装指南：  
+树莓派快速安装指南：  
 
-    wget https://raw.githubusercontent.com/zhblue/hustoj/master/trunk/install/install-ubuntu14.04.sh
-    chmod +x install-ubuntu14.04.sh
-    sudo ./install-ubuntu14.04.sh
+    https://github.com/zhblue/hustoj/blob/rpi/trunk/install/install-raspbian8.sh
+    sudo bash install-ubuntu14.04.sh
 
-ubuntu16.04（不推荐），可以使用下面脚本
-
-    wget https://raw.githubusercontent.com/zhblue/hustoj/master/trunk/install/install-ubuntu16+.sh
-    chmod +x install-ubuntu16+.sh
-    sudo ./install-ubuntu16+.sh
-    
 安装后几个重要配置文件的位置
 
     /home/judge/etc/judge.conf
     /home/judge/src/web/include/db_info.inc.php
     /etc/php5/fpm/php.ini 或 /etc/php7.0/fpm/php.ini
     /etc/nginx/sites-enabled/default
-
-REDHAT / CENTOS 用户请浏览 
-
-https://github.com/zhblue/hustoj/blob/master/wiki/CentOSx86_64.md
-
-https://github.com/zhblue/hustoj/blob/master/wiki/CentOS.md
 
 [更多安装方法](https://github.com/zhblue/hustoj/blob/master/trunk/install/README)
 

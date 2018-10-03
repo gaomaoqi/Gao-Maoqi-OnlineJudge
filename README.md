@@ -15,7 +15,7 @@ PS: GPL保证你可以合法忽略以上注意事项但不能保证你不受鄙�
 树莓派快速安装指南：  
 
     wget https://raw.githubusercontent.com/zhblue/hustoj/rpi/trunk/install/install-raspbian8.sh
-    sudo bash install-ubuntu14.04.sh
+    sudo bash install-raspbian8.sh
 
 安装后几个重要配置文件的位置
 

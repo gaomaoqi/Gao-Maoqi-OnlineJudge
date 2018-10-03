@@ -26,7 +26,7 @@
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
         <p>
-<center> Last minute average judge speed: <?php echo $speed?> sps.
+<center> Recent submission : <?php echo $speed?> .
 <div id=submission style="width:80%;height:300px" ></div>
 </center>
         </p>
@@ -40,7 +40,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <?php include("template/$OJ_TEMPLATE/js.php");?>	    
- <script language="javascript" type="text/javascript" src="include/jquery.flot.js"></script>
+ <script language="javascript" type="text/javascript" src="<?php echo $OJ_CDN_URL?>include/jquery.flot.js"></script>
 <script type="text/javascript">
 $(function () {
 var d1 = <?php echo json_encode($chart_data_all)?>;

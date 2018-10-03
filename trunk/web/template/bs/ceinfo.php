@@ -6,7 +6,7 @@
 </head>
 <body>
 <div id="wrapper">
-	<?php require_once("oj-header.php");?>
+	<?php require_once("template/bs/oj-header.php");?>
 <div id=main>
  <div id='source'></div>
 <pre id='errtxt' class="alert alert-error"><?php echo $view_reinfo?></pre>
@@ -158,7 +158,7 @@ exps[60]="留意数组声明后是否少了分号";
  
  </script>
 <div id=foot>
-	<?php require_once("oj-footer.php");?>
+	<?php require_once("template/bs/oj-footer.php");?>
 <script src=include/jquery-latest.js></script>
 <script>
  $("#source").load("showsource.php?id=<?php echo $id?> #main");

@@ -16,9 +16,10 @@ if (isset($_GET['id'])){
         $sample_sql="select sample_input,sample_output,problem_id from problem where problem_id=?";
 }else if (isset($_GET['cid'])&&isset($_GET['pid'])){
 	$cid=intval($_GET['cid']);$pid=intval($_GET['pid']);
-        $sample_sql="select sample_input,sample_output,problem_id from problem where problem_id in
-		(select problem_id from contest_problem where contest_id=? and num=?)";
-        
+	$sample_sql="SELECT p.sample_input, p.sample_output, p.problem_id
+			FROM problem p inner join 
+			 contest_problem cp on p.problem_id=cp.problem_id and cp.contest_id = ?
+			AND cp.num =  ? ";
 }else{
 	$view_errors=  "<h2>No Such Problem!</h2>";
 	require("template/".$OJ_TEMPLATE."/error.php");
@@ -66,6 +67,14 @@ $view_sample_output="3";
    }else{
 		$result=pdo_query($sample_sql,$cid,$pid);
    }
+	 
+   if($result == false)
+   {
+	   $view_errors=  "<h2>No Such Problem!</h2>";
+	   require("template/".$OJ_TEMPLATE."/error.php");
+	   exit(0);
+   }
+
 	$row=$result[0];
 	$view_sample_input=$row[0];
 	$view_sample_output=$row[1];

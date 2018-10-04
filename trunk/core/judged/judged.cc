@@ -38,7 +38,7 @@
 #define BUFFER_SIZE 1024
 #define LOCKFILE "/var/run/judged.pid"
 #define LOCKMODE (S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)
-#define STD_MB 1048576
+#define STD_MB 1048576LL
 
 #define OJ_WT0 0
 #define OJ_WT1 1
@@ -197,7 +197,7 @@ void init_mysql_conf() {
 #ifdef _mysql_h
 		sprintf(query,
 				"SELECT solution_id FROM solution WHERE language in (%s) and result<2 and MOD(solution_id,%d)=%d ORDER BY result ASC,solution_id ASC limit %d",
-				oj_lang_set, oj_tot, oj_mod, max_running * 2);
+				oj_lang_set, oj_tot, oj_mod, 2 *max_running );
 #endif
 		sleep_tmp = sleep_time;
 		//	fclose(fp);
@@ -214,12 +214,11 @@ void run_client(int runid, int clientid) {
 	LIM.rlim_max = 180 * STD_MB;
 	LIM.rlim_cur = 180 * STD_MB;
 	setrlimit(RLIMIT_FSIZE, &LIM);
-
 	LIM.rlim_max = STD_MB << 11;
 	LIM.rlim_cur = STD_MB << 11;
 	setrlimit(RLIMIT_AS, &LIM);
 
-	LIM.rlim_cur = LIM.rlim_max = 200;
+	LIM.rlim_cur = LIM.rlim_max = 400;
 	setrlimit(RLIMIT_NPROC, &LIM);
 
 	//buf[0]=clientid+'0'; buf[1]=0;
@@ -230,12 +229,12 @@ void run_client(int runid, int clientid) {
 	//sprintf(err,"%s/run%d/error.out",oj_home,clientid);
 	//freopen(err,"a+",stderr);
 
-	if (!DEBUG)
+	//if (!DEBUG)
 		execl("/usr/bin/judge_client", "/usr/bin/judge_client", runidstr, buf,
 				oj_home, (char *) NULL);
-	else
-		execl("/usr/bin/judge_client", "/usr/bin/judge_client", runidstr, buf,
-				oj_home, "debug", (char *) NULL);
+	//else
+	//	execl("/usr/bin/judge_client", "/usr/bin/judge_client", runidstr, buf,
+	//			oj_home, "debug", (char *) NULL);
 
 	//exit(0);
 }
@@ -268,10 +267,10 @@ int init_mysql() {
 			sleep(2);
 			return 1;
 		} else {
-			return 0;
+			return executesql("set names utf8");
 		}
 	} else {
-		return executesql("set names utf8");
+			return executesql("commit");
 	}
 }
 #endif
@@ -442,7 +441,6 @@ bool check_out(int solution_id, int result) {
 	}
 
 }
-
 int work() {
 //      char buf[1024];
 	int retcnt = 0;
@@ -667,6 +665,7 @@ int main(int argc, char** argv) {
 		}
 		turbo_mode2();
 		if(ONCE) break;
+		if(DEBUG) printf("sleeping ... %ds \n",sleep_time);
 		sleep(sleep_time);
 		j = 1;
 	}

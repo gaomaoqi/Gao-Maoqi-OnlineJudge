@@ -35,25 +35,25 @@
             <ul class="nav navbar-nav">
 	      <?php $ACTIVE="class='active'"?>
 	      <?php if(!isset($OJ_ON_SITE_CONTEST_ID)){?>
-              <li <?php if ($url=="faqs.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>faqs.php">
+              <li <?php if ($url=="faqs.php") echo " $ACTIVE";?> class='btn-primary'><a style='color:#fff' href="<?php echo $path_fix?>faqs.php">
 			<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <?php echo $MSG_FAQ?></a></li>
-	      <li <?php if ($dir=="discuss3") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>bbs.php<?php if (isset($_GET['cid'])) echo "?cid=".intval($_GET['cid']); ?>"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <?php echo $MSG_BBS?></a></li>
+	      <li <?php if ($dir=="discuss3") echo " $ACTIVE";?> class='btn-info'><a  style='color:#fff'  style='color:#fff' href="<?php echo $path_fix?>bbs.php<?php if (isset($_GET['cid'])) echo "?cid=".intval($_GET['cid']); ?>"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <?php echo $MSG_BBS?></a></li>
 	      <?php }else{?>
-              <li <?php if ($dir=="discuss3") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>bbs.php<?php echo "?cid=".intval($OJ_ON_SITE_CONTEST_ID); ?>">
+              <li <?php if ($dir=="discuss3") echo " $ACTIVE";?> class='btn-info'><a  style='color:#fff' href="<?php echo $path_fix?>bbs.php<?php echo "?cid=".intval($OJ_ON_SITE_CONTEST_ID); ?>">
 			<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span><?php echo $MSG_BBS?></a></li>
 	      <?php }?>
 
 	      <?php if (isset($OJ_PRINTER)&& $OJ_PRINTER){ ?>
-              <li <?php if ($url=="printer.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>printer.php"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> <?php echo $MSG_PRINTER?></a></li>
+              <li <?php if ($url=="printer.php") echo " $ACTIVE";?> ><a href="<?php echo $path_fix?>printer.php"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> <?php echo $MSG_PRINTER?></a></li>
 	      <?php }?>
 	      <?php if(!isset($OJ_ON_SITE_CONTEST_ID)){?>
-              <li <?php if ($dir=="problemset.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>problemset.php" ><span class="glyphicon glyphicon-book" aria-hidden="true"></span> <?php echo $MSG_PROBLEMS?></a></li>
-              <li <?php if ($url=="category.php") echo " $ACTIVE";?>> <a href="<?php echo $path_fix?>category.php"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> <?php echo $MSG_SOURCE?></a></li>
-              <li <?php if ($url=="status.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>status.php"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span> <?php echo $MSG_STATUS?></a></li>
-              <li <?php if ($url=="ranklist.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>ranklist.php"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $MSG_RANKLIST?></a></li>
-              <li <?php if ($url=="contest.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>contest.php"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> <?php echo $MSG_CONTEST?></a></li>
+              <li <?php if ($url=="problemset.php") echo " $ACTIVE";?> class='btn-success'><a  style='color:#fff' href="<?php echo $path_fix?>problemset.php" ><span class="glyphicon glyphicon-book" aria-hidden="true"></span> <?php echo $MSG_PROBLEMS?></a></li>
+              <li <?php if ($url=="category.php") echo " $ACTIVE";?> class='btn-warning'> <a  style='color:#fff' href="<?php echo $path_fix?>category.php"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> <?php echo $MSG_SOURCE?></a></li>
+              <li <?php if ($url=="status.php") echo " $ACTIVE";?> class='btn-danger'><a  style='color:#fff' href="<?php echo $path_fix?>status.php"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span> <?php echo $MSG_STATUS?></a></li>
+              <li <?php if ($url=="ranklist.php") echo " $ACTIVE";?> class='btn-warning'><a  style='color:#fff' href="<?php echo $path_fix?>ranklist.php"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $MSG_RANKLIST?></a></li>
+              <li <?php if ($url=="contest.php") echo " $ACTIVE";?> class='btn-success'><a  style='color:#fff' href="<?php echo $path_fix?>contest.php"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> <?php echo $MSG_CONTEST?></a></li>
 	      <?php }else{?>
-              <li <?php if ($url=="contest.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>contest.php<?php echo "?cid=".intval($OJ_ON_SITE_CONTEST_ID); ?>"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> <?php echo $MSG_CONTEST?></a></li>
+              <li <?php if ($url=="contest.php") echo " $ACTIVE";?> class='btn-success'><a  style='color:#fff' href="<?php echo $path_fix?>contest.php<?php echo "?cid=".intval($OJ_ON_SITE_CONTEST_ID); ?>"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> <?php echo $MSG_CONTEST?></a></li>
 	      <?php }?>
 <?php if(isset($_GET['cid'])){
 	$cid=intval($_GET['cid']);
@@ -76,7 +76,7 @@
 	      </a></li>
 	      <li><a>]</a></li>
 <?php }?>
-	      <li <?php if ($url=="recent-contest.php") echo " $ACTIVE";?>><a href="<?php echo $path_fix?>recent-contest.php"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> <?php echo $MSG_RECENT_CONTEST?></a></li>
+	      <li <?php if ($url=="recent-contest.php") echo " $ACTIVE";?> class='btn-info'><a  style='color:#fff' href="<?php echo $path_fix?>recent-contest.php"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> <?php echo $MSG_RECENT_CONTEST?></a></li>
 
               <!--<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>

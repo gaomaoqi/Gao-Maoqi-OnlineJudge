@@ -1,4 +1,5 @@
 // File:   judge_client.cc
+#define IGNORE_ESOL
 #define RASPBERRY_PI
 // Author: sempr
 // refacted by zhblue
@@ -1475,6 +1476,8 @@ void copy_bash_runtime(char * work_dir) {
 	//const char * ruby_run="/usr/bin/ruby";
 	copy_shell_runtime(work_dir);
 	execute_cmd("chmod +rx %s/Main.sh", work_dir);
+        execute_cmd("cp -a /bin/bash %s/", work_dir);
+        execute_cmd("cp -a /bin/bash %s/bin", work_dir);
 
 }
 void copy_ruby_runtime(char * work_dir) {
@@ -1526,6 +1529,7 @@ void copy_mono_runtime(char * work_dir) {
 	copy_shell_runtime(work_dir);
 	execute_cmd("/bin/mkdir -p %s/etc", work_dir);
 	execute_cmd("/bin/grep judge /etc/passwd>%s/etc/passwd", work_dir);
+	execute_cmd("/bin/cp /usr/bin/mono* %s/", work_dir);
 
 }
 void copy_lua_runtime(char * work_dir) {
